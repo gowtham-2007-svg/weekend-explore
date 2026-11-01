@@ -144,8 +144,18 @@ body::before {
     background: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=75&w=1920&fm=webp') no-repeat center top / cover;
     z-index: -1;
     pointer-events: none;
-    /* Removed will-change: transform — static backgrounds don't need GPU promotion */
     transform: translateZ(0);
+}
+
+@media (max-width: 640px) {
+    body::before {
+        background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=70&w=640&fm=webp');
+    }
+}
+@media (min-width: 641px) and (max-width: 1080px) {
+    body::before {
+        background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=72&w=1080&fm=webp');
+    }
 }
 
 /* Header & Nav */
@@ -7019,3 +7029,81 @@ body.mangaluru-nav-active .mangaluru-drawer-menu {
 
 
 
+
+/* ==========================================================================
+   MOBILE PERFORMANCE & SMOOTH SCROLL ENGINE (Core Web Vitals & 60fps)
+   ========================================================================== */
+
+/* 1. Eliminate 300ms mobile touch delay on interactive elements */
+button,
+a,
+.category-card,
+.place-card,
+.dest-card,
+.tab-btn,
+.nav-link,
+.slider-dot,
+.search-btn,
+.filter-chip,
+.filter-tag,
+.food-card-info,
+.menu-item-btn {
+    touch-action: manipulation;
+}
+
+/* 2. Hardware acceleration layers for fixed UI and floating controls */
+.main-header,
+.mobile-filter-bar,
+.modal-overlay,
+.bottom-nav,
+.tab-nav-wrapper {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
+}
+
+/* 3. Smooth momentum scrolling with bounce containment on iOS & Android */
+.places-grid,
+.destinations-row,
+.category-grid,
+.search-results-drawer,
+.modal-body,
+.menu-modal-body,
+.favorite-foods-container {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+/* 4. Aspect-ratio safety and smooth fade-in for dynamic cards */
+.place-img img,
+.dest-card img,
+.category-img img,
+.food-swiper-img-wrapper img,
+.live-offer-card img,
+.live-event-card img {
+    content-visibility: auto;
+}
+
+/* 5. Mobile viewport optimizations (max-width: 768px) */
+@media (max-width: 768px) {
+    /* Virtualize off-screen DOM rendering to eliminate mobile scroll lag */
+    .dest-card-wrapper,
+    .place-card,
+    .category-card,
+    .live-offer-card,
+    .live-event-card,
+    .review-card {
+        content-visibility: auto;
+        contain-intrinsic-size: 280px 320px;
+    }
+
+    /* Lighten backdrop-filters on scrolling cards to keep mobile GPU at 60fps */
+    .place-card,
+    .dest-card,
+    .category-card,
+    .live-offer-card,
+    .live-event-card {
+        -webkit-backdrop-filter: blur(4px);
+        backdrop-filter: blur(4px);
+    }
+}

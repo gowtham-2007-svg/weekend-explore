@@ -781,7 +781,7 @@
       certificate: "U/A",
       duration: "2h 18m",
       durationMinutes: 138,
-      poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.7/10",
       votes: "14.2K",
       description: "Fast-paced satirical comedy thriller packed with clever twists, regional humour, and weekend thrills."
@@ -794,7 +794,7 @@
       certificate: "U/A",
       duration: "2h 25m",
       durationMinutes: 145,
-      poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.5/10",
       votes: "9.8K",
       description: "An emotional and high-voltage action drama exploring friendship, loyalty, and redemption."
@@ -807,7 +807,7 @@
       certificate: "U/A",
       duration: "2h 30m",
       durationMinutes: 150,
-      poster: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.8/10",
       votes: "18.5K",
       description: "An intense socio-political thriller with gripping dialogue, high stakes, and mass appeal."
@@ -820,7 +820,7 @@
       certificate: "U",
       duration: "2h 15m",
       durationMinutes: 135,
-      poster: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.2/10",
       votes: "6.4K",
       description: "Lighthearted nostalgic college youth drama perfect for group outings and weekend family laughs."
@@ -833,7 +833,7 @@
       certificate: "A",
       duration: "2h 28m",
       durationMinutes: 148,
-      poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.4/10",
       votes: "11.1K",
       description: "Atmospheric Mumbai underworld crime saga chronicling high-stakes rivalries and survival."
@@ -846,7 +846,7 @@
       certificate: "U/A",
       duration: "2h 10m",
       durationMinutes: 130,
-      poster: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.3/10",
       votes: "8.7K",
       description: "Breezy urban comedy exploring friendship, modern relationships, and quirky weekend misadventures."
@@ -859,7 +859,7 @@
       certificate: "U/A",
       duration: "2h 38m",
       durationMinutes: 158,
-      poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.6/10",
       votes: "45.0K",
       description: "Blockbuster spooky franchise return packed with Rooh Baba secrets and laughter."
@@ -872,7 +872,7 @@
       certificate: "U/A",
       duration: "2h 12m",
       durationMinutes: 132,
-      poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.6/10",
       votes: "22.3K",
       description: "Interstellar exploration spectacle with breathtaking IMAX visuals and mind-bending physics."
@@ -885,7 +885,7 @@
       certificate: "U",
       duration: "1h 42m",
       durationMinutes: 102,
-      poster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "9.2/10",
       votes: "38.5K",
       description: "Heartwarming animated masterpiece following a shipwrecked robot raising an orphaned gosling."
@@ -898,7 +898,7 @@
       certificate: "U/A",
       duration: "2h 22m",
       durationMinutes: 142,
-      poster: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1533488765986-dfa2a9939acd?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.5/10",
       votes: "12.8K",
       description: "Hard-hitting drama exploring land rights, family resilience, and explosive confrontation."
@@ -911,7 +911,7 @@
       certificate: "U/A",
       duration: "2h 15m",
       durationMinutes: 135,
-      poster: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&auto=format&fit=crop&q=60",
+      poster: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=500&auto=format&fit=crop&q=60&fm=webp",
       rating: "8.1/10",
       votes: "7.9K",
       description: "Soulful musical romance steeped in coastal traditions and youthful dreams."
@@ -1137,7 +1137,7 @@
       card.className = 'wai-movie-card';
       card.innerHTML = `
         <div class="wai-movie-card-header">
-          <img src="${m.poster}" alt="${m.title} Poster" class="wai-movie-poster-thumb" onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60'">
+          <img src="${m.poster}" alt="${m.title} Poster" class="wai-movie-poster-thumb" onerror="this.src='https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&auto=format&fit=crop&q=60&fm=webp'">
           <div class="wai-movie-header-content">
             <div>
               <div class="wai-movie-pill-row">

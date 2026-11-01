@@ -23,6 +23,11 @@
 /* 1. Floating Trigger Badge */
 /* 1. Floating Trigger Badge with Alive AI Agent Movement */
 .wai-trigger-badge {
+  /* Hardware acceleration for mobile performance */
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -172,6 +177,10 @@
 
 /* 2. Chat Window (Desktop) */
 .wai-chat-window {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   position: fixed;
   bottom: 24px;
   right: 24px;

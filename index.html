@@ -37,7 +37,9 @@
 
     <!-- ── Preload Hero Image (LCP critical) ── -->
     <link rel="preload" as="image"
-        href="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=75&w=1920&fm=webp"
+        href="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=70&w=640&fm=webp"
+        imagesrcset="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=70&w=640&fm=webp 640w, https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=75&w=1080&fm=webp 1080w, https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=75&w=1920&fm=webp 1920w"
+        imagesizes="100vw"
         fetchpriority="high">
 
     <!-- ── Preload Swiper CSS (needed before any swiper renders) ── -->
@@ -72,7 +74,9 @@
                 sessionStorage.removeItem('welcomed');
                 sessionStorage.removeItem('we_reviews_popup_shown');
             }
-            if (sessionStorage.getItem('weekend_explorer_onboarding_completed') !== 'true') {
+            const isCompleted = localStorage.getItem('weekend_explorer_onboarding_completed') === 'true' ||
+                                sessionStorage.getItem('weekend_explorer_onboarding_completed') === 'true';
+            if (!isCompleted) {
                 document.documentElement.classList.add('we-onboarding-active');
             }
         })();
@@ -425,7 +429,7 @@
     <script defer src="shortcut.js?v=2"></script>
     <script defer src="profile.js?v=1100"></script>
     <script defer src="ai-agent.js?v=26"></script>
-    <script defer src="onboarding.js?v=12"></script>
+    <script defer src="onboarding.js?v=13"></script>
 
     <!-- Third-party deferred (loaded after own scripts) -->
     <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
