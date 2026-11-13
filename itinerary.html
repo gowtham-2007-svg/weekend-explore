@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Your Weekend Plan | Weekend Explorer</title>
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="assets/favicon.png?v=11">
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png?v=11">
+  <link rel="apple-touch-icon" href="assets/favicon.png?v=11">
+  <meta name="theme-color" content="#7c3aed">
+
+  <!-- Google Fonts: Outfit (headings) & Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Brand Accents */
+      --violet: #7c3aed;
+      --blue: #2563eb;
+      --sky: #0ea5e9;
+      --amber: #f59e0b;
+      --rose: #ec4899;
+      --mint: #10b981;
+
+      /* Text and Surfaces */
+      --ink: #1b1f3b;
+      --text-muted: #5d6486;
+      --card-white: #ffffff;
+      --border-light: #e3e6f5;
+      --chip-lavender: #f4f2ff;
+
+      /* Budget Stat Boxes */
+      --budget-total-bg: #fff7e6;
+      --budget-total-num: #b45309;
+      --budget-spend-bg: #f1eaff;
+      --budget-spend-num: #7c3aed;
+      --budget-bal-bg: #e5f6ff;
+      --budget-bal-num: #0369a1;
+
+      /* Radii & Shadows */
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 4px 14px rgba(27, 31, 59, 0.04);
+      --shadow-md: 0 10px 30px rgba(27, 31, 59, 0.06);
+      --shadow-lg: 0 16px 40px rgba(27, 31, 59, 0.09);
+
+      /* Typography */
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      word-wrap: break-word;
+    }
+
+    html, body {
+      max-width: 100vw;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    body {
+      background-color: #fffaf4;
+      color: var(--ink);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    h1, h2, h3, h4, .brand-main, .brand-accent, .itin-hero-title, .itin-budget-title, .itin-sec-title, .itin-stop-name, .itin-hub-title, .itin-metric-num {
+      font-family: var(--font-heading);
+    }
+
+    /* Ambient Scenic Background with soft pastel glows */
+    .itin-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 12% 16%, #ffe3b8 0%, rgba(255, 227, 184, 0) 45%),
+        radial-gradient(circle at 88% 22%, #cfe6ff 0%, rgba(207, 230, 255, 0) 50%),
+        radial-gradient(circle at 50% 85%, #e8d9ff 0%, rgba(232, 217, 255, 0) 55%),
+        linear-gradient(135deg, #fff6e9 0%, #eaf4ff 50%, #f3ebff 100%);
+      pointer-events: none;
+    }
+
+    /* ── Header Navigation ── */
+    .itin-navbar {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 768px) {
+      .itin-navbar {
+        position: relative;
+        padding: 12px 16px;
+      }
+    }
+
+    .itin-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .itin-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 9999px;
+      background: var(--card-white);
+      border: 1px solid var(--border-light);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(27, 31, 59, 0.03);
+    }
+
+    .itin-back-link:hover {
+      background: var(--chip-lavender);
+      border-color: var(--violet);
+      color: var(--violet);
+      transform: translateX(-2px);
+    }
+
+    .itin-brand {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-main {
+      color: var(--ink);
+    }
+
+    .brand-accent {
+      color: var(--violet);
+    }
+
+    .itin-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .itin-btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+
+    .itin-btn-glass {
+      background: var(--card-white);
+      border-color: var(--border-light);
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(27, 31, 59, 0.03);
+    }
+
+    .itin-btn-glass:hover {
+      background: var(--chip-lavender);
+      border-color: var(--violet);
+      color: var(--violet);
+      transform: translateY(-1px);
+    }
+
+    .itin-btn-primary {
+      background: linear-gradient(135deg, var(--violet) 0%, var(--blue) 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(124, 58, 237, 0.28);
+    }
+
+    .itin-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+    }
+
+    /* ── Main Container ── */
+    .itin-page-wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ── Hero Destination Banner ── */
+    .itin-hero-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      padding: 44px 36px;
+      margin-bottom: 28px;
+      background: var(--card-white);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-md);
+    }
+
+    .itin-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--chip-lavender);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      color: var(--violet);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 14px;
+    }
+
+    .itin-hero-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+
+    .itin-hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin-bottom: 24px;
+    }
+
+    /* Meta Badges Row */
+    .itin-meta-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .itin-meta-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--chip-lavender);
+      border: 1px solid var(--border-light);
+      padding: 7px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .itin-meta-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+    }
+
+    .itin-meta-pill strong {
+      color: var(--violet);
+      margin-left: 2px;
+    }
+
+    /* ── Budget Summary Dashboard ── */
+    .itin-budget-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 26px 28px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .itin-budget-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .itin-budget-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .itin-budget-title-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+    }
+
+    .itin-budget-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .itin-metric-box {
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      text-align: center;
+    }
+
+    .itin-metric-box.box-total {
+      background: var(--budget-total-bg);
+      border: 1px solid #fed7aa;
+    }
+
+    .itin-metric-box.box-spend {
+      background: var(--budget-spend-bg);
+      border: 1px solid #ddd6fe;
+    }
+
+    .itin-metric-box.box-bal {
+      background: var(--budget-bal-bg);
+      border: 1px solid #bae6fd;
+    }
+
+    .itin-metric-lbl {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .box-total .itin-metric-lbl { color: #92400e; }
+    .box-spend .itin-metric-lbl { color: #6b21a8; }
+    .box-bal .itin-metric-lbl { color: #0284c7; }
+
+    .itin-metric-num {
+      font-size: 1.7rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .box-total .itin-metric-num { color: var(--budget-total-num); }
+    .box-spend .itin-metric-num { color: var(--budget-spend-num); }
+    .box-bal .itin-metric-num { color: var(--budget-bal-num); }
+
+    /* Budget Progress Bar: amber start to violet to blue */
+    .itin-prog-track {
+      width: 100%;
+      height: 9px;
+      background: #f1f5f9;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .itin-prog-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--amber) 0%, var(--violet) 65%, var(--blue) 100%);
+      border-radius: 9999px;
+      transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Category breakdown pills */
+    .itin-budget-breakdown {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .itin-cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--chip-lavender);
+      border: 1px solid var(--border-light);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .itin-cat-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Section Titles ── */
+    .itin-sec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .itin-sec-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .itin-sec-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+    }
+
+    /* ── Chronological Stops Stream ── */
+    .itin-stops-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .itin-stop-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .itin-stop-card:hover {
+      border-color: rgba(124, 58, 237, 0.4);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .itin-stop-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .itin-stop-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--chip-lavender);
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--violet);
+      letter-spacing: 0.01em;
+    }
+
+    .itin-time-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+    }
+
+    .itin-stop-price {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .itin-stop-price.free {
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+    }
+
+    .itin-stop-price.paid {
+      background: #fdf2f8;
+      color: #db2777;
+      border: 1px solid #fbcfe8;
+    }
+
+    .itin-stop-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .itin-stop-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(27, 31, 59, 0.04);
+    }
+
+    .itin-stop-title-wrap {
+      flex: 1;
+    }
+
+    .itin-stop-tag {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .itin-stop-name {
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .itin-stop-desc {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .itin-stop-footer {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .itin-maps-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      color: #0284c7;
+      padding: 7px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.84rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .itin-maps-btn:hover {
+      background: #0284c7;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Transit Connector Between Stops */
+    .itin-transit-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 0 6px 24px;
+      margin: -6px 0 -6px 20px;
+      position: relative;
+    }
+
+    .itin-transit-line {
+      position: absolute;
+      left: 23px;
+      top: -8px;
+      bottom: -8px;
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, #93c5fd 0, #93c5fd 4px, transparent 4px, transparent 8px);
+    }
+
+    .itin-transit-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.06);
+    }
+
+    /* ── Navigation Hub Card ── */
+    .itin-nav-hub-card {
+      background: var(--card-white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .itin-hub-top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .itin-hub-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .itin-hub-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .itin-hub-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .itin-links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .itin-link-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+    }
+
+    .itin-link-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .itin-badge-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--chip-lavender);
+      border: 1px solid var(--border-light);
+      color: var(--violet);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .itin-link-name {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 0.95rem;
+    }
+
+    .itin-go-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--chip-lavender);
+      border: 1px solid var(--border-light);
+      color: var(--violet);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .itin-go-pill:hover {
+      background: var(--violet);
+      border-color: var(--violet);
+      color: #ffffff;
+    }
+
+    .itin-full-route-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px 20px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1d4ed8 100%);
+      color: #ffffff;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.98rem;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .itin-full-route-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    }
+
+    /* ── Advisories / Notes Card ── */
+    .itin-notes-card {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #92400e;
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .itin-notes-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--amber);
+    }
+
+    /* ── Bottom Action Footer ── */
+    .itin-bottom-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+
+    .itin-btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 9999px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    /* Toast */
+    #itin-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--ink);
+      color: #ffffff;
+      padding: 10px 22px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #itin-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .itin-toast-ico {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--mint);
+    }
+
+    /* ── Empty State ── */
+    .itin-empty-card {
+      text-align: center;
+      padding: 60px 24px;
+      background: var(--card-white);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-light);
+      max-width: 540px;
+      margin: 60px auto;
+      box-shadow: var(--shadow-md);
+    }
+
+    .itin-empty-icon {
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--violet);
+    }
+
+    .itin-empty-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+    .itin-empty-sub {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .itin-spin {
+      animation: itinSpin 1s linear infinite;
+    }
+
+    @keyframes itinSpin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── Responsive Styling (Flawless Mobile / Phone View) ── */
+    @media (max-width: 768px) {
+      .itin-navbar {
+        position: relative;
+        padding: 12px 16px;
+      }
+
+      .itin-page-wrap {
+        padding: 20px 14px 64px;
+      }
+
+      .itin-hero-card {
+        padding: 28px 20px;
+        border-radius: 20px;
+      }
+
+      .itin-hero-title {
+        font-size: 1.85rem;
+      }
+
+      .itin-budget-card {
+        padding: 22px 18px;
+        border-radius: 18px;
+      }
+
+      .itin-stop-card {
+        padding: 18px 16px;
+        border-radius: 18px;
+      }
+
+      .itin-stop-name {
+        font-size: 1.12rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .itin-navbar {
+        padding: 10px 12px;
+        gap: 8px;
+      }
+
+      .itin-nav-left {
+        gap: 8px;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .itin-brand {
+        font-size: 1.05rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .itin-back-link {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+
+      .itin-nav-right {
+        gap: 6px;
+        flex-shrink: 0;
+      }
+
+      .itin-btn-nav {
+        padding: 7px 10px;
+        min-width: 36px;
+        height: 36px;
+        justify-content: center;
+      }
+
+      .itin-btn-nav span {
+        display: none !important;
+      }
+
+      .itin-page-wrap {
+        padding: 14px 10px 60px;
+      }
+
+      .itin-budget-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .itin-metric-box {
+        padding: 14px 10px;
+      }
+
+      .itin-metric-box.box-bal {
+        grid-column: span 2;
+      }
+
+      .itin-metric-num {
+        font-size: 1.35rem;
+      }
+
+      .itin-metric-lbl {
+        font-size: 0.72rem;
+      }
+
+      .itin-bottom-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .itin-btn-action {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 16px;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .itin-hero-card {
+        padding: 20px 14px;
+        border-radius: 16px;
+        margin-bottom: 18px;
+      }
+
+      .itin-pill-tag {
+        font-size: 0.72rem;
+        padding: 5px 12px;
+        margin-bottom: 10px;
+      }
+
+      .itin-hero-title {
+        font-size: 1.45rem;
+        line-height: 1.25;
+        margin-bottom: 8px;
+      }
+
+      .itin-hero-subtitle {
+        font-size: 0.88rem;
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+
+      .itin-meta-grid {
+        gap: 6px;
+      }
+
+      .itin-meta-pill {
+        font-size: 0.78rem;
+        padding: 5px 10px;
+        border-radius: 10px;
+        gap: 6px;
+      }
+
+      .itin-budget-card {
+        padding: 18px 12px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+      }
+
+      .itin-budget-title {
+        font-size: 1.05rem;
+      }
+
+      .itin-cat-pill {
+        font-size: 0.76rem;
+        padding: 5px 10px;
+      }
+
+      .itin-sec-title {
+        font-size: 1.22rem;
+      }
+
+      .itin-stop-card {
+        padding: 16px 12px;
+        border-radius: 16px;
+      }
+
+      .itin-stop-top {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .itin-stop-time {
+        font-size: 0.78rem;
+        padding: 4px 10px;
+      }
+
+      .itin-stop-price {
+        font-size: 0.76rem;
+        padding: 3px 8px;
+      }
+
+      .itin-stop-main {
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .itin-stop-badge {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+
+      .itin-stop-badge svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .itin-stop-tag {
+        font-size: 0.68rem;
+      }
+
+      .itin-stop-name {
+        font-size: 1.02rem;
+      }
+
+      .itin-stop-desc {
+        font-size: 0.86rem;
+      }
+
+      .itin-maps-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 12px;
+        font-size: 0.82rem;
+      }
+
+      .itin-transit-step {
+        padding: 4px 0 4px 18px;
+        margin: -4px 0 -4px 14px;
+        gap: 8px;
+      }
+
+      .itin-transit-line {
+        left: 17px;
+      }
+
+      .itin-transit-badge {
+        font-size: 0.74rem;
+        padding: 4px 10px;
+        max-width: 100%;
+        word-break: break-word;
+      }
+
+      .itin-nav-hub-card {
+        padding: 18px 12px;
+        border-radius: 16px;
+        margin-bottom: 24px;
+      }
+
+      .itin-hub-top {
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+
+      .itin-hub-icon-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+      }
+
+      .itin-hub-title {
+        font-size: 1.08rem;
+      }
+
+      .itin-hub-sub {
+        font-size: 0.82rem;
+      }
+
+      .itin-link-row {
+        padding: 10px 10px;
+        gap: 8px;
+      }
+
+      .itin-link-left {
+        min-width: 0;
+        flex: 1;
+        gap: 8px;
+      }
+
+      .itin-badge-num {
+        width: 22px;
+        height: 22px;
+        font-size: 0.72rem;
+        flex-shrink: 0;
+      }
+
+      .itin-link-name {
+        font-size: 0.86rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .itin-go-pill {
+        padding: 5px 10px;
+        font-size: 0.76rem;
+        flex-shrink: 0;
+      }
+
+      .itin-full-route-btn {
+        padding: 12px 14px;
+        font-size: 0.88rem;
+      }
+
+      .itin-notes-card {
+        padding: 12px 14px;
+        font-size: 0.84rem;
+        gap: 10px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .itin-back-link span {
+        display: none;
+      }
+
+      .itin-back-link {
+        padding: 7px;
+        width: 36px;
+        height: 36px;
+        justify-content: center;
+      }
+
+      .itin-budget-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .itin-metric-box.box-bal {
+        grid-column: span 1;
+      }
+    }
+
+    /* ── Print Media Styles (Clean A4 PDF Export) ── */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+
+      .itin-bg-canvas,
+      .itin-navbar,
+      .itin-bottom-actions,
+      .itin-maps-btn,
+      .itin-go-pill,
+      .itin-full-route-btn {
+        display: none !important;
+      }
+
+      .itin-page-wrap {
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .itin-hero-card,
+      .itin-budget-card,
+      .itin-stop-card,
+      .itin-nav-hub-card {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+      }
+
+      .itin-hero-title,
+      .itin-stop-name,
+      .itin-hub-title,
+      .itin-metric-num {
+        color: #000000 !important;
+      }
+
+      .itin-stop-desc,
+      .itin-hero-subtitle {
+        color: #475569 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient Scenic Canvas -->
+  <div class="itin-bg-canvas" id="itin-bg"></div>
+
+  <!-- Top Sticky Navigation (Existing buttons preserved) -->
+  <nav class="itin-navbar">
+    <div class="itin-nav-left">
+      <a href="index.html" class="itin-back-link" title="Return to Weekend Explore Home">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Back to Home</span>
+      </a>
+      <a href="index.html" class="itin-brand">
+        <span class="brand-main">Weekend</span><span class="brand-accent">Explorer</span>
+      </a>
+    </div>
+
+    <div class="itin-nav-right">
+      <button type="button" class="itin-btn-nav itin-btn-glass" onclick="window.print()" title="Print Itinerary or Save as PDF">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print / PDF</span>
+      </button>
+
+      <button type="button" class="itin-btn-nav itin-btn-glass" onclick="shareItinerary()" title="Share Itinerary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        <span>Share</span>
+      </button>
+
+      <a href="index.html?plan=ai" class="itin-btn-nav itin-btn-primary" title="Plan Another Trip with AI Agent">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+        <span>Plan Another Trip</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="itin-page-wrap" id="itin-content">
+    <!-- Populated by JavaScript -->
+    <div class="itin-empty-card" id="itin-loading">
+      <div class="itin-empty-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="itin-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
+      </div>
+      <h2 class="itin-empty-title">Loading Your Weekend Plan...</h2>
+      <p class="itin-empty-sub">Connecting with your AI Itinerary Engine.</p>
+    </div>
+  </main>
+
+  <!-- Interactive Toast Notification -->
+  <div id="itin-toast">
+    <span class="itin-toast-ico">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </span>
+    <span id="itin-toast-text">Copied to clipboard!</span>
+  </div>
+
+  <script>
+    // ═══ VECTOR SVG REGISTRY (Zero Cartoon Emojis) ═══
+    const ICONS = {
+      sparkles: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>`,
+      users: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
+      clock: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+      bus: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="3" rx="2"/><path d="M4 11h16"/><path d="M8 15h.01"/><path d="M16 15h.01"/><path d="m6 19-2 2"/><path d="m18 19 2 2"/></svg>`,
+      compass: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>`,
+      sun: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+      cloudSun: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg>`,
+      cloudRain: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></svg>`,
+      wallet: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>`,
+      utensils: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 11v11"/><path d="M6 2v20"/><path d="M9 2v4a3 3 0 0 1-3 3"/></svg>`,
+      ticket: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>`,
+      coffee: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>`,
+      film: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>`,
+      route: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></svg>`,
+      landmark: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>`,
+      trees: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7l-3.3-4.3a1 1 0 0 0-1.4 0L9 7.3a1 1 0 0 0 .8 1.7H10l-3 3.3a1 1 0 0 0 .7 1.7H10"/></svg>`,
+      sunset: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 10V2"/><path d="m4.93 10.93 1.41-1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41-1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>`,
+      shoppingBag: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+      mapPin: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+      navigation: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>`,
+      arrowDown: (s = 14) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>`,
+      arrowLeft: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`,
+      externalLink: (s = 14) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+      printer: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>`,
+      share: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`,
+      check: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`,
+      info: (s = 16) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+      spinner: (s = 36) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="itin-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`
+    };
+
+    function stripEmojis(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{200D}\u{FE0F}]/gu, '')
+        .trim()
+        .replace(/\s+/g, ' ');
+    }
+
+    function cleanPeopleLabel(raw) {
+      let s = stripEmojis(raw || 'Solo');
+      s = s.replace(/\(\d+-\d+\)\s*\(\d+\)/g, (m) => m.split(' ')[0]);
+      return s;
+    }
+
+    // Exact Category Palette per User Spec
+    function getStopTheme(stop) {
+      const iconStr = String(stop.icon || '');
+      const title = String(stop.title || '').toLowerCase();
+      const desc = String(stop.desc || '').toLowerCase();
+
+      // Beach Snacks / Refreshments -> Mint (green) #10b981
+      if (title.includes('beach snack') || title.includes('chaat') || title.includes('tender coconut')) {
+        return {
+          svg: ICONS.coffee(20),
+          color: '#10b981',
+          bg: '#ecfdf5',
+          border: '#a7f3d0',
+          tag: 'Beach Refreshment'
+        };
+      }
+
+      // Food / Lunch / Meals / Ice Cream -> Rose (pink) #ec4899
+      if (iconStr.includes('\u{1F37D}') || iconStr.includes('\u{2615}') || iconStr.includes('\u{1F361}') ||
+          title.includes('lunch') || title.includes('breakfast') || title.includes('dinner') ||
+          title.includes('food') || title.includes('cafe') || title.includes('restaurant') ||
+          title.includes('hotel') || title.includes('snack') || title.includes('ice cream') ||
+          title.includes('pabba') || title.includes('ideal')) {
+        return {
+          svg: ICONS.utensils(20),
+          color: '#ec4899',
+          bg: '#fdf2f8',
+          border: '#fbcfe8',
+          tag: 'Food & Dining'
+        };
+      }
+
+      // Beach / Sunset / Shoreline -> Sky #0ea5e9
+      if (iconStr.includes('\u{1F305}') || iconStr.includes('\u{1F3D6}') ||
+          title.includes('beach') || title.includes('sunset') || title.includes('sea') ||
+          title.includes('coast') || title.includes('promenade') || title.includes('panambur') ||
+          title.includes('tannirbhavi') || title.includes('someshwar') || title.includes('waterfront')) {
+        return {
+          svg: ICONS.sunset(20),
+          color: '#0ea5e9',
+          bg: '#f0f9ff',
+          border: '#bae6fd',
+          tag: 'Beach & Sunset'
+        };
+      }
+
+      // Kadri Park / Parks / Gardens / Nature -> Sun (amber) #f59e0b
+      if (iconStr.includes('\u{1F33F}') || title.includes('kadri') || title.includes('park') ||
+          title.includes('garden') || title.includes('fountain') || title.includes('falls') ||
+          title.includes('sanctuary') || title.includes('lake') || title.includes('forest')) {
+        return {
+          svg: ICONS.trees(20),
+          color: '#f59e0b',
+          bg: '#fffbeb',
+          border: '#fde68a',
+          tag: 'Park & Nature'
+        };
+      }
+
+      // Heritage / Watchtower / Temple / Sultan Battery -> Violet #7c3aed
+      if (iconStr.includes('\u{1F3DB}') || title.includes('battery') || title.includes('temple') ||
+          title.includes('church') || title.includes('mosque') || title.includes('fort') ||
+          title.includes('palace') || title.includes('museum') || title.includes('heritage') ||
+          title.includes('monument') || title.includes('watchtower')) {
+        return {
+          svg: ICONS.landmark(20),
+          color: '#7c3aed',
+          bg: '#f5f3ff',
+          border: '#ddd6fe',
+          tag: 'Heritage & Culture'
+        };
+      }
+
+      // Shopping / Market / Mall -> Rose #ec4899
+      if (title.includes('mall') || title.includes('market') || title.includes('bazaar') || title.includes('shopping')) {
+        return {
+          svg: ICONS.shoppingBag(20),
+          color: '#ec4899',
+          bg: '#fdf2f8',
+          border: '#fbcfe8',
+          tag: 'Shopping & Market'
+        };
+      }
+
+      // Cinema / Movie -> Violet #7c3aed
+      if (iconStr.includes('\u{1F3AC}') || title.includes('cinema') || title.includes('theatre') || title.includes('movie') || title.includes('film')) {
+        return {
+          svg: ICONS.film(20),
+          color: '#7c3aed',
+          bg: '#f5f3ff',
+          border: '#ddd6fe',
+          tag: 'Entertainment'
+        };
+      }
+
+      // Transit / Travel -> Blue #2563eb
+      if (iconStr.includes('\u{1F697}') || iconStr.includes('\u{1F68C}') || title.includes('transit') || title.includes('travel')) {
+        return {
+          svg: ICONS.bus(20),
+          color: '#2563eb',
+          bg: '#eff6ff',
+          border: '#bfdbfe',
+          tag: 'Transit'
+        };
+      }
+
+      // Default -> Violet #7c3aed
+      return {
+        svg: ICONS.mapPin(20),
+        color: '#7c3aed',
+        bg: '#f5f3ff',
+        border: '#ddd6fe',
+        tag: 'Attraction'
+      };
+    }
+
+    // ═══ FULL-SCREEN ITINERARY CONTROLLER ═══
+    function getStoredItinerary() {
+      try {
+        const raw = sessionStorage.getItem('weekend_explorer_itinerary') || localStorage.getItem('weekend_explorer_itinerary');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {
+        console.error('Error reading stored itinerary:', e);
+      }
+      return null;
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('itin-toast');
+      const textElem = document.getElementById('itin-toast-text');
+      if (!toast) return;
+      if (textElem) textElem.textContent = msg;
+      else toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    function shareItinerary() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'My Weekend Plan | Weekend Explorer',
+          text: 'Check out my custom AI-generated weekend itinerary!',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('Itinerary link copied to clipboard!');
+        }).catch(() => {
+          showToast('Could not copy link.');
+        });
+      }
+    }
+
+    function renderItineraryPage() {
+      const data = getStoredItinerary();
+      const container = document.getElementById('itin-content');
+      if (!container) return;
+
+      if (!data || !data.stops || data.stops.length === 0) {
+        // Fallback friendly empty state
+        container.innerHTML = `
+          <div class="itin-empty-card">
+            <div class="itin-empty-icon">${ICONS.compass(48)}</div>
+            <h2 class="itin-empty-title">No Itinerary Generated Yet</h2>
+            <p class="itin-empty-sub">
+              It looks like you haven't generated a weekend plan yet. Launch the Weekend AI Assistant on the home page to create your customized route with budget breakdown and stops!
+            </p>
+            <a href="index.html?plan=ai" class="itin-btn-nav itin-btn-primary" style="padding: 14px 28px; font-size: 1rem;">
+              ${ICONS.sparkles(18)}
+              <span>Generate My Itinerary with AI</span>
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      const city = stripEmojis(data.city) || 'Karnataka Destination';
+      const budget = Number(data.budget) || 0;
+      const totalCalculated = Number(data.totalCalculated) || 0;
+      const remainingBalance = Number(data.remainingBalance) || 0;
+      const budgetPercent = Number(data.budgetPercent) || 0;
+      const costs = data.costs || {};
+      const meta = data.meta || {};
+      const stops = data.stops || [];
+      const fullRouteUrl = data.fullRouteUrl || '#';
+      const notes = data.notes || {};
+
+      document.title = `${city} Weekend Plan | Weekend Explorer`;
+
+      let stopsHtml = '';
+      stops.forEach((st, idx) => {
+        const isFree = st.costNum === 0 && (st.costLabel === 'Free Entry' || (st.costLabel && st.costLabel.includes('Free')));
+        const theme = getStopTheme(st);
+        const cleanTime = stripEmojis(st.time);
+        const cleanTitle = stripEmojis(st.title);
+        const cleanDesc = stripEmojis(st.desc);
+        const cleanCost = stripEmojis(st.costLabel || 'Free Entry');
+        const cleanTransit = st.transitAfter ? stripEmojis(st.transitAfter).replace(/^↓\s*/, '') : '';
+
+        stopsHtml += `
+          <div class="itin-stop-card">
+            <div class="itin-stop-top">
+              <div class="itin-stop-time">
+                <span class="itin-time-ico">${ICONS.clock(14)}</span>
+                <span>${cleanTime}</span>
+              </div>
+              <span class="itin-stop-price ${isFree ? 'free' : 'paid'}">${cleanCost}</span>
+            </div>
+
+            <div class="itin-stop-main">
+              <div class="itin-stop-badge" style="background:${theme.bg}; border: 1px solid ${theme.border}; color:${theme.color};">
+                ${theme.svg}
+              </div>
+              <div class="itin-stop-title-wrap">
+                <div class="itin-stop-tag" style="color:${theme.color};">${theme.tag}</div>
+                <h3 class="itin-stop-name">${cleanTitle}</h3>
+                <p class="itin-stop-desc">${cleanDesc}</p>
+              </div>
+            </div>
+
+            <div class="itin-stop-footer">
+              <a href="${st.mapsUrl}" target="_blank" rel="noopener noreferrer" class="itin-maps-btn" title="Open ${cleanTitle} in Google Maps">
+                ${ICONS.mapPin(13)}
+                <span>Navigate in Google Maps</span>
+                ${ICONS.externalLink(12)}
+              </a>
+            </div>
+          </div>
+        `;
+
+        if (st.transitAfter && idx < stops.length - 1) {
+          stopsHtml += `
+            <div class="itin-transit-step">
+              <div class="itin-transit-line"></div>
+              <div class="itin-transit-badge">
+                ${ICONS.arrowDown(12)}
+                <span>${cleanTransit}</span>
+              </div>
+            </div>
+          `;
+        }
+      });
+
+      let categoryPillsHtml = '';
+      if (costs.transport > 0) {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#2563eb;">${ICONS.bus(13)}</span><span>Transit: ₹${costs.transport}</span></span>`;
+      } else {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#2563eb;">${ICONS.bus(13)}</span><span>Transit: ₹0</span></span>`;
+      }
+
+      if (costs.food > 0) {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#ec4899;">${ICONS.utensils(13)}</span><span>Food & Meals: ₹${costs.food}</span></span>`;
+      }
+
+      if (costs.act > 0) {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#7c3aed;">${ICONS.ticket(13)}</span><span>Entry Tickets: ₹${costs.act}</span></span>`;
+      } else {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#7c3aed;">${ICONS.landmark(13)}</span><span>Entry: Free</span></span>`;
+      }
+
+      if (costs.movie > 0) {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#7c3aed;">${ICONS.film(13)}</span><span>Movie: ₹${costs.movie}</span></span>`;
+      }
+
+      if (costs.snack > 0) {
+        categoryPillsHtml += `<span class="itin-cat-pill"><span class="itin-cat-ico" style="color:#f59e0b;">${ICONS.coffee(13)}</span><span>Snacks: ₹${costs.snack}</span></span>`;
+      }
+
+      const cleanGroup = cleanPeopleLabel(meta.people);
+      const cleanSched = stripEmojis(meta.timeSlot || 'Full Day');
+      const cleanTrans = stripEmojis(meta.transport || 'Local Transit');
+      const cleanVibe = stripEmojis(meta.mood || 'Chill');
+      const cleanWeather = stripEmojis(meta.weather || 'Clear / Sunny');
+      const cleanMovie = meta.movie ? stripEmojis(meta.movie) : null;
+
+      container.innerHTML = `
+        <!-- Hero Banner -->
+        <section class="itin-hero-card">
+          <div class="itin-pill-tag">
+            ${ICONS.sparkles(13)}
+            <span>Personalized AI Weekend Blueprint</span>
+          </div>
+          <h1 class="itin-hero-title">Your Weekend Plan for ${city}</h1>
+          <p class="itin-hero-subtitle">
+            Crafted for ${cleanGroup}, featuring handpicked attractions, verified food spots, and an airtight budget plan.
+          </p>
+
+          <div class="itin-meta-grid">
+            <div class="itin-meta-pill">
+              <span class="itin-meta-ico">${ICONS.users(14)}</span>
+              <span>Group: <strong>${cleanGroup}</strong></span>
+            </div>
+            <div class="itin-meta-pill">
+              <span class="itin-meta-ico">${ICONS.clock(14)}</span>
+              <span>Schedule: <strong>${cleanSched}</strong></span>
+            </div>
+            <div class="itin-meta-pill">
+              <span class="itin-meta-ico">${ICONS.bus(14)}</span>
+              <span>Transport: <strong>${cleanTrans}</strong></span>
+            </div>
+            <div class="itin-meta-pill">
+              <span class="itin-meta-ico">${ICONS.compass(14)}</span>
+              <span>Vibe: <strong>${cleanVibe}</strong></span>
+            </div>
+            <div class="itin-meta-pill">
+              <span class="itin-meta-ico">${ICONS.cloudSun(14)}</span>
+              <span>Weather: <strong>${cleanWeather}</strong></span>
+            </div>
+            ${cleanMovie ? `
+              <div class="itin-meta-pill">
+                <span class="itin-meta-ico">${ICONS.film(14)}</span>
+                <span>Movie: <strong>${cleanMovie}</strong></span>
+              </div>
+            ` : ''}
+          </div>
+        </section>
+
+        <!-- Budget Dashboard -->
+        <section class="itin-budget-card">
+          <div class="itin-budget-header">
+            <div class="itin-budget-title">
+              <span class="itin-budget-title-ico">${ICONS.wallet(18)}</span>
+              <span>Airtight Budget Architecture</span>
+            </div>
+          </div>
+
+          <div class="itin-budget-grid">
+            <div class="itin-metric-box box-total">
+              <span class="itin-metric-lbl">Total Budget</span>
+              <span class="itin-metric-num">₹${budget.toLocaleString('en-IN')}</span>
+            </div>
+
+            <div class="itin-metric-box box-spend">
+              <span class="itin-metric-lbl">Planned Spend</span>
+              <span class="itin-metric-num">₹${totalCalculated.toLocaleString('en-IN')}</span>
+            </div>
+
+            <div class="itin-metric-box box-bal">
+              <span class="itin-metric-lbl">Remaining Balance</span>
+              <span class="itin-metric-num">
+                ${remainingBalance === 0 ? '₹0 (Exact)' : `₹${remainingBalance.toLocaleString('en-IN')}`}
+              </span>
+            </div>
+          </div>
+
+          <div class="itin-prog-track">
+            <div class="itin-prog-fill" style="width: ${budgetPercent}%;"></div>
+          </div>
+
+          <div class="itin-budget-breakdown">
+            ${categoryPillsHtml}
+          </div>
+        </section>
+
+        ${notes.isHeavyRain ? `
+          <div class="itin-notes-card">
+            <span class="itin-notes-ico">${ICONS.cloudRain(20)}</span>
+            <div><b>Monsoon Advisory:</b> Sheltered indoor destinations & covered promenades have been prioritized for safety during rainfall.</div>
+          </div>
+        ` : ''}
+
+        ${notes.lightRain ? `
+          <div class="itin-notes-card">
+            <span class="itin-notes-ico">${ICONS.cloudSun(20)}</span>
+            <div><b>Weather Note:</b> Light rain expected. A light umbrella or rain jacket is recommended while enjoying the cool breeze.</div>
+          </div>
+        ` : ''}
+
+        <!-- Chronological Stops Stream -->
+        <section>
+          <div class="itin-sec-header">
+            <h2 class="itin-sec-title">
+              <span class="itin-sec-ico">${ICONS.route(20)}</span>
+              <span>Chronological Itinerary Route</span>
+            </h2>
+          </div>
+
+          <div class="itin-stops-wrap">
+            ${stopsHtml}
+          </div>
+        </section>
+
+        <!-- Location Links & Multi-Stop Route Map Hub -->
+        <section class="itin-nav-hub-card">
+          <div class="itin-hub-top">
+            <div class="itin-hub-icon-wrap">
+              ${ICONS.navigation(22)}
+            </div>
+            <div>
+              <div class="itin-hub-title">Interactive Navigation Hub</div>
+              <div class="itin-hub-sub">Quickly navigate to any stop or open the complete multi-stop road route</div>
+            </div>
+          </div>
+
+          <div class="itin-links-list">
+            ${stops.map((st, i) => `
+              <div class="itin-link-row">
+                <div class="itin-link-left">
+                  <span class="itin-badge-num">${i + 1}</span>
+                  <span class="itin-link-name">${stripEmojis(st.title)}</span>
+                </div>
+                <a href="${st.mapsUrl}" target="_blank" rel="noopener noreferrer" class="itin-go-pill" title="Navigate to ${stripEmojis(st.title)}">
+                  <span>Navigate</span>
+                  ${ICONS.externalLink(11)}
+                </a>
+              </div>
+            `).join('')}
+          </div>
+
+          <a href="${fullRouteUrl}" target="_blank" rel="noopener noreferrer" class="itin-full-route-btn">
+            ${ICONS.navigation(18)}
+            <span>Open Complete Route in Google Maps</span>
+            ${ICONS.externalLink(14)}
+          </a>
+        </section>
+
+        <!-- Bottom Actions (All existing buttons preserved) -->
+        <div class="itin-bottom-actions">
+          <button type="button" class="itin-btn-action itin-btn-glass" onclick="window.print()">
+            ${ICONS.printer(16)}
+            <span>Print / Save as PDF</span>
+          </button>
+          <button type="button" class="itin-btn-action itin-btn-glass" onclick="shareItinerary()">
+            ${ICONS.share(16)}
+            <span>Share Itinerary</span>
+          </button>
+          <a href="index.html" class="itin-btn-action itin-btn-primary">
+            ${ICONS.arrowLeft(16)}
+            <span>Back to Weekend Explorer</span>
+          </a>
+        </div>
+      `;
+    }
+
+    // Auto-initialize on load
+    window.addEventListener('DOMContentLoaded', renderItineraryPage);
+  </script>
+</body>
+</html>

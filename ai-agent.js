@@ -1221,9 +1221,9 @@
     function getLabel(count) {
       if (count === 1) return t('solo', STATE.language);
       if (count === 2) return t('couple', STATE.language);
-      if (count >= 3 && count <= 4) return `${t('small_group', STATE.language)} (${count})`;
-      if (count >= 5 && count <= 6) return `${t('big_group', STATE.language)} (${count})`;
-      return `${t('large_group', STATE.language)} (${count}+)`;
+      if (count >= 3 && count <= 4) return t('small_group', STATE.language);
+      if (count >= 5 && count <= 6) return t('big_group', STATE.language);
+      return t('large_group', STATE.language);
     }
 
     function getSubtext(count) {
@@ -1843,11 +1843,18 @@
               renderZeroBudgetMode();
             }, 600);
           } else {
+            const itinHtml = generateMasterItinerary(STATE);
+            let newWin = null;
+            try {
+              newWin = window.open('itinerary.html', '_blank');
+            } catch (e) {}
+            if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+              window.location.href = 'itinerary.html';
+            }
             showTypingIndicator(() => {
-              const itinHtml = generateMasterItinerary(STATE);
               addAIMessage(itinHtml);
               updateDots(STEPS.length);
-            }, 750);
+            }, 600);
           }
         },
         // Customize Step-by-Step Callback
@@ -2098,11 +2105,23 @@
           window.WeekendAI.reset();
         } else {
           addUserMessage("Generate Itinerary");
+          // Generate and cache itinerary synchronously on user click
+          const itinHtml = generateMasterItinerary(STATE);
+
+          // Open in a completely new full-screen page
+          let newWin = null;
+          try {
+            newWin = window.open('itinerary.html', '_blank');
+          } catch (e) {}
+
+          if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+            window.location.href = 'itinerary.html';
+          }
+
           showTypingIndicator(() => {
-            const itinHtml = generateMasterItinerary(STATE);
             addAIMessage(itinHtml);
             updateDots(STEPS.length);
-          }, 800);
+          }, 600);
         }
       }
     }
@@ -2929,13 +2948,60 @@
 
     html += `
         <!-- Action Row -->
-        <div style="margin-top: 10px;">
-          <button type="button" class="wai-chip" style="width: 100%; justify-content: center; background: #8338EC; color: #ffffff; border: none; font-weight: 600; padding: 10px; border-radius: 8px; font-size: 0.85rem; cursor: pointer;" onclick="window.WeekendAI.reset()">
+        <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+          <a href="itinerary.html" target="_blank" class="wai-chip" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #8338EC, #3A86FF); color: #ffffff; border: none; font-weight: 700; padding: 12px; border-radius: 8px; font-size: 0.88rem; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(131,56,236,0.35);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span>Open Full-Screen Itinerary Page ↗</span>
+          </a>
+          <button type="button" class="wai-chip" style="width: 100%; justify-content: center; background: rgba(0,0,0,0.06); color: #475569; border: 1px solid rgba(0,0,0,0.1); font-weight: 600; padding: 8px; border-radius: 8px; font-size: 0.82rem; cursor: pointer;" onclick="window.WeekendAI.reset()">
             ${t('start_over', s.language)}
           </button>
         </div>
       </div>
     `;
+
+    // Cache generated plan for full-screen itinerary page
+    try {
+      const cleanStr = (str) => {
+        if (!str) return '';
+        return String(str).replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F700}-\u{1F77F}\u{1F780}-\u{1F7FF}\u{1F800}-\u{1F8FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{2300}-\u{23FF}\u{2B50}\u{2B55}\u{200D}\u{FE0F}]/gu, '').trim();
+      };
+      const fullPlan = {
+        city: cleanStr(city),
+        budget,
+        totalCalculated,
+        remainingBalance,
+        budgetPercent,
+        costs: {
+          transport: transportCost,
+          food: foodCost,
+          act: actCost,
+          movie: movieTicketCost,
+          snack: snackCost
+        },
+        meta: {
+          people: cleanStr(s.peopleLabel || 'Solo'),
+          timeSlot: cleanStr(s.timeSlot ? s.timeSlot.split('(')[0].trim() : '12 PM – 6 PM'),
+          transport: cleanStr(transLabel),
+          mood: cleanStr(s.mood ? s.mood.split('&')[0].trim() : 'Chill'),
+          weather: cleanStr(s.weather || 'Clear / Sunny'),
+          movie: selectedMovie ? cleanStr(`${selectedMovie.title} (${selectedMovie.theatre}, ${selectedMovie.showtime})`) : null
+        },
+        stops,
+        fullRouteUrl,
+        notes: {
+          isHeavyRain,
+          lightRain: s.weatherKey === 'light_rain',
+          shoppingTip: moodKey === 'shopping' || (selectedMovie && selectedMovie.mallName)
+        },
+        html,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('weekend_explorer_itinerary', JSON.stringify(fullPlan));
+      sessionStorage.setItem('weekend_explorer_itinerary', JSON.stringify(fullPlan));
+    } catch (e) {
+      console.warn('Could not cache itinerary plan', e);
+    }
 
     return html;
   }
