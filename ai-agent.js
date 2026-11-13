@@ -2999,6 +2999,7 @@
       };
       localStorage.setItem('weekend_explorer_itinerary', JSON.stringify(fullPlan));
       sessionStorage.setItem('weekend_explorer_itinerary', JSON.stringify(fullPlan));
+      sessionStorage.setItem('we_plan_read', 'true');
     } catch (e) {
       console.warn('Could not cache itinerary plan', e);
     }

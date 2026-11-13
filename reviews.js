@@ -792,19 +792,16 @@
     fetchReviews();
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // AUTO-POPUP: Trigger Website Reviews Modal 5 Seconds AFTER Reaching Home Page
-    // Only fires after the user has completely cleared onboarding and arrived
-    // on the home page, browsing for 5 full seconds.
+    // ─────────────────────────────────────────────────────────────────────────────
+    // AUTO-POPUP: Trigger Website Reviews Modal ONLY AFTER User Reads The Planning
     // ─────────────────────────────────────────────────────────────────────────────
     const AUTO_POPUP_SESSION_KEY = 'we_reviews_popup_shown';
 
     // Clear session lock if testing with ?reset or #reset
     if (window.location.search.includes('reset') || window.location.hash.includes('reset')) {
         sessionStorage.removeItem(AUTO_POPUP_SESSION_KEY);
+        sessionStorage.removeItem('we_plan_read');
     }
-
-    let homePageCountdownStarted = false;
-    let homePageCountdownTimer = null;
 
     /**
      * Check if the user is currently still in the onboarding flow
@@ -837,87 +834,67 @@
     }
 
     /**
-     * Start the 5-second browsing countdown once the user has arrived on the Home Page
+     * Trigger review modal ONLY AFTER the user has read their weekend planning
      */
-    function startHomePageBrowsingCountdown() {
-        if (homePageCountdownStarted) return;
+    function triggerReviewAfterPlanningRead(delayMs = 1200) {
         if (autoPopupTriggered) return;
         if (sessionStorage.getItem(AUTO_POPUP_SESSION_KEY)) return;
         if (document.getElementById('website-reviews-modal-overlay')) return;
 
-        // If onboarding is still running, abort — wait for completion event
+        // User must have generated and read an itinerary plan
+        const hasReadPlan = sessionStorage.getItem('we_plan_read') === 'true';
+        if (!hasReadPlan) {
+            console.log('[REVIEWS] User has not read planning yet. Review modal will not auto-open.');
+            return;
+        }
+
+        // If onboarding is active, wait
         if (isOnboardingActive()) {
             return;
         }
 
-        homePageCountdownStarted = true;
-        console.log('[REVIEWS] User has reached Home Page. Starting 5-second browsing timer...');
+        // If auth overlay is open, wait until user closes it
+        if (isAuthOverlayOpen()) {
+            console.log('[REVIEWS] Auth overlay active. Waiting for dismissal before showing reviews popup...');
+            const authCheck = setInterval(() => {
+                if (!isAuthOverlayOpen()) {
+                    clearInterval(authCheck);
+                    setTimeout(() => triggerReviewAfterPlanningRead(800), 400);
+                }
+            }, 400);
+            return;
+        }
 
-        // Exact 5 seconds of browsing on the home page before popping up
-        homePageCountdownTimer = setTimeout(() => {
-            if (autoPopupTriggered || sessionStorage.getItem(AUTO_POPUP_SESSION_KEY)) return;
-            if (document.getElementById('website-reviews-modal-overlay')) return;
+        autoPopupTriggered = true;
+        sessionStorage.setItem(AUTO_POPUP_SESSION_KEY, '1');
+        console.log('[REVIEWS] User has read the planning. Opening website reviews modal now...');
 
-            // If the auth overlay is actively open, wait until user closes it
-            if (isAuthOverlayOpen()) {
-                console.log('[REVIEWS] Auth overlay active. Waiting for dismissal before showing reviews popup...');
-                const authCheck = setInterval(() => {
-                    if (!isAuthOverlayOpen()) {
-                        clearInterval(authCheck);
-                        setTimeout(() => {
-                            if (!autoPopupTriggered && !document.getElementById('website-reviews-modal-overlay')) {
-                                sessionStorage.setItem(AUTO_POPUP_SESSION_KEY, '1');
-                                openReviewsModal();
-                            }
-                        }, 1200);
-                    }
-                }, 400);
-                return;
+        setTimeout(() => {
+            if (!document.getElementById('website-reviews-modal-overlay')) {
+                openReviewsModal();
             }
-
-            // User has browsed home page for 20 seconds — trigger review popup now
-            sessionStorage.setItem(AUTO_POPUP_SESSION_KEY, '1');
-            openReviewsModal();
-        }, 20000);
+        }, delayMs);
     }
 
-    // ── Listen for Onboarding Completion (New Visitors) ──
-    window.addEventListener('we-onboarding-finished', () => {
-        console.log('[REVIEWS] Received we-onboarding-finished event! User reached home page.');
-        startHomePageBrowsingCountdown();
+    // Export trigger method on public API
+    window.WeekendReviews.triggerAfterPlanning = triggerReviewAfterPlanningRead;
+
+    // Listen for custom event 'we-plan-read'
+    window.addEventListener('we-plan-read', () => {
+        triggerReviewAfterPlanningRead(1200);
     });
 
-    // ── MutationObserver watching for removal of 'we-onboarding-active' ──
-    const onboardingObserver = new MutationObserver(() => {
-        if (!isOnboardingActive()) {
-            onboardingObserver.disconnect();
-            startHomePageBrowsingCountdown();
-        }
-    });
-    try {
-        onboardingObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-    } catch (e) { }
-
-    // ── Initial Check (Returning Visitors who bypass onboarding) ──
-    function initHomePageReviewTrigger() {
-        if (!isOnboardingActive()) {
-            // User bypassed onboarding or is a returning visitor — directly on home page
-            startHomePageBrowsingCountdown();
-        } else {
-            // Backup poller in case the event or observer was delayed
-            const backupPoller = setInterval(() => {
-                if (!isOnboardingActive()) {
-                    clearInterval(backupPoller);
-                    startHomePageBrowsingCountdown();
-                }
-            }, 300);
+    // Check if user previously read the plan and returned to the page
+    function initPlanningReviewTrigger() {
+        if (sessionStorage.getItem('we_plan_read') === 'true') {
+            triggerReviewAfterPlanningRead(2000);
         }
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initHomePageReviewTrigger);
+        document.addEventListener('DOMContentLoaded', initPlanningReviewTrigger);
     } else {
-        initHomePageReviewTrigger();
+        initPlanningReviewTrigger();
     }
 
 })();

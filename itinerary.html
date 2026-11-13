@@ -16,6 +16,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Website Reviews & Ratings Stylesheet -->
+  <link rel="stylesheet" href="reviews.css?v=12">
+
   <style>
     :root {
       /* Brand Accents */
@@ -1263,7 +1266,7 @@
   <!-- Top Sticky Navigation (Existing buttons preserved) -->
   <nav class="itin-navbar">
     <div class="itin-nav-left">
-      <a href="index.html" class="itin-back-link" title="Return to Weekend Explore Home">
+      <a href="index.html" class="itin-back-link" title="Return to Weekend Explore Home" onclick="sessionStorage.setItem('we_plan_read', 'true');">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
         <span>Back to Home</span>
       </a>
@@ -1783,16 +1786,55 @@
             ${ICONS.share(16)}
             <span>Share Itinerary</span>
           </button>
-          <a href="index.html" class="itin-btn-action itin-btn-primary">
+          <a href="index.html" class="itin-btn-action itin-btn-primary" onclick="sessionStorage.setItem('we_plan_read', 'true');">
             ${ICONS.arrowLeft(16)}
             <span>Back to Weekend Explorer</span>
           </a>
         </div>
       `;
+
+      // ── TRIGGER WEBSITE REVIEWS ONLY AFTER USER READS THE PLANNING ──
+      sessionStorage.setItem('we_plan_read', 'true');
+
+      let reviewTriggered = false;
+      function triggerReviewModalAfterReading() {
+        if (reviewTriggered) return;
+        if (sessionStorage.getItem('we_reviews_popup_shown')) return;
+        reviewTriggered = true;
+        sessionStorage.setItem('we_reviews_popup_shown', '1');
+        sessionStorage.setItem('we_plan_read', 'true');
+
+        // Smooth polite delay after user finishes reading the itinerary
+        setTimeout(() => {
+          if (window.WeekendReviews && typeof window.WeekendReviews.openReviewsModal === 'function') {
+            window.WeekendReviews.openReviewsModal();
+          }
+        }, 1200);
+      }
+
+      // Trigger 1: User scrolls through the planning (reaches 50%+ of the page)
+      window.addEventListener('scroll', () => {
+        if (reviewTriggered) return;
+        const scrollY = window.scrollY || window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight > 60 && (scrollY / docHeight) >= 0.5) {
+          triggerReviewModalAfterReading();
+        }
+      }, { passive: true });
+
+      // Trigger 2: User reads on page for 12 seconds
+      setTimeout(() => {
+        if (!reviewTriggered && getStoredItinerary()) {
+          triggerReviewModalAfterReading();
+        }
+      }, 12000);
     }
 
     // Auto-initialize on load
     window.addEventListener('DOMContentLoaded', renderItineraryPage);
   </script>
+
+  <!-- Website Reviews & Ratings Module -->
+  <script src="reviews.js?v=12"></script>
 </body>
 </html>
