@@ -4355,7 +4355,7 @@ window.renderMobileOtherCities = function(activeCityId) {
                 <div class="mob-other-card-overlay">
                     <div class="mob-other-title-row">
                         <span class="mob-other-card-name">${c.name}</span>
-                        <span class="mob-other-card-score">• ${c.rating} <svg width="11" height="11" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1" style="vertical-align: -1px; margin-left: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                        <span class="mob-other-card-score">• ${c.rating} <svg width="11" height="11" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1" style="vertical-align: -1px; margin-left: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                     </div>
                     <div class="mob-other-card-sub">${c.sub}</div>
                 </div>
@@ -4437,9 +4437,9 @@ function renderHome() {
                         <div class="mob-header-actions">
                             <div class="mob-avatar-wrap" onclick="window.ExplorerProfile && window.ExplorerProfile.open()" title="Open Profile">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                                    <circle cx="18" cy="18" r="18" fill="#EEF2FF"/>
-                                    <circle cx="18" cy="13.5" r="5.5" fill="#6366F1"/>
-                                    <path d="M7.5 30c0-5.799 4.701-10.5 10.5-10.5s10.5 4.701 10.5 10.5" fill="#6366F1"/>
+                                    <circle cx="18" cy="18" r="18" fill="#ffffff"/>
+                                    <circle cx="18" cy="13.5" r="5.5" fill="#bd232f"/>
+                                    <path d="M7.5 30c0-5.799 4.701-10.5 10.5-10.5s10.5 4.701 10.5 10.5" fill="#bd232f"/>
                                 </svg>
                             </div>
                             <button type="button" class="mob-icon-action-btn mob-bell-btn" onclick="typeof openWebsiteReviewsModal === 'function' ? openWebsiteReviewsModal() : (window.ExplorerReviews && window.ExplorerReviews.open ? window.ExplorerReviews.open() : null)" title="Reviews & Ratings">
@@ -4460,10 +4460,10 @@ function renderHome() {
                     <!-- Search Bar (Floating over red header bottom edge) -->
                     <div class="mob-search-container">
                         <div class="mob-search-box">
-                            <svg class="mob-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <svg class="mob-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bd232f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                             <input type="text" class="mob-search-field" id="mob-search-input" placeholder="Search beaches, temples, parks in Karnataka..." oninput="filterMobileHomePlaces(this.value)">
                             <button type="button" class="mob-filter-ico-btn" onclick="document.getElementById('mob-search-input').focus()">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bd232f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
                             </button>
                         </div>
                     </div>
@@ -4485,7 +4485,7 @@ function renderHome() {
                                 <span class="mob-hero-glass-name" id="mob-hero-title">Mangaluru</span>
                                 <span class="mob-hero-glass-dot">•</span>
                                 <span class="mob-hero-glass-rating" id="mob-hero-rating">4.8</span>
-                                <svg class="mob-hero-star" width="13" height="13" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <svg class="mob-hero-star" width="13" height="13" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                             </div>
                             <div class="mob-hero-glass-sub" id="mob-hero-sub">Coastal Beaches & Heritage</div>
                         </div>

@@ -7275,25 +7275,47 @@ a,
 }
 
 @media (max-width: 768px) {
+    /* Root Variables Override on Mobile */
+    :root {
+        --primary-color: #bd232f !important;
+        --primary-light: #c82332 !important;
+        --bg-white: #ffffff !important;
+        --text-dark: #111111 !important;
+    }
+
     .home-desktop-view {
         display: none !important;
     }
 
+    /* Hide standard header ONLY on the mobile homepage (which has its own red hero banner) */
     body.is-home-view .main-header {
         display: none !important;
     }
 
-    body.is-home-view {
-        background: #f7f3f0 !important;
-        background-color: #f7f3f0 !important;
+    /* All Pages Background: Pure White */
+    body,
+    html {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
         background-image: none !important;
+        color: #111111 !important;
     }
 
-    body.is-home-view::before {
+    body::before {
         display: none !important;
         opacity: 0 !important;
         visibility: hidden !important;
         background: none !important;
+    }
+
+    .page-content {
+        background: #ffffff !important;
+    }
+
+    body.is-home-view {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
     }
 
     .home-mobile-view {
@@ -7301,11 +7323,11 @@ a,
         padding: 0 0 calc(85px + env(safe-area-inset-bottom, 16px)) 0 !important;
         max-width: 100vw;
         overflow-x: hidden;
-        background: #f7f3f0 !important;
+        background: #ffffff !important;
         min-height: 100vh;
     }
 
-    /* Red Curved Top Header Section (Exact #bd232f from user mockup) */
+    /* ── RED TOP HEADER ON HOMEPAGE ── */
     .mob-red-header-wrap {
         background: #bd232f;
         background: linear-gradient(180deg, #c32431 0%, #bd232f 70%, #b31d28 100%);
@@ -7316,7 +7338,6 @@ a,
         box-shadow: 0 10px 28px rgba(189, 35, 47, 0.22);
     }
 
-    /* Header within Red Section */
     .mob-header {
         display: flex;
         align-items: center;
@@ -7379,8 +7400,8 @@ a,
         height: 38px;
         border-radius: 50%;
         overflow: hidden;
-        background: #e0e7ff;
-        border: 2px solid rgba(255, 255, 255, 0.6);
+        background: #ffffff;
+        border: 2px solid rgba(255, 255, 255, 0.8);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -7408,7 +7429,7 @@ a,
         right: 6px;
         width: 8px;
         height: 8px;
-        background: #fbbf24;
+        background: #ffffff;
         border-radius: 50%;
         border: 1.5px solid #bd232f;
     }
@@ -7436,7 +7457,7 @@ a,
         font-family: 'Outfit', sans-serif;
         font-size: 1.08rem;
         font-weight: 600;
-        color: rgba(255, 255, 255, 0.72);
+        color: rgba(255, 255, 255, 0.75);
         padding: 6px 0;
         cursor: pointer;
         white-space: nowrap;
@@ -7474,15 +7495,15 @@ a,
         display: flex;
         align-items: center;
         background: #ffffff;
-        border: none;
+        border: 1.5px solid rgba(189, 35, 47, 0.2);
         border-radius: 30px;
         padding: 11px 18px;
         gap: 12px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 24px rgba(189, 35, 47, 0.1);
     }
 
     .mob-search-ico {
-        color: #94a3b8;
+        color: #bd232f;
         flex-shrink: 0;
     }
 
@@ -7492,20 +7513,20 @@ a,
         background: transparent;
         font-family: 'Inter', sans-serif;
         font-size: 0.88rem;
-        color: #1e293b;
+        color: #111111;
         outline: none;
         min-width: 0;
     }
 
     .mob-search-field::placeholder {
-        color: #94a3b8;
+        color: #71717a;
         font-size: 0.84rem;
     }
 
     .mob-filter-ico-btn {
         background: none;
         border: none;
-        color: #1e293b;
+        color: #bd232f;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -7544,25 +7565,34 @@ a,
         height: 56px;
         border-radius: 18px;
         background: #ffffff;
-        border: 1px solid rgba(0, 0, 0, 0.04);
+        border: 1.5px solid rgba(189, 35, 47, 0.18);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1e293b;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        color: #bd232f;
+        box-shadow: 0 4px 14px rgba(189, 35, 47, 0.08);
         transition: all 0.2s ease;
+    }
+
+    .mob-cat-icon-box svg {
+        stroke: #bd232f;
     }
 
     .mob-cat-item:active .mob-cat-icon-box {
         transform: scale(0.93);
-        background: #f1f5f9;
+        background: #bd232f;
+        color: #ffffff;
+    }
+
+    .mob-cat-item:active .mob-cat-icon-box svg {
+        stroke: #ffffff;
     }
 
     .mob-cat-label {
         font-family: 'Inter', sans-serif;
         font-size: 0.72rem;
         font-weight: 700;
-        color: #1e293b;
+        color: #111111;
         text-align: center;
         white-space: nowrap;
     }
@@ -7576,7 +7606,8 @@ a,
         overflow: hidden;
         cursor: pointer;
         margin-bottom: 18px;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        border: 1.5px solid rgba(189, 35, 47, 0.15);
     }
 
     .mob-hero-dest-img {
@@ -7589,17 +7620,17 @@ a,
     .mob-hero-dest-scrim {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
     }
 
     .mob-hero-dest-glass {
         position: absolute;
         bottom: 16px;
         left: 16px;
-        background: rgba(24, 24, 27, 0.65);
+        background: rgba(24, 24, 27, 0.75);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 18px;
         padding: 9px 16px;
         color: #ffffff;
@@ -7622,19 +7653,22 @@ a,
     .mob-hero-glass-dot {
         font-size: 0.8rem;
         opacity: 0.8;
+        color: #ffffff;
     }
 
     .mob-hero-glass-rating {
         font-family: 'Outfit', sans-serif;
         font-size: 0.95rem;
         font-weight: 700;
+        color: #ffffff;
     }
 
     .mob-hero-glass-sub {
         font-size: 0.74rem;
-        opacity: 0.92;
+        opacity: 0.95;
         font-weight: 500;
         margin-top: 2px;
+        color: #ffffff;
     }
 
     /* Other Cities Row */
@@ -7655,6 +7689,7 @@ a,
         overflow: hidden;
         cursor: pointer;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        border: 1.5px solid rgba(189, 35, 47, 0.15);
     }
 
     .mob-other-card-img {
@@ -7666,7 +7701,7 @@ a,
     .mob-other-card-overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.25) 55%, transparent 100%);
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.25) 55%, transparent 100%);
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -7685,6 +7720,7 @@ a,
         font-family: 'Outfit', sans-serif;
         font-size: 0.84rem;
         font-weight: 800;
+        color: #ffffff;
     }
 
     .mob-other-card-score {
@@ -7693,33 +7729,312 @@ a,
         display: flex;
         align-items: center;
         gap: 2px;
+        color: #ffffff;
     }
 
     .mob-other-card-sub {
         font-size: 0.62rem;
-        opacity: 0.88;
+        opacity: 0.92;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         margin-top: 2px;
+        color: #ffffff;
     }
 
-    /* Bottom Fixed App Navigation Bar */
+    /* ── HEADER ON ALL OTHER PAGES (Mangaluru, Bengaluru, Mysuru, Manipal, Category views) ── */
+    .main-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: #bd232f !important;
+        border-bottom: none !important;
+        box-shadow: 0 4px 18px rgba(189, 35, 47, 0.25) !important;
+        padding-top: max(0px, env(safe-area-inset-top));
+    }
+
+    .main-header .brand-text-main,
+    .main-header .brand-text-sub {
+        color: #ffffff !important;
+    }
+
+    .main-header .nav-icon svg,
+    .main-header .mute-btn svg,
+    .main-header .speaker-icon {
+        stroke: #ffffff !important;
+        color: #ffffff !important;
+    }
+
+    .main-header .hamburger-bar {
+        background-color: #ffffff !important;
+    }
+
+    .main-header .auth-nav-btn {
+        background: #ffffff !important;
+        color: #bd232f !important;
+        border: none !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .main-header .auth-icon {
+        stroke: #bd232f !important;
+    }
+
+    .main-header .auth-btn-text {
+        color: #bd232f !important;
+        font-weight: 800 !important;
+    }
+
+    .mangaluru-nav-links a {
+        color: #ffffff !important;
+    }
+
+    .mangaluru-nav-links a.active {
+        color: #ffffff !important;
+        border-bottom: 2px solid #ffffff !important;
+    }
+
+    .nav-live-link {
+        color: #ffffff !important;
+    }
+
+    .live-nav-dot {
+        background: #ffffff !important;
+        box-shadow: 0 0 8px #ffffff !important;
+    }
+
+    /* ── ALL BACK BUTTONS ── */
+    .back-btn,
+    a.back-btn {
+        background: #ffffff !important;
+        color: #bd232f !important;
+        border: 1.5px solid #bd232f !important;
+        box-shadow: 0 2px 8px rgba(189, 35, 47, 0.1) !important;
+        border-radius: 9999px !important;
+        padding: 0.5rem 1.1rem !important;
+        font-weight: 700 !important;
+    }
+
+    .back-btn svg {
+        stroke: #bd232f !important;
+    }
+
+    /* ── ALL ACTION BUTTONS ACROSS THE ENTIRE MOBILE SITE ── */
+    .must-watch-btn,
+    .view-details-btn,
+    .signin-btn,
+    .itinerary-btn,
+    .live-action-btn,
+    .btn-primary,
+    button.primary-btn,
+    .open-gmaps-btn,
+    .food-explore-btn,
+    .review-submit-btn,
+    .search-btn,
+    .filter-btn.active {
+        background: #bd232f !important;
+        color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0 4px 14px rgba(189, 35, 47, 0.3) !important;
+    }
+
+    .must-watch-btn svg,
+    .must-watch-btn span,
+    .view-details-btn span,
+    .view-details-btn svg,
+    .open-gmaps-btn svg {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+        fill: none !important;
+    }
+
+    .must-watch-btn .btn-arrow {
+        color: #ffffff !important;
+    }
+
+    /* ── ALL BADGES ── */
+    .badge,
+    .dest-badge,
+    .live-card-badge,
+    .category-badge,
+    .offer-badge,
+    .event-badge {
+        background: #bd232f !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+
+    .badge svg {
+        fill: #ffffff !important;
+    }
+
+    /* ── TABS & FILTER SWITCHERS (Mangaluru Tab Switcher) ── */
+    .mangaluru-tab-switcher-wrap {
+        background: #ffffff !important;
+        border-bottom: 1px solid rgba(189, 35, 47, 0.15) !important;
+    }
+
+    .mangaluru-tab-switcher {
+        background: #ffffff !important;
+        border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+        border-radius: 9999px !important;
+    }
+
+    .mangaluru-tab-btn {
+        color: #111111 !important;
+    }
+
+    .mangaluru-tab-btn.active {
+        background: #bd232f !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 10px rgba(189, 35, 47, 0.35) !important;
+    }
+
+    .mangaluru-tab-btn.active svg,
+    .mangaluru-tab-btn.active span {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+
+    /* ── ALL CARDS (Places, Categories, Live cards, Food cards) ── */
+    .place-card,
+    .category-card,
+    .live-card,
+    .favorite-food-card {
+        background: #ffffff !important;
+        border: 1.5px solid rgba(189, 35, 47, 0.15) !important;
+        box-shadow: 0 4px 16px rgba(189, 35, 47, 0.06) !important;
+    }
+
+    .place-card:hover,
+    .category-card:hover,
+    .live-card:hover {
+        border-color: #bd232f !important;
+    }
+
+    .place-rating,
+    .card-rating-badge {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    .place-rating svg {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+
+    /* ── HAMBURGER DRAWER MENU ── */
+    .menu-drawer {
+        background: #ffffff !important;
+    }
+
+    .drawer-header {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    .drawer-title .brand-text-main,
+    .drawer-title .brand-text-sub {
+        color: #ffffff !important;
+    }
+
+    .drawer-close-btn {
+        color: #ffffff !important;
+    }
+
+    .drawer-close-btn svg {
+        stroke: #ffffff !important;
+    }
+
+    .drawer-menu-item a {
+        color: #111111 !important;
+    }
+
+    .drawer-menu-item a:hover,
+    .drawer-menu-item a:active {
+        color: #bd232f !important;
+        background: rgba(189, 35, 47, 0.08) !important;
+    }
+
+    .drawer-menu-item .menu-item-arrow svg {
+        stroke: #bd232f !important;
+    }
+
+    /* ── MODALS (Reviews, Must-Watch, Menus, Info) ── */
+    .modal-content,
+    .menu-modal-content {
+        background: #ffffff !important;
+        border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+    }
+
+    .modal-header,
+    .menu-modal-header {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    .modal-header h2,
+    .modal-header h3,
+    .modal-header h4,
+    .menu-modal-header h2,
+    .menu-modal-header h3 {
+        color: #ffffff !important;
+    }
+
+    .modal-close-btn,
+    .close-modal,
+    .menu-modal-close-btn {
+        color: #ffffff !important;
+    }
+
+    .modal-close-btn svg,
+    .close-modal svg,
+    .menu-modal-close-btn svg {
+        stroke: #ffffff !important;
+    }
+
+    /* ── AI CHAT AGENT TRIGGER ON MOBILE ── */
+    .wai-trigger-badge {
+        background: #bd232f !important;
+        box-shadow: 0 4px 16px rgba(189, 35, 47, 0.45) !important;
+        border: 2px solid #ffffff !important;
+    }
+
+    .wai-trigger-badge svg {
+        stroke: #ffffff !important;
+    }
+
+    .wai-chat-header {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    .wai-send-btn {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    .wai-msg.wai-user-msg {
+        background: #bd232f !important;
+        color: #ffffff !important;
+    }
+
+    /* ── BOTTOM FLOATING NAVIGATION BAR ── */
     .mob-bottom-bar {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        background: #ffffff !important;
+        border-top: 1.5px solid rgba(189, 35, 47, 0.15) !important;
         display: flex !important;
         align-items: center;
         justify-content: space-around;
         padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 8px));
         z-index: 1000;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 -4px 20px rgba(189, 35, 47, 0.08);
     }
 
     .mob-bar-tab {
@@ -7729,18 +8044,23 @@ a,
         gap: 3px;
         background: none;
         border: none;
-        color: #64748b;
+        color: #71717a;
         cursor: pointer;
         padding: 4px 10px;
     }
 
     .mob-bar-tab.active {
-        color: #0f172a;
+        color: #bd232f !important;
+    }
+
+    .mob-bar-tab.active svg {
+        fill: #bd232f !important;
+        stroke: #bd232f !important;
     }
 
     .mob-bar-tab span {
         font-size: 0.68rem;
-        font-weight: 600;
+        font-weight: 700;
     }
 
     .mob-bar-ai-center {
@@ -7751,19 +8071,19 @@ a,
         background: none;
         border: none;
         cursor: pointer;
-        margin-top: -16px;
+        margin-top: -18px;
     }
 
     .mob-ai-bubble {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+        width: 50px !important;
+        height: 50px !important;
+        border-radius: 50% !important;
+        background: #bd232f !important;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.45);
-        border: 3px solid #ffffff;
+        box-shadow: 0 4px 16px rgba(189, 35, 47, 0.45) !important;
+        border: 3px solid #ffffff !important;
         transition: transform 0.2s ease;
     }
 
@@ -7773,7 +8093,7 @@ a,
 
     .mob-bar-ai-center span {
         font-size: 0.68rem;
-        font-weight: 700;
-        color: #7c3aed;
+        font-weight: 800;
+        color: #bd232f !important;
     }
 }
