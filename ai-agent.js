@@ -1047,7 +1047,7 @@
 
   function askMoviePersonalization() {
     addAIMessage(`
-      <div style="font-weight: 700; color: #8338EC; margin-bottom: 4px;">🎬 Movie Personalization</div>
+      <div style="font-weight: 700; color: #bd232f; margin-bottom: 4px;">🎬 Movie Personalization</div>
       <div style="font-size: 0.85rem; color: #334155; line-height: 1.45;">
         Which language or genre do you prefer? Checking BookMyShow for matching matinee showtimes between 12 PM – 6 PM.
       </div>
@@ -1105,7 +1105,7 @@
           <a href="${data.bmsCityUrl}" target="_blank" class="wai-bms-link-btn" rel="noopener noreferrer">BookMyShow ↗</a>
         </div>
         <div style="font-size: 0.78rem; color: #78350f; margin-top: 4px;">We will continue with our curated alternative outdoor and cultural sightseeing plan.</div>
-        <button class="wai-chip" style="margin-top: 8px; width: 100%; justify-content: center; background: #8338EC; color: #fff; font-weight: 600;" id="wai-notice-continue-btn">
+        <button class="wai-chip" style="margin-top: 8px; width: 100%; justify-content: center; background: #bd232f; color: #fff; font-weight: 700;" id="wai-notice-continue-btn">
           Continue with Alternative Plan 🌿
         </button>
       `;
@@ -1281,7 +1281,7 @@
 
     function updateTrack(val) {
       const pct = ((val - 1) / (10 - 1)) * 100;
-      range.style.background = `linear-gradient(to right, #8338EC ${pct}%, #e2e8f0 ${pct}%)`;
+      range.style.background = `linear-gradient(to right, #bd232f ${pct}%, #e2e8f0 ${pct}%)`;
     }
 
     function applyVal(val) {
@@ -1465,7 +1465,7 @@
 
     function updateTrack(idx) {
       const pct = (idx / (BUDGET_STEPS.length - 1)) * 100;
-      range.style.background = `linear-gradient(to right, #8338EC ${pct}%, #e2e8f0 ${pct}%)`;
+      range.style.background = `linear-gradient(to right, #bd232f ${pct}%, #e2e8f0 ${pct}%)`;
     }
 
     function applyIdx(idx) {
@@ -1835,7 +1835,7 @@
           if (Number(val) === 0) {
             showTypingIndicator(() => {
               addAIMessage(
-                '<div style="font-weight:700;color:#8338EC;margin-bottom:4px;">Zero-Rupee Weekend Activated</div>' +
+                '<div style="font-weight:700;color:#bd232f;margin-bottom:4px;">Zero-Rupee Weekend Activated</div>' +
                 '<div style="font-size:0.84rem;color:#334155;line-height:1.5;">Brother, your budget is Rs 0 today. That is completely fine and there is no shame in that at all. ' +
                 'Let me give you a real, practical, and actually enjoyable plan for free. ' +
                 'Tell me what you have in mind.</div>'
@@ -1865,7 +1865,7 @@
           if (Number(val) === 0) {
             showTypingIndicator(() => {
               addAIMessage(
-                '<div style="font-weight:700;color:#8338EC;margin-bottom:4px;">Zero-Rupee Weekend Activated</div>' +
+                '<div style="font-weight:700;color:#bd232f;margin-bottom:4px;">Zero-Rupee Weekend Activated</div>' +
                 '<div style="font-size:0.84rem;color:#334155;line-height:1.5;">Brother, your budget is Rs 0 today. That is completely fine and there is no shame in that at all. ' +
                 'Let me give you a real, practical, and actually enjoyable plan for free. ' +
                 'Tell me what you have in mind.</div>'
@@ -1942,7 +1942,7 @@
         }
 
         return `
-          <div style="font-weight: 700; color: #8338EC; margin-bottom: 4px;">${title}</div>
+          <div style="font-weight: 700; color: #bd232f; margin-bottom: 4px;">${title}</div>
           <div style="font-size: 0.85rem; color: #334155; line-height: 1.45;">${sub}</div>
           <div style="font-size: 0.74rem; color: #64748b; margin-top: 4px;">Verified on BookMyShow • Showtime between 12 PM – 6 PM</div>
         `;
@@ -1975,7 +1975,7 @@
             <div style="font-weight: 700; margin-bottom: 4px;">🎬 Movie Budget Check</div>
             <div>For a group of ${people}, movie tickets + travel (~₹${minMovieTotal}) would exceed your total ₹${budget} budget.</div>
             <div style="margin-top: 6px;">Following our <b>top alternative weekend plan</b> with free scenic spots & sightseeing to keep strictly on budget!</div>
-            <button class="wai-chip" style="margin-top: 10px; width: 100%; justify-content: center; background: #8338EC; color: #fff; font-weight: 600;" id="wai-continue-budget-btn">
+            <button class="wai-chip" style="margin-top: 10px; width: 100%; justify-content: center; background: #bd232f; color: #fff; font-weight: 700;" id="wai-continue-budget-btn">
               Continue with Alternative Plan 🌿
             </button>
           `;
@@ -2079,11 +2079,11 @@
       id: 'confirmation',
       getQuestion: () => {
         const movieText = STATE.selectedMovie 
-          ? `<span style="color:#8338EC;font-weight:600;">${STATE.selectedMovie.title}</span> (${STATE.selectedMovie.theatre}, ${STATE.selectedMovie.showtime})` 
+          ? `<span style="color:#bd232f;font-weight:700;">${STATE.selectedMovie.title}</span> (${STATE.selectedMovie.theatre}, ${STATE.selectedMovie.showtime})` 
           : 'None (Alternative Sightseeing Plan)';
         return `
           <div style="font-weight: 700; margin-bottom: 8px;">${t('confirm_title', STATE.language)}</div>
-          <div style="background: rgba(131, 56, 236, 0.08); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; color: #1e293b;">
+          <div style="background: rgba(189, 35, 47, 0.08); border: 1px solid rgba(189, 35, 47, 0.2); padding: 10px 12px; border-radius: 10px; font-size: 0.85rem; line-height: 1.5; color: #111111;">
             <b>City:</b> ${STATE.destination}<br>
             <b>Group:</b> ${STATE.peopleLabel}<br>
             <b>Total Budget:</b> ₹${STATE.budget}<br>
@@ -2949,7 +2949,7 @@
     html += `
         <!-- Action Row -->
         <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-          <a href="itinerary.html" target="_blank" class="wai-chip" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #8338EC, #3A86FF); color: #ffffff; border: none; font-weight: 700; padding: 12px; border-radius: 8px; font-size: 0.88rem; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(131,56,236,0.35);">
+          <a href="itinerary.html" target="_blank" class="wai-chip" style="width: 100%; justify-content: center; background: #bd232f; color: #ffffff; border: none; font-weight: 700; padding: 12px; border-radius: 8px; font-size: 0.88rem; text-decoration: none; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(189,35,47,0.35);">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             <span>Open Full-Screen Itinerary Page ↗</span>
           </a>
@@ -3040,28 +3040,28 @@
               <!-- Antenna stem -->
               <line x1="16" y1="2.5" x2="16" y2="7" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" stroke-linecap="round"/>
               <!-- Antenna pulse wave (radar ring) -->
-              <circle class="wai-antenna-pulse-wave" cx="16" cy="2.5" r="2.2" fill="none" stroke="rgba(56,189,248,0.55)" stroke-width="1"/>
+              <circle class="wai-antenna-pulse-wave" cx="16" cy="2.5" r="2.2" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
               <!-- Antenna dot (glows) -->
-              <circle class="wai-antenna-dot" cx="16" cy="2.5" r="1.4" fill="#38bdf8"/>
+              <circle class="wai-antenna-dot" cx="16" cy="2.5" r="1.4" fill="#ffffff"/>
               <!-- Robot head body -->
-              <rect x="8" y="7" width="16" height="13" rx="4" fill="rgba(255,255,255,0.92)" stroke="rgba(255,255,255,0.6)" stroke-width="0.6"/>
+              <rect x="8" y="7" width="16" height="13" rx="4" fill="rgba(255,255,255,0.95)" stroke="#ffffff" stroke-width="0.6"/>
               <!-- Robot Eyes group (blinks) -->
               <g class="wai-robot-eyes-group">
-                <rect x="11" y="11.5" width="3.2" height="3.2" rx="1.2" fill="#6839e6"/>
-                <rect x="17.8" y="11.5" width="3.2" height="3.2" rx="1.2" fill="#6839e6"/>
+                <rect x="11" y="11.5" width="3.2" height="3.2" rx="1.2" fill="#bd232f"/>
+                <rect x="17.8" y="11.5" width="3.2" height="3.2" rx="1.2" fill="#bd232f"/>
                 <!-- Eye shine highlights -->
-                <rect x="11.5" y="12" width="0.9" height="0.9" rx="0.4" fill="rgba(255,255,255,0.9)"/>
-                <rect x="18.3" y="12" width="0.9" height="0.9" rx="0.4" fill="rgba(255,255,255,0.9)"/>
+                <rect x="11.5" y="12" width="0.9" height="0.9" rx="0.4" fill="#ffffff"/>
+                <rect x="18.3" y="12" width="0.9" height="0.9" rx="0.4" fill="#ffffff"/>
               </g>
               <!-- Robot mouth (smile) -->
-              <path d="M13 17.5 Q16 20 19 17.5" stroke="#6839e6" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+              <path d="M13 17.5 Q16 20 19 17.5" stroke="#bd232f" stroke-width="1.2" stroke-linecap="round" fill="none"/>
               <!-- Robot body -->
-              <rect x="11" y="20.5" width="10" height="7" rx="3" fill="rgba(255,255,255,0.82)" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
+              <rect x="11" y="20.5" width="10" height="7" rx="3" fill="rgba(255,255,255,0.9)" stroke="#ffffff" stroke-width="0.5"/>
               <!-- Body center dot -->
-              <circle cx="16" cy="24" r="1.2" fill="#6839e6" opacity="0.7"/>
+              <circle cx="16" cy="24" r="1.2" fill="#bd232f" opacity="0.85"/>
               <!-- Orbiting sparkle star -->
               <g class="wai-orbit-spark">
-                <path d="M27 6.5 L27.6 8.1 L29.3 8.1 L27.95 9.1 L28.5 10.7 L27 9.8 L25.5 10.7 L26.05 9.1 L24.7 8.1 L26.4 8.1 Z" fill="#facc15" opacity="0.95"/>
+                <path d="M27 6.5 L27.6 8.1 L29.3 8.1 L27.95 9.1 L28.5 10.7 L27 9.8 L25.5 10.7 L26.05 9.1 L24.7 8.1 L26.4 8.1 Z" fill="#ffffff" opacity="0.95"/>
               </g>
             </svg>
           </div>
@@ -3070,7 +3070,7 @@
             <span class="wai-type-text" id="wai-type-text">Weekend AI</span><span class="wai-type-cursor" id="wai-type-cursor"></span>
           </span>
           <div class="wai-trigger-arrow-circle">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bd232f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -3080,9 +3080,9 @@
         <div class="wai-chat-window" id="wai-chat-window" style="z-index: 999999;">
           <div class="wai-header">
             <div class="wai-header-info">
-              <div class="wai-agent-avatar" style="background: linear-gradient(135deg, #5850ec 0%, #7622dc 100%); display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+              <div class="wai-agent-avatar" style="background: #ffffff; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1.5px solid #ffffff;">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" fill="#ffffff"/>
+                  <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z" fill="#bd232f"/>
                 </svg>
               </div>
               <div>
@@ -3171,19 +3171,20 @@
   function buildWelcomeGreeting() {
     const name = getUserDisplayName();
     const greeting = name
-      ? `Hi, <span style="color:#8338EC;font-weight:700;">${name}</span>!`
+      ? `Hi, <span style="color:#bd232f;font-weight:700;">${name}</span>!`
       : 'Hey there!';
     return `
       <div style="
-        background: linear-gradient(135deg, rgba(131,56,236,0.10) 0%, rgba(86,33,173,0.14) 100%);
-        border: 1px solid rgba(131,56,236,0.22);
+        background: #ffffff;
+        border: 1.5px solid rgba(189,35,47,0.22);
         border-radius: 14px;
         padding: 14px 16px;
         margin-bottom: 2px;
+        box-shadow: 0 4px 14px rgba(189,35,47,0.06);
       ">
-        <div style="font-size:1.05rem;font-weight:700;color:#1e293b;line-height:1.35;">${greeting}</div>
-        <div style="font-size:0.82rem;color:#5a3e85;margin-top:5px;font-weight:500;">Welcome to <b>Weekend AI</b> — your personal South India trip planner.</div>
-        <div style="font-size:0.78rem;color:#64748b;margin-top:4px;">I will craft a perfect weekend itinerary just for you in seconds.</div>
+        <div style="font-size:1.05rem;font-weight:700;color:#111111;line-height:1.35;">${greeting}</div>
+        <div style="font-size:0.82rem;color:#bd232f;margin-top:5px;font-weight:700;">Welcome to <b>Weekend AI</b> — your personal South India trip planner.</div>
+        <div style="font-size:0.78rem;color:#555555;margin-top:4px;">I will craft a perfect weekend itinerary just for you in seconds.</div>
       </div>
     `;
   }
@@ -3261,12 +3262,13 @@
     dots.forEach((dot, i) => {
       if (i === idx) {
         dot.className = 'wai-dot wai-dot-active';
+        dot.style.backgroundColor = '#bd232f';
       } else if (i < idx) {
         dot.className = 'wai-dot';
-        dot.style.backgroundColor = '#8338EC';
+        dot.style.backgroundColor = '#bd232f';
       } else {
         dot.className = 'wai-dot';
-        dot.style.backgroundColor = '#e0d4f7';
+        dot.style.backgroundColor = 'rgba(189, 35, 47, 0.22)';
       }
     });
   }

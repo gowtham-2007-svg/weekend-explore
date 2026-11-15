@@ -1,13 +1,13 @@
 /* ai-agent.css - Weekend Explore AI Travel Assistant Widget */
 
 :root {
-  --wai-primary: #8338EC;
-  --wai-primary-dark: #6C2BD9;
-  --wai-primary-light: #f3f0ff;
-  --wai-dot-inactive: #e0d4f7;
-  --wai-text-dark: #1e293b;
-  --wai-text-muted: #64748b;
-  --wai-border: #e2e8f0;
+  --wai-primary: #bd232f;
+  --wai-primary-dark: #a81d27;
+  --wai-primary-light: #ffffff;
+  --wai-dot-inactive: rgba(189, 35, 47, 0.22);
+  --wai-text-dark: #111111;
+  --wai-text-muted: #555555;
+  --wai-border: rgba(189, 35, 47, 0.2);
   --wai-bg-white: #ffffff;
   --wai-font: 'Outfit', sans-serif;
 }
@@ -32,8 +32,7 @@
   bottom: 24px;
   right: 24px;
   z-index: 99998;
-  background: linear-gradient(135deg, #5850ec 0%, #6839e6 48%, #7c22e8 100%);
-  background-size: 200% 200%;
+  background: #bd232f;
   color: #ffffff;
   padding: 8px 12px 8px 8px;
   border-radius: 9999px;
@@ -41,7 +40,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 10px 28px rgba(104, 57, 230, 0.48), 0 2px 10px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 28px rgba(189, 35, 47, 0.48), 0 2px 10px rgba(0, 0, 0, 0.18), inset 0 1px 1px rgba(255, 255, 255, 0.4);
   transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.3s ease;
   user-select: none;
   animation: waiAttentionPulse 3s infinite ease-in-out, waiBgShift 8s infinite ease-in-out;
@@ -49,7 +48,7 @@
 
 .wai-trigger-badge:hover {
   transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 16px 40px rgba(104, 57, 230, 0.65), 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 24px rgba(124, 34, 232, 0.45);
+  box-shadow: 0 16px 40px rgba(189, 35, 47, 0.65), 0 6px 16px rgba(0, 0, 0, 0.25), 0 0 24px rgba(189, 35, 47, 0.45);
   border-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -168,11 +167,11 @@
   transform: scale(1.15) translateX(4px);
   background: #ffffff;
   border-color: #ffffff;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.8), 0 0 25px rgba(104, 57, 230, 0.5);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.8), 0 0 25px rgba(189, 35, 47, 0.5);
 }
 
 .wai-trigger-badge:hover .wai-trigger-arrow-circle svg {
-  stroke: #6839e6;
+  stroke: #bd232f;
 }
 
 /* 2. Chat Window (Desktop) */
@@ -261,7 +260,7 @@
   flex-direction: column;
   gap: 16px;
   scroll-behavior: smooth;
-  background-color: #f8fafc;
+  background-color: #ffffff;
 }
 
 /* Smooth scrollbar for chat body */
@@ -272,7 +271,7 @@
   background: transparent;
 }
 .wai-chat-body::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
+  background-color: rgba(189, 35, 47, 0.2);
   border-radius: 10px;
 }
 
@@ -289,18 +288,21 @@
 
 .wai-message-ai {
   align-self: flex-start;
-  background-color: var(--wai-primary-light);
-  color: var(--wai-text-dark);
+  background-color: #ffffff;
+  border: 1.5px solid rgba(189, 35, 47, 0.18);
+  color: #111111;
   border-radius: 16px 16px 16px 4px;
   width: 100%;
+  box-shadow: 0 2px 10px rgba(189, 35, 47, 0.05);
 }
 
 .wai-message-user {
   align-self: flex-end;
-  background-color: var(--wai-primary);
-  color: var(--wai-bg-white);
+  background-color: #bd232f;
+  color: #ffffff;
   border-radius: 16px 16px 4px 16px;
   max-width: 85%;
+  box-shadow: 0 2px 8px rgba(189, 35, 47, 0.25);
 }
 
 /* 5. Option Chips/Buttons */
@@ -312,18 +314,19 @@
 }
 
 .wai-chip {
-  background-color: var(--wai-bg-white);
-  color: var(--wai-primary);
-  border: 1.5px solid var(--wai-primary);
+  background-color: #ffffff;
+  color: #bd232f;
+  border: 1.5px solid #bd232f;
   border-radius: 24px; /* pill */
   padding: 8px 16px;
   font-size: 0.82rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   animation: weekendAiChipIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   opacity: 0;
   transform: scale(0.8);
+  box-shadow: 0 2px 6px rgba(189, 35, 47, 0.08);
 }
 
 /* Stagger chip animations */
@@ -335,8 +338,9 @@
 .wai-chip:nth-child(n+6) { animation-delay: 0.35s; }
 
 .wai-chip:hover, .wai-chip.wai-selected {
-  background-color: var(--wai-primary);
-  color: var(--wai-bg-white);
+  background-color: #bd232f !important;
+  color: #ffffff !important;
+  border-color: #bd232f !important;
 }
 
 /* 6. Progress Dots */
@@ -344,8 +348,8 @@
   display: flex;
   justify-content: center;
   padding: 12px 0;
-  background-color: #f8fafc;
-  border-bottom: 1px solid var(--wai-border);
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(189, 35, 47, 0.15);
 }
 
 .wai-progress-dots {
@@ -357,12 +361,12 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--wai-dot-inactive);
+  background-color: rgba(189, 35, 47, 0.22);
   transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .wai-dot-active {
-  background-color: var(--wai-primary);
+  background-color: #bd232f !important;
   transform: scale(1.2);
 }
 
@@ -372,7 +376,8 @@
   align-items: center;
   gap: 4px;
   padding: 12px 16px;
-  background-color: var(--wai-primary-light);
+  background-color: #ffffff;
+  border: 1.5px solid rgba(189, 35, 47, 0.18);
   border-radius: 16px 16px 16px 4px;
   align-self: flex-start;
   width: fit-content;
@@ -383,7 +388,7 @@
 .wai-typing-dot {
   width: 6px;
   height: 6px;
-  background-color: var(--wai-primary);
+  background-color: #bd232f;
   border-radius: 50%;
   animation: weekendAiBounce 1.4s infinite ease-in-out both;
 }
@@ -580,9 +585,9 @@
 }
 
 @keyframes weekendAiPulse {
-  0% { box-shadow: 0 0 0 0 rgba(131, 56, 236, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(131, 56, 236, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(131, 56, 236, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(189, 35, 47, ); }
+  70% { box-shadow: 0 0 0 10px rgba(189, 35, 47, ); }
+  100% { box-shadow: 0 0 0 0 rgba(189, 35, 47, ); }
 }
 
 @keyframes weekendAiBounce {
@@ -772,11 +777,11 @@
 /* --- 10. Sliding Graph & Interactive Sliders --- */
 .wai-slider-card {
   background: #ffffff;
-  border: 1.5px solid rgba(131, 56, 236, 0.18);
+  border: 1.5px solid rgba(189, 35, 47, );
   border-radius: 16px;
   padding: 16px 18px;
   margin-top: 10px;
-  box-shadow: 0 4px 20px rgba(131, 56, 236, 0.08);
+  box-shadow: 0 4px 20px rgba(189, 35, 47, );
   animation: weekendAiChipIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   max-width: 100%;
 }
@@ -797,13 +802,13 @@
 }
 
 .wai-slider-value-badge {
-  background: rgba(131, 56, 236, 0.1);
-  color: #8338EC;
+  background: rgba(189, 35, 47, );
+  color: #bd232f;
   font-weight: 700;
   font-size: 1.05rem;
   padding: 4px 12px;
   border-radius: 20px;
-  border: 1px solid rgba(131, 56, 236, 0.25);
+  border: 1px solid rgba(189, 35, 47, );
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -842,8 +847,8 @@
 }
 
 .wai-graph-bar.wai-bar-active {
-  background: linear-gradient(180deg, #8338EC 0%, #3a86ff 100%);
-  box-shadow: 0 2px 6px rgba(131, 56, 236, 0.25);
+  background: #bd232f;
+  box-shadow: 0 2px 6px rgba(189, 35, 47, );
 }
 
 /* Range input */
@@ -868,9 +873,9 @@
   height: 24px;
   border-radius: 50%;
   background: #ffffff;
-  border: 3px solid #8338EC;
+  border: 3px solid #bd232f;
   cursor: grab;
-  box-shadow: 0 2px 8px rgba(131, 56, 236, 0.35);
+  box-shadow: 0 2px 8px rgba(189, 35, 47, );
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -878,7 +883,7 @@
 .wai-range-slider::-webkit-slider-thumb:active {
   transform: scale(1.15);
   cursor: grabbing;
-  box-shadow: 0 4px 14px rgba(131, 56, 236, 0.5);
+  box-shadow: 0 4px 14px rgba(189, 35, 47, );
 }
 
 .wai-range-slider::-moz-range-thumb {
@@ -886,9 +891,9 @@
   height: 24px;
   border-radius: 50%;
   background: #ffffff;
-  border: 3px solid #8338EC;
+  border: 3px solid #bd232f;
   cursor: grab;
-  box-shadow: 0 2px 8px rgba(131, 56, 236, 0.35);
+  box-shadow: 0 2px 8px rgba(189, 35, 47, );
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -921,20 +926,20 @@
 }
 
 .wai-slider-preset-chip:hover {
-  border-color: #8338EC;
-  color: #8338EC;
-  background: rgba(131, 56, 236, 0.05);
+  border-color: #bd232f;
+  color: #bd232f;
+  background: rgba(189, 35, 47, );
 }
 
 .wai-slider-preset-chip.active {
-  background: #8338EC;
+  background: #bd232f;
   color: #ffffff;
-  border-color: #8338EC;
+  border-color: #bd232f;
 }
 
 .wai-slider-confirm-btn {
   width: 100%;
-  background: linear-gradient(135deg, #8338EC 0%, #3a86ff 100%);
+  background: #bd232f;
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -943,7 +948,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(131, 56, 236, 0.25);
+  box-shadow: 0 4px 12px rgba(189, 35, 47, );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -952,7 +957,7 @@
 
 .wai-slider-confirm-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(131, 56, 236, 0.35);
+  box-shadow: 0 6px 16px rgba(189, 35, 47, );
 }
 
 .wai-slider-card.wai-card-disabled {
@@ -981,10 +986,10 @@
 
 .wai-movie-card {
   background: #ffffff;
-  border: 1.5px solid rgba(131, 56, 236, 0.2);
+  border: 1.5px solid rgba(189, 35, 47, );
   border-radius: 16px;
   padding: 12px;
-  box-shadow: 0 4px 16px rgba(131, 56, 236, 0.08);
+  box-shadow: 0 4px 16px rgba(189, 35, 47, );
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -995,8 +1000,8 @@
 
 .wai-movie-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(131, 56, 236, 0.16);
-  border-color: #8338EC;
+  box-shadow: 0 8px 24px rgba(189, 35, 47, );
+  border-color: #bd232f;
 }
 
 .wai-movie-card.selected {
@@ -1049,8 +1054,8 @@
 }
 
 .wai-movie-badge-lang {
-  background: rgba(131, 56, 236, 0.12);
-  color: #8338EC;
+  background: rgba(189, 35, 47, );
+  color: #bd232f;
 }
 
 .wai-movie-badge-rating {
@@ -1094,8 +1099,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(131, 56, 236, 0.08);
-  color: #8338EC;
+  background: rgba(189, 35, 47, );
+  color: #bd232f;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 6px;
@@ -1155,7 +1160,7 @@
 
 .wai-select-movie-btn {
   width: 100%;
-  background: linear-gradient(135deg, #8338EC 0%, #3a86ff 100%);
+  background: #bd232f;
   color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -1300,8 +1305,8 @@
 }
 
 .wai-zero-rupee-header {
-  background: linear-gradient(135deg, rgba(131,56,236,0.08) 0%, rgba(16,185,129,0.08) 100%);
-  border: 1px solid rgba(131,56,236,0.18);
+  background: linear-gradient(135deg, rgba(189, 35, 47, ) 0%, rgba(16,185,129,0.08) 100%);
+  border: 1px solid rgba(189, 35, 47, );
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 10px;
@@ -1342,11 +1347,11 @@
 }
 
 .wai-zero-rupee-chip:hover:not(:disabled) {
-  background: rgba(131,56,236,0.07);
+  background: rgba(189, 35, 47, );
   border-color: var(--wai-primary);
   color: var(--wai-primary);
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(131,56,236,0.12);
+  box-shadow: 0 2px 8px rgba(189, 35, 47, );
 }
 
 .wai-zero-rupee-chip-selected {
@@ -1379,7 +1384,7 @@
   line-height: 1.5;
   margin-bottom: 10px;
   padding-bottom: 8px;
-  border-bottom: 1px dashed rgba(131,56,236,0.18);
+  border-bottom: 1px dashed rgba(189, 35, 47, );
 }
 
 .wai-zero-rupee-plan {
@@ -1391,7 +1396,7 @@
 .wai-zero-rupee-rule-note {
   margin-top: 10px;
   padding: 8px 12px;
-  background: rgba(131,56,236,0.06);
+  background: rgba(189, 35, 47, );
   border-left: 3px solid var(--wai-primary);
   border-radius: 4px;
   font-size: 0.76rem;
@@ -1415,7 +1420,7 @@
 .wai-zero-rupee-footer {
   margin-top: 8px;
   padding: 10px 14px;
-  background: rgba(131,56,236,0.05);
+  background: rgba(189, 35, 47, );
   border-radius: 10px;
   font-size: 0.82rem;
   color: #334155;
@@ -1435,7 +1440,7 @@
   border-radius: 14px;
   padding: 12px;
   margin-top: 6px;
-  box-shadow: 0 4px 16px rgba(131, 56, 236, 0.06);
+  box-shadow: 0 4px 16px rgba(189, 35, 47, );
   animation: weekendAiFadeIn 0.3s ease forwards;
   box-sizing: border-box;
   width: 100%;
@@ -1464,8 +1469,8 @@
 
 .wai-itin-pill {
   font-size: 0.68rem;
-  background: rgba(131, 56, 236, 0.08);
-  color: var(--wai-primary, #8338EC);
+  background: rgba(189, 35, 47, );
+  color: var(--wai-primary, #bd232f);
   padding: 2px 8px;
   border-radius: 12px;
   font-weight: 600;
@@ -1476,8 +1481,8 @@
 
 /* Compact Budget Summary Card (Placed at the TOP) */
 .wai-budget-summary-card {
-  background: linear-gradient(135deg, rgba(131, 56, 236, 0.04) 0%, rgba(58, 134, 239, 0.05) 100%);
-  border: 1px solid rgba(131, 56, 236, 0.16);
+  background: linear-gradient(135deg, rgba(189, 35, 47, ) 0%, rgba(58, 134, 239, 0.05) 100%);
+  border: 1px solid rgba(189, 35, 47, );
   border-radius: 10px;
   padding: 10px 12px;
   margin-bottom: 12px;
@@ -1514,7 +1519,7 @@
 }
 
 .wai-metric-val.primary {
-  color: var(--wai-primary, #8338EC);
+  color: var(--wai-primary, #bd232f);
 }
 
 .wai-metric-val.exact {
@@ -1528,7 +1533,7 @@
 .wai-metric-divider {
   width: 1px;
   height: 22px;
-  background: rgba(131, 56, 236, 0.15);
+  background: rgba(189, 35, 47, );
 }
 
 .wai-budget-progress-track {
@@ -1541,7 +1546,7 @@
 
 .wai-budget-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8338EC, #3A86EF);
+  background: #bd232f;
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -1584,8 +1589,8 @@
 
 .wai-stop-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(131, 56, 236, 0.08);
-  border-color: rgba(131, 56, 236, 0.25);
+  box-shadow: 0 3px 8px rgba(189, 35, 47, );
+  border-color: rgba(189, 35, 47, );
 }
 
 /* Time above card content for mobile-first scanning */
@@ -1599,11 +1604,11 @@
 .wai-stop-time {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--wai-primary, #8338EC);
+  color: var(--wai-primary, #bd232f);
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: rgba(131, 56, 236, 0.08);
+  background: rgba(189, 35, 47, );
   padding: 2px 7px;
   border-radius: 6px;
   letter-spacing: -0.1px;
@@ -1622,8 +1627,8 @@
 }
 
 .wai-stop-price.paid {
-  color: var(--wai-primary, #8338EC);
-  background: rgba(131, 56, 236, 0.08);
+  color: var(--wai-primary, #bd232f);
+  background: rgba(189, 35, 47, );
 }
 
 .wai-stop-body {
@@ -1713,16 +1718,16 @@
   gap: 4px;
   font-size: 0.72rem;
   font-weight: 600;
-  color: #8338EC;
+  color: #bd232f;
   text-decoration: none;
-  background: rgba(131, 56, 236, 0.08);
+  background: rgba(189, 35, 47, );
   padding: 3px 9px;
   border-radius: 6px;
   transition: all 0.18s ease;
 }
 
 .wai-stop-map-link:hover {
-  background: #8338EC;
+  background: #bd232f;
   color: #ffffff;
   transform: translateY(-1px);
 }
@@ -1730,12 +1735,12 @@
 /* Consolidated Trip Navigation Card at Last */
 .wai-nav-card {
   background: #ffffff;
-  border: 1px solid rgba(131, 56, 236, 0.22);
+  border: 1px solid rgba(189, 35, 47, );
   border-radius: 12px;
   padding: 12px 14px;
   margin-top: 10px;
   margin-bottom: 10px;
-  box-shadow: 0 4px 14px rgba(131, 56, 236, 0.06);
+  box-shadow: 0 4px 14px rgba(189, 35, 47, );
 }
 
 .wai-nav-card-header {
@@ -1803,8 +1808,8 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: rgba(131, 56, 236, 0.12);
-  color: #8338EC;
+  background: rgba(189, 35, 47, );
+  color: #bd232f;
   font-size: 0.68rem;
   font-weight: 700;
   flex-shrink: 0;
@@ -1825,9 +1830,9 @@
   gap: 3px;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #8338EC;
+  color: #bd232f;
   background: #ffffff;
-  border: 1px solid rgba(131, 56, 236, 0.3);
+  border: 1px solid rgba(189, 35, 47, );
   padding: 3px 8px;
   border-radius: 6px;
   text-decoration: none;
@@ -1836,9 +1841,9 @@
 }
 
 .wai-nav-go-pill:hover {
-  background: #8338EC;
+  background: #bd232f;
   color: #ffffff;
-  border-color: #8338EC;
+  border-color: #bd232f;
 }
 
 .wai-nav-full-route-btn {
@@ -1847,14 +1852,14 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  background: linear-gradient(135deg, #8338EC 0%, #3b82f6 100%);
+  background: #bd232f;
   color: #ffffff;
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.78rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(131, 56, 236, 0.25);
+  box-shadow: 0 4px 12px rgba(189, 35, 47, );
   transition: transform 0.18s ease, filter 0.18s ease;
   box-sizing: border-box;
 }
@@ -1897,7 +1902,7 @@
 .wai-budget-rupee-sign {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #8338EC;
+  color: #bd232f;
 }
 
 .wai-budget-manual-input {
@@ -1946,8 +1951,8 @@
 }
 
 .wai-live-weather-card {
-  background: linear-gradient(135deg, rgba(131, 56, 236, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
-  border: 1px solid rgba(131, 56, 236, 0.25);
+  background: linear-gradient(135deg, rgba(189, 35, 47, ) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border: 1px solid rgba(189, 35, 47, );
   border-radius: 12px;
   padding: 12px 14px;
   margin-bottom: 8px;
@@ -1960,7 +1965,7 @@
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: #8338EC;
+  color: #bd232f;
   text-transform: uppercase;
   margin-bottom: 6px;
 }
@@ -2025,7 +2030,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: linear-gradient(135deg, #8338EC 0%, #3b82f6 100%);
+  background: #bd232f;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -2034,7 +2039,7 @@
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(131, 56, 236, 0.25);
+  box-shadow: 0 4px 12px rgba(189, 35, 47, );
   transition: transform 0.18s ease, filter 0.18s ease;
 }
 
@@ -2098,8 +2103,8 @@
   margin: 16px 0 12px;
   border-radius: 18px;
   background: linear-gradient(165deg, #0f0f23 0%, #150f30 50%, #0d0a1a 100%);
-  border: 1.5px solid rgba(131, 56, 236, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(131, 56, 236, 0.15);
+  border: 1.5px solid rgba(189, 35, 47, );
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 25px rgba(189, 35, 47, );
   overflow: hidden;
   font-family: inherit;
 }
@@ -2121,14 +2126,14 @@
 
 .wai-tracker-icon {
   font-size: 1.5rem;
-  background: rgba(131, 56, 236, 0.2);
+  background: rgba(189, 35, 47, );
   width: 38px;
   height: 38px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(131, 56, 236, 0.35);
+  border: 1px solid rgba(189, 35, 47, );
 }
 
 .wai-tracker-title {
@@ -2145,8 +2150,8 @@
 }
 
 .wai-tracker-badge {
-  background: linear-gradient(135deg, rgba(131, 56, 236, 0.3), rgba(58, 134, 239, 0.3));
-  border: 1.5px solid rgba(131, 56, 236, 0.6);
+  background: linear-gradient(135deg, rgba(189, 35, 47, ), rgba(58, 134, 239, 0.3));
+  border: 1.5px solid rgba(189, 35, 47, );
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 0.85rem;
@@ -2165,7 +2170,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 18px;
-  background: rgba(131, 56, 236, 0.12);
+  background: rgba(189, 35, 47, );
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -2225,7 +2230,7 @@
 
 .wai-tracker-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8338EC, #3A86EF, #34d399);
+  background: #bd232f;
   border-radius: 99px;
   transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
@@ -2279,7 +2284,7 @@
   height: 26px;
   border-radius: 50%;
   background: #1e163d;
-  border: 2px solid rgba(131, 56, 236, 0.6);
+  border: 2px solid rgba(189, 35, 47, );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2304,7 +2309,7 @@
 .wai-node-track-line {
   width: 2px;
   flex: 1;
-  background: linear-gradient(180deg, rgba(131, 56, 236, 0.6) 0%, rgba(131, 56, 236, 0.2) 100%);
+  background: linear-gradient(180deg, rgba(189, 35, 47, ) 0%, rgba(189, 35, 47, ) 100%);
   margin: 3px 0;
   min-height: 26px;
 }
@@ -2380,8 +2385,8 @@
 }
 
 .wai-route-node:hover .wai-node-card {
-  background: rgba(131, 56, 236, 0.12);
-  border-color: rgba(131, 56, 236, 0.35);
+  background: rgba(189, 35, 47, );
+  border-color: rgba(189, 35, 47, );
   transform: translateX(2px);
 }
 
@@ -2431,8 +2436,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  background: rgba(131, 56, 236, 0.2);
-  border: 1px solid rgba(131, 56, 236, 0.4);
+  background: rgba(189, 35, 47, );
+  border: 1px solid rgba(189, 35, 47, );
   color: #c084fc;
   padding: 5px 9px;
   border-radius: 7px;
@@ -2443,9 +2448,9 @@
 }
 
 .wai-node-nav-link:hover {
-  background: #8338EC;
+  background: #bd232f;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(131, 56, 236, 0.4);
+  box-shadow: 0 2px 8px rgba(189, 35, 47, );
 }
 
 /* Floating Dynamic Island Arrival Banner */
@@ -2545,8 +2550,8 @@
 
 
 .wai-view-profile-btn {
-  background: linear-gradient(135deg, rgba(131, 56, 236, 0.35), rgba(58, 134, 239, 0.35));
-  border: 1px solid rgba(131, 56, 236, 0.6);
+  background: linear-gradient(135deg, rgba(189, 35, 47, ), rgba(58, 134, 239, 0.35));
+  border: 1px solid rgba(189, 35, 47, );
   color: #ffffff;
   padding: 4px 10px;
   border-radius: 20px;
@@ -2560,7 +2565,7 @@
   margin-right: 6px;
 }
 .wai-view-profile-btn:hover {
-  background: linear-gradient(135deg, #8338EC, #3A86EF);
+  background: #bd232f;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(131, 56, 236, 0.4);
+  box-shadow: 0 4px 12px rgba(189, 35, 47, );
 }

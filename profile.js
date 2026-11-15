@@ -291,7 +291,7 @@
 
           <!-- TAB 2: PLACES REACHED -->
           <div class="exp-tab-panel" id="panel-reached">
-            <div style="font-size:0.75rem;color:#38bdf8;margin-bottom:10px;font-weight:600;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:0.75rem;color:#bd232f;margin-bottom:10px;font-weight:700;display:flex;align-items:center;justify-content:space-between;">
               <span>🛰️ Verified places reached via real-time GPS check-ins:</span>
               <button class="exp-btn-secondary" style="padding:2px 8px;font-size:0.7rem;" onclick="window.ExplorerProfile.promptAddPlace()">+ Check-in</button>
             </div>
@@ -372,8 +372,8 @@
             <div class="exp-edit-field-row">
               <label class="exp-edit-field-label">Username</label>
               <div class="exp-edit-field-input" style="display:flex;align-items:center;gap:4px;padding:0 14px;">
-                <span style="color:rgba(255,255,255,0.4);font-size:0.9rem;">@</span>
-                <input type="text" id="exp-edit-handle" value="${escapeHtml(state.handle)}" placeholder="username" maxlength="30" style="background:none;border:none;outline:none;color:#fff;font-size:0.9rem;width:100%;font-family:inherit;">
+                <span style="color:#71717a;font-size:0.9rem;">@</span>
+                <input type="text" id="exp-edit-handle" value="${escapeHtml(state.handle)}" placeholder="username" maxlength="30" style="background:none;border:none;outline:none;color:inherit;font-size:0.9rem;width:100%;font-family:inherit;">
               </div>
             </div>
             <div class="exp-edit-field-row">
@@ -384,16 +384,16 @@
               <label class="exp-edit-field-label" style="padding-top:10px;">Bio</label>
               <div style="flex:1;position:relative;">
                 <textarea class="exp-edit-field-input" id="exp-edit-bio" rows="4" placeholder="Bio" maxlength="150" style="resize:none;padding:10px 14px;height:auto;">${escapeHtml(state.bio)}</textarea>
-                <div id="exp-bio-char-count" style="position:absolute;bottom:-18px;right:4px;font-size:0.7rem;color:rgba(255,255,255,0.4);">${(state.bio||'').length}/150</div>
+                <div id="exp-bio-char-count" style="position:absolute;bottom:-18px;right:4px;font-size:0.7rem;color:#71717a;">${(state.bio||'').length}/150</div>
               </div>
             </div>
             <div class="exp-edit-field-row">
               <label class="exp-edit-field-label">Gender</label>
-              <select class="exp-edit-field-input" id="exp-edit-gender" style="color:#fff;">
-                <option value="" style="background:#1a1a2e;" ${!state.gender ? 'selected':''}>Prefer not to say</option>
-                <option value="female" style="background:#1a1a2e;" ${state.gender==='female' ? 'selected':''}>Female</option>
-                <option value="male" style="background:#1a1a2e;" ${state.gender==='male' ? 'selected':''}>Male</option>
-                <option value="other" style="background:#1a1a2e;" ${state.gender==='other' ? 'selected':''}>Non-binary / Other</option>
+              <select class="exp-edit-field-input" id="exp-edit-gender" style="color:inherit;">
+                <option value="" style="background:#ffffff;color:#111111;" ${!state.gender ? 'selected':''}>Prefer not to say</option>
+                <option value="female" style="background:#ffffff;color:#111111;" ${state.gender==='female' ? 'selected':''}>Female</option>
+                <option value="male" style="background:#ffffff;color:#111111;" ${state.gender==='male' ? 'selected':''}>Male</option>
+                <option value="other" style="background:#ffffff;color:#111111;" ${state.gender==='other' ? 'selected':''}>Non-binary / Other</option>
               </select>
             </div>
           </div>
@@ -429,7 +429,7 @@
             <input type="file" id="exp-newpost-file" accept="image/*" class="exp-input-file" onchange="window.ExplorerProfile.handleImageUpload(event)">
             <div id="exp-newpost-preview-wrap" style="display:none;margin-top:8px;border-radius:12px;overflow:hidden;max-height:160px;position:relative;">
               <img id="exp-newpost-preview-img" style="width:100%;height:160px;object-fit:cover;" alt="Preview">
-              <span style="position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,0.7);padding:2px 8px;border-radius:6px;font-size:0.7rem;color:#38bdf8;">✓ Selected</span>
+              <span style="position:absolute;bottom:6px;right:8px;background:#bd232f;padding:2px 8px;border-radius:6px;font-size:0.7rem;color:#ffffff;font-weight:700;">✓ Selected</span>
             </div>
           </div>
 
@@ -677,7 +677,7 @@
       // Show Instagram-style brief toast
       const toast = document.createElement('div');
       toast.textContent = '✓ Profile updated';
-      toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1d1d2e;border:1px solid rgba(131,56,236,0.4);color:#fff;padding:10px 22px;border-radius:20px;font-size:0.85rem;z-index:99999999;animation:exp-fadein 0.3s ease;';
+      toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#bd232f;border:1.5px solid #ffffff;color:#fff;padding:10px 22px;border-radius:20px;font-size:0.85rem;font-weight:700;box-shadow:0 8px 24px rgba(189,35,47,0.35);z-index:99999999;animation:exp-fadein 0.3s ease;';
       document.body.appendChild(toast);
       setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 2500);
     },
@@ -959,10 +959,10 @@
         if (!banner) {
           banner = document.createElement('div');
           banner.id = 'exp-filter-banner';
-          banner.style.cssText = 'background:rgba(131,56,236,0.18);border:1px solid rgba(131,56,236,0.3);border-radius:10px;padding:8px 14px;margin-bottom:10px;font-size:0.78rem;color:#c4b5fd;display:flex;align-items:center;justify-content:space-between;';
+          banner.style.cssText = 'background:rgba(189,35,47,0.1);border:1px solid rgba(189,35,47,0.25);border-radius:10px;padding:8px 14px;margin-bottom:10px;font-size:0.78rem;color:#bd232f;font-weight:600;display:flex;align-items:center;justify-content:space-between;';
           postsContainer.parentNode.insertBefore(banner, postsContainer);
         }
-        banner.innerHTML = `<span>📌 Showing: ${escapeHtml(label)}</span><button onclick="window.ExplorerProfile.clearFilter()" style="background:none;border:none;color:#f472b6;cursor:pointer;font-size:0.78rem;">✕ Clear</button>`;
+        banner.innerHTML = `<span>📌 Showing: ${escapeHtml(label)}</span><button onclick="window.ExplorerProfile.clearFilter()" style="background:none;border:none;color:#bd232f;cursor:pointer;font-size:0.78rem;font-weight:700;">✕ Clear</button>`;
       } else {
         // Show all and scroll to posts tab
         postsContainer.innerHTML = renderPostsGrid(state.posts);

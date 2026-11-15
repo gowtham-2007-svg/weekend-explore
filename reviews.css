@@ -22,13 +22,13 @@
     --we-gold-light: rgba(217, 119, 6, 0.08);
     --we-gold-border: rgba(217, 119, 6, 0.24);
 
-    /* Magenta-Purple Accent */
-    --we-purple: #C218D4;
-    --we-purple-hover: #A812B8;
-    --we-purple-active: #8F0E9C;
-    --we-purple-light: rgba(194, 24, 212, 0.08);
-    --we-purple-border: rgba(194, 24, 212, 0.22);
-    --we-purple-glow: rgba(194, 24, 212, 0.25);
+    /* Red Accent */
+    --we-purple: #bd232f;
+    --we-purple-hover: #a81d27;
+    --we-purple-active: #8f1d26;
+    --we-purple-light: rgba(189, 35, 47, 0.08);
+    --we-purple-border: rgba(189, 35, 47, 0.22);
+    --we-purple-glow: rgba(189, 35, 47, 0.25);
 
     /* Text & Neutral Scale (Darker & Crisp High Contrast) */
     --we-text-title: #0F172A;       /* Deep obsidian dark */

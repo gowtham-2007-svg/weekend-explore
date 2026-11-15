@@ -1710,3 +1710,329 @@ select.exp-edit-field-input {
 .exp-lightbox-btn-icon:active {
   transform: scale(0.92);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MOBILE RED & WHITE PROFILE THEME (Strictly #bd232f and #ffffff)
+   Matches the mobile curved red header design perfectly
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .exp-profile-card {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+    box-shadow: 0 16px 45px rgba(189, 35, 47, 0.2) !important;
+    color: #111111 !important;
+  }
+
+  .exp-profile-topbar {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .exp-profile-handle {
+    color: #ffffff !important;
+  }
+
+  .exp-profile-privacy-badge,
+  .exp-profile-privacy-badge.public,
+  .exp-profile-privacy-badge.private {
+    background: #ffffff !important;
+    color: #bd232f !important;
+    border: 1px solid #ffffff !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-profile-privacy-badge svg,
+  .exp-profile-privacy-badge circle {
+    fill: #bd232f !important;
+    stroke: #bd232f !important;
+  }
+
+  .exp-profile-close-btn {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+  }
+
+  .exp-profile-close-btn svg {
+    stroke: #ffffff !important;
+  }
+
+  .exp-profile-scroll-body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  .exp-avatar-ring {
+    background: #bd232f !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: 0 4px 14px rgba(189, 35, 47, 0.35) !important;
+  }
+
+  .exp-avatar-inner {
+    background: #ffffff !important;
+    border: 2px solid #ffffff !important;
+    color: #bd232f !important;
+  }
+
+  .exp-avatar-badge-star {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    border: 2px solid #ffffff !important;
+  }
+
+  .exp-stat-num {
+    color: #111111 !important;
+    font-weight: 800 !important;
+  }
+
+  .exp-stat-label {
+    color: #555555 !important;
+  }
+
+  .exp-bio-fullname {
+    color: #111111 !important;
+    font-weight: 800 !important;
+  }
+
+  .exp-verified-badge {
+    color: #bd232f !important;
+  }
+
+  .exp-verified-badge svg {
+    fill: #bd232f !important;
+  }
+
+  .exp-bio-category {
+    color: #bd232f !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-bio-text {
+    color: #333333 !important;
+  }
+
+  .exp-btn-secondary {
+    background: #ffffff !important;
+    color: #bd232f !important;
+    border: 1.5px solid #bd232f !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(189, 35, 47, 0.08) !important;
+  }
+
+  .exp-btn-secondary svg {
+    stroke: #bd232f !important;
+    color: #bd232f !important;
+  }
+
+  .exp-btn-primary {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 14px rgba(189, 35, 47, 0.35) !important;
+  }
+
+  .exp-btn-primary svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  .exp-highlights-scroll {
+    border-bottom: 1px solid rgba(189, 35, 47, 0.15) !important;
+  }
+
+  .exp-highlight-circle {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+    box-shadow: 0 2px 8px rgba(189, 35, 47, 0.08) !important;
+    color: #bd232f !important;
+  }
+
+  .exp-highlight-circle svg {
+    stroke: #bd232f !important;
+    color: #bd232f !important;
+  }
+
+  .exp-highlight-label {
+    color: #111111 !important;
+    font-weight: 600 !important;
+  }
+
+  .exp-highlight-add {
+    background: #ffffff !important;
+    border: 2px dashed #bd232f !important;
+    color: #bd232f !important;
+  }
+
+  .exp-tabs-nav {
+    background: #ffffff !important;
+    border-top: 1px solid rgba(189, 35, 47, 0.15) !important;
+    border-bottom: 1px solid rgba(189, 35, 47, 0.15) !important;
+  }
+
+  .exp-tabs-nav-icons .exp-tab-btn {
+    color: #71717a !important;
+  }
+
+  .exp-tabs-nav-icons .exp-tab-btn svg {
+    stroke: #71717a !important;
+  }
+
+  .exp-tabs-nav-icons .exp-tab-btn.active {
+    color: #bd232f !important;
+    border-bottom: 2.5px solid #bd232f !important;
+  }
+
+  .exp-tabs-nav-icons .exp-tab-btn.active svg {
+    stroke: #bd232f !important;
+  }
+
+  .exp-post-tile {
+    background: #ffffff !important;
+    border: 1px solid rgba(189, 35, 47, 0.15) !important;
+  }
+
+  .exp-post-location-tag {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-reached-item {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(189, 35, 47, 0.15) !important;
+    box-shadow: 0 2px 8px rgba(189, 35, 47, 0.05) !important;
+  }
+
+  .exp-reached-icon {
+    background: rgba(189, 35, 47, 0.1) !important;
+    border: 1px solid rgba(189, 35, 47, 0.25) !important;
+    color: #bd232f !important;
+  }
+
+  .exp-reached-title {
+    color: #111111 !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-submodal-overlay {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  .exp-edit-topbar {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .exp-edit-title {
+    color: #ffffff !important;
+  }
+
+  .exp-edit-back-btn {
+    color: #ffffff !important;
+  }
+
+  .exp-edit-submit-btn {
+    background: #ffffff !important;
+    color: #bd232f !important;
+    border: none !important;
+    font-weight: 800 !important;
+  }
+
+  .exp-edit-avatar-preview {
+    background: #bd232f !important;
+    border: 2px solid #ffffff !important;
+  }
+
+  .exp-edit-avatar-preview img {
+    border: 2px solid #ffffff !important;
+  }
+
+  .exp-edit-username-label {
+    color: #111111 !important;
+  }
+
+  .exp-edit-change-photo-btn {
+    color: #bd232f !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-edit-field-row {
+    border-bottom: 1px solid rgba(189, 35, 47, 0.12) !important;
+  }
+
+  .exp-edit-field-label {
+    color: #111111 !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-edit-field-input {
+    color: #111111 !important;
+  }
+
+  .exp-edit-field-input::placeholder {
+    color: #71717a !important;
+  }
+
+  .exp-edit-section-label {
+    color: #bd232f !important;
+  }
+
+  .exp-highlight-chip {
+    background: #ffffff !important;
+    border: 1.5px solid #bd232f !important;
+    color: #bd232f !important;
+  }
+
+  .exp-highlight-chip-del {
+    color: #bd232f !important;
+  }
+
+  .exp-edit-add-highlight-btn {
+    background: #bd232f !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-reels-empty h4,
+  .exp-saved-empty h4 {
+    color: #111111 !important;
+  }
+
+  .exp-reels-empty p,
+  .exp-saved-empty p {
+    color: #555555 !important;
+  }
+
+  .exp-reels-icon {
+    color: #bd232f !important;
+  }
+
+  .exp-lightbox-card {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+    color: #111111 !important;
+  }
+
+  .exp-lightbox-header {
+    background: #bd232f !important;
+    color: #ffffff !important;
+  }
+
+  .exp-input-group label,
+  .exp-input-label {
+    color: #111111 !important;
+    font-weight: 700 !important;
+  }
+
+  .exp-input-text,
+  .exp-input-file,
+  .exp-input-select {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(189, 35, 47, 0.25) !important;
+    color: #111111 !important;
+  }
+}

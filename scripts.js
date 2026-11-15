@@ -4394,7 +4394,7 @@ function renderHome() {
             <div class="home-desktop-view">
                 <section class="hero">
                     <div class="badge">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#8338EC" style="flex-shrink:0;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#bd232f" style="flex-shrink:0;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
                         Explore with Weekend Explore
                     </div>
                     <h1>Where do<br><span class="hero-accent">you want to go?</span></h1>
@@ -4571,7 +4571,7 @@ function showUnderDevelopmentModal(cityName = 'Bangalore – East & West') {
                     <span style="background: #fef3c7; color: #d97706; font-size: 12px; font-weight: 700; padding: 5px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.8px; display: inline-block; margin-bottom: 12px; border: 1px solid #fde68a;">Under Development 🚧</span>
                     <h2 style="color: #0f172a; font-size: 22px; font-weight: 700; margin: 0 0 10px 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.3px;">${cityName}</h2>
                     <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin: 0 0 24px 0;">This region is currently under active development. We are bringing exciting new places, itineraries, and experiences soon!</p>
-                    <button id="under-dev-gotit-btn" style="width: 100%; background: linear-gradient(135deg, #8338ec 0%, #3a86ef 100%); color: #ffffff; border: none; padding: 14px 20px; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 8px 20px rgba(131, 56, 236, 0.3); transition: all 0.2s ease;">Got it!</button>
+                    <button id="under-dev-gotit-btn" style="width: 100%; background: #bd232f; color: #ffffff; border: none; padding: 14px 20px; border-radius: 14px; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 20px rgba(189, 35, 47, 0.35); transition: all 0.2s ease;">Got it!</button>
                 </div>
             </div>
         </div>
@@ -7977,7 +7977,7 @@ function openGeoModal(userLat, userLng, destLat, destLng, destName, distance, du
  
                     <!-- Dynamic API Content Loader Placeholder -->
                     <div id="gmaps-dynamic-loader" style="text-align: center; padding: 2rem 0;">
-                        <div style="display: inline-block; width: 30px; height: 30px; border: 3px solid rgba(131,56,236,0.2); border-radius: 50%; border-top-color: #8338EC; animation: spin 1s linear infinite;"></div>
+                        <div style="display: inline-block; width: 30px; height: 30px; border: 3px solid rgba(189,35,47,0.2); border-radius: 50%; border-top-color: #bd232f; animation: spin 1s linear infinite;"></div>
                         <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-light);">Loading Google Places details...</p>
                     </div>
  
@@ -9542,9 +9542,9 @@ function initPlaceImageSliders() {
 
                                     modalBody.innerHTML = `
                                         <div style="padding: 2.5rem 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; animation: popInText 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);">
-                                            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #8338EC 0%, #FF007F 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Thank You!</h2>
+                                            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: #bd232f;">Thank You!</h2>
                                             <p style="color: var(--text-light); margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.6; max-width: 340px;">Your support ticket has been received. Our team will get back to you shortly.</p>
-                                            <button id="thankyou-modal-close-btn" style="background: linear-gradient(135deg, #8338EC 0%, #FF007F 100%); color: white; border: none; padding: 14px 40px; border-radius: 12px; font-weight: 600; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(131, 56, 236, 0.25); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">Close</button>
+                                            <button id="thankyou-modal-close-btn" style="background: #bd232f; color: white; border: none; padding: 14px 40px; border-radius: 12px; font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(189, 35, 47, 0.35); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)';" onmouseout="this.style.transform='translateY(0)';">Close</button>
                                         </div>
                                     `;
                                     const closeBtn = modalBody.querySelector('#thankyou-modal-close-btn');
@@ -9912,11 +9912,11 @@ function initPlaceImageSliders() {
                 userButtonDiv.style.display = 'flex';
                 const initial = (stored.name || 'D').charAt(0).toUpperCase();
                 userButtonDiv.innerHTML = `
-                    <div class="we-user-avatar-btn" id="we-unified-user-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.open(); event.stopPropagation();" title="${stored.name || 'Account'} - Open Explorer Profile" style="position:relative;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);padding:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;box-shadow:0 2px 10px rgba(220,39,67,0.35);transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);">
-                        <div style="width:100%;height:100%;border-radius:50%;background:#1e1e2f;border:2px solid #0f172a;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.95rem;overflow:hidden;">
+                    <div class="we-user-avatar-btn" id="we-unified-user-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.open(); event.stopPropagation();" title="${stored.name || 'Account'} - Open Explorer Profile" style="position:relative;width:38px;height:38px;border-radius:50%;background:#bd232f;border:2px solid #ffffff;padding:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;box-shadow:0 2px 10px rgba(189,35,47,0.35);transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);">
+                        <div style="width:100%;height:100%;border-radius:50%;background:#bd232f;border:1.5px solid #ffffff;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.95rem;overflow:hidden;">
                             ${stored.imageUrl ? `<img src="${stored.imageUrl}" style="width:100%;height:100%;object-fit:cover;" alt="${stored.name}">` : initial}
                         </div>
-                        <span style="position:absolute;bottom:-2px;right:-2px;width:15px;height:15px;border-radius:50%;background:#8338EC;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;border:1.5px solid #0f172a;">★</span>
+                        <span style="position:absolute;bottom:-2px;right:-2px;width:15px;height:15px;border-radius:50%;background:#bd232f;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;border:1.5px solid #ffffff;">★</span>
                     </div>
                 `;
                 userButtonDiv.onclick = (e) => {
@@ -9942,50 +9942,55 @@ function initPlaceImageSliders() {
             await window.Clerk.load({
                 appearance: {
                     variables: {
-                        colorPrimary: '#8338EC',
+                        colorPrimary: '#bd232f',
                         colorBackground: '#ffffff',
-                        colorText: '#1A1A1A',
-                        colorTextSecondary: '#666666',
-                        colorInputBackground: '#F8F9FA',
-                        colorInputText: '#1A1A1A',
+                        colorText: '#111111',
+                        colorTextSecondary: '#555555',
+                        colorInputBackground: '#ffffff',
+                        colorInputText: '#111111',
                         borderRadius: '16px',
                         fontFamily: '"Outfit", sans-serif'
                     },
                     elements: {
                         card: {
-                            boxShadow: '0 20px 60px rgba(131, 56, 236, 0.15)',
-                            border: '1px solid rgba(131, 56, 236, 0.1)',
-                            borderRadius: '24px'
+                            boxShadow: '0 20px 60px rgba(189, 35, 47, 0.15)',
+                            border: '1.5px solid rgba(189, 35, 47, 0.25)',
+                            borderRadius: '24px',
+                            backgroundColor: '#ffffff'
                         },
                         formButtonPrimary: {
-                            background: 'linear-gradient(135deg, #8338EC 0%, #FF007F 100%)',
+                            background: '#bd232f',
                             border: 'none',
-                            fontWeight: '600',
+                            color: '#ffffff',
+                            fontWeight: '700',
                             textTransform: 'none',
-                            boxShadow: '0 8px 20px rgba(131, 56, 236, 0.25)',
+                            boxShadow: '0 8px 20px rgba(189, 35, 47, 0.35)',
                             transition: 'all 0.3s ease'
                         },
                         headerTitle: {
                             fontSize: '1.8rem',
-                            fontWeight: '700',
-                            background: 'linear-gradient(135deg, #8338EC 0%, #FF007F 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent'
+                            fontWeight: '800',
+                            background: 'none',
+                            color: '#bd232f',
+                            WebkitBackgroundClip: 'unset',
+                            WebkitTextFillColor: '#bd232f'
                         },
                         formFieldInput: {
-                            border: '1px solid rgba(0, 0, 0, 0.08)',
+                            border: '1.5px solid rgba(189, 35, 47, 0.25)',
                             transition: 'all 0.3s ease',
                             borderRadius: '12px',
-                            backgroundColor: '#F8F9FA'
+                            backgroundColor: '#ffffff',
+                            color: '#111111'
                         },
                         socialButtonsBlockButton: {
-                            border: '1px solid rgba(0, 0, 0, 0.08)',
+                            border: '1.5px solid rgba(189, 35, 47, 0.2)',
                             backgroundColor: '#ffffff',
+                            color: '#111111',
                             transition: 'all 0.3s ease'
                         },
                         footerActionLink: {
-                            color: '#FF007F',
-                            fontWeight: '600'
+                            color: '#bd232f',
+                            fontWeight: '700'
                         }
                     }
                 }
@@ -10024,11 +10029,11 @@ function initPlaceImageSliders() {
                 const initial = (name.charAt(0) || 'D').toUpperCase();
                 const avatarImg = user.imageUrl;
                 userButtonDiv.innerHTML = `
-                    <div class="we-user-avatar-btn" id="we-unified-user-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.open(); event.stopPropagation();" title="${name} - Open Explorer Profile" style="position:relative;width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);padding:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;box-shadow:0 2px 10px rgba(220,39,67,0.35);transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);">
-                        <div style="width:100%;height:100%;border-radius:50%;background:#1e1e2f;border:2px solid #0f172a;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.95rem;overflow:hidden;">
+                    <div class="we-user-avatar-btn" id="we-unified-user-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.open(); event.stopPropagation();" title="${name} - Open Explorer Profile" style="position:relative;width:38px;height:38px;border-radius:50%;background:#bd232f;border:2px solid #ffffff;padding:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;box-shadow:0 2px 10px rgba(189,35,47,0.35);transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);">
+                        <div style="width:100%;height:100%;border-radius:50%;background:#bd232f;border:1.5px solid #ffffff;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:0.95rem;overflow:hidden;">
                             ${avatarImg ? `<img src="${avatarImg}" style="width:100%;height:100%;object-fit:cover;" alt="${name}">` : initial}
                         </div>
-                        <span style="position:absolute;bottom:-2px;right:-2px;width:15px;height:15px;border-radius:50%;background:#8338EC;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;border:1.5px solid #0f172a;">★</span>
+                        <span style="position:absolute;bottom:-2px;right:-2px;width:15px;height:15px;border-radius:50%;background:#bd232f;color:#fff;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center;border:1.5px solid #ffffff;">★</span>
                     </div>
                 `;
                 userButtonDiv.onclick = (e) => {
