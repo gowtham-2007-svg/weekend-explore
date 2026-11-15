@@ -3,7 +3,7 @@ const destinations = [
         id: 'mangaluru',
         name: 'Mangaluru',
         image: 'assets/destinations/mangaluru_hd.jpg',
-        color: '#FF6B6B',
+        color: '#bd232f',
         famousPlaces: [
             {
                 name: 'Panambur Beach',
@@ -31,7 +31,7 @@ const destinations = [
         id: 'mysuru',
         name: 'Mysuru – North & South',
         image: 'assets/destinations/mysuru_hd.jpg?v=2',
-        color: '#FFD93D',
+        color: '#bd232f',
         famousPlaces: [
             {
                 name: 'Mysore Palace',
@@ -87,7 +87,7 @@ const destinations = [
         id: 'bangalore',
         name: 'Bangalore – North & South',
         image: 'assets/destinations/bangalore_hd.jpg',
-        color: '#8338EC',
+        color: '#bd232f',
         famousPlaces: [
             {
                 name: 'Lalbagh Botanical Garden',
@@ -184,7 +184,7 @@ const destinations = [
         id: 'manipal',
         name: 'Manipal',
         image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=70&w=600&fm=webp',
-        color: '#EC4899',
+        color: '#bd232f',
         disabled: false,
         famousPlaces: [
             {
@@ -3642,9 +3642,9 @@ function renderFoodCategoryPage(cityId) {
                                     <span><strong>Best Time:</strong> ${place.bestTime}</span>
                                 </div>
                             </div>
-                            <div class="best-food-box" style="background: #F0FDF4; border-color: #BBF7D0; margin-top: 1rem;">
+                            <div class="best-food-box" style="background: rgba(189, 35, 47, 0.05); border-color: #BBF7D0; margin-top: 1rem;">
                                 <div>
-                                    <div class="best-food-title" style="color: #16A34A;">Best Choice</div>
+                                    <div class="best-food-title" style="color: #bd232f;">Best Choice</div>
                                     <div class="best-food-name">${place.bestChoice}</div>
                                 </div>
                             </div>
@@ -3723,9 +3723,9 @@ function renderGlobalFavoritesPage() {
                                 <h3>${place.name}</h3>
                             </div>
                             <p>${place.description}</p>
-                            <div class="best-food-box" style="background: #F0FDF4; border-color: #BBF7D0; margin-top: 1rem;">
+                            <div class="best-food-box" style="background: rgba(189, 35, 47, 0.05); border-color: #BBF7D0; margin-top: 1rem;">
                                 <div>
-                                    <div class="best-food-title" style="color: #16A34A;">Best Choice</div>
+                                    <div class="best-food-title" style="color: #bd232f;">Best Choice</div>
                                     <div class="best-food-name">${place.bestChoice}</div>
                                 </div>
                             </div>
@@ -3977,9 +3977,9 @@ function renderCategoryPage(categoryId, cityId = currentCityId) {
                                 </div>
                             </div>
                             ` : place.bestChoice ? `
-                            <div class="best-food-box" style="background: #F0FDF4; border-color: #BBF7D0;">
+                            <div class="best-food-box" style="background: rgba(189, 35, 47, 0.05); border-color: #BBF7D0;">
                                 <div>
-                                    <div class="best-food-title" style="color: #16A34A;">Best Choice</div>
+                                    <div class="best-food-title" style="color: #bd232f;">Best Choice</div>
                                     <div class="best-food-name">${place.bestChoice}</div>
                                 </div>
                             </div>
@@ -5017,18 +5017,18 @@ function openMustWatchModal(category, cityId = currentCityId) {
                                             </div>
                                             ` : ''}
                                             ${place.busRoutes ? `
-                                             <div class="meta-item bus-route-card dark-bus-card" style="grid-column: 1 / -1; margin-top: 10px; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #f1f5f9;">
+                                             <div class="meta-item bus-route-card dark-bus-card" style="grid-column: 1 / -1; margin-top: 10px; padding: 12px 16px; border-radius: 12px; font-size: 0.88rem; color: #111111; background: #ffffff; border: 1.5px solid rgba(189, 35, 47, 0.2);">
                                                  <div class="bus-card-shimmer"></div>
                                                  <div style="z-index: 2; position: relative; width: 100%;">
                                                      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px;">
                                                          <div style="display: flex; align-items: center; gap: 8px;">
                                                              <span class="meta-icon bus-icon-anim" style="font-size: 1.3rem; line-height: 1;">🚌</span>
-                                                             <strong style="color: #38bdf8; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.8px; font-weight: 700;">Bus Routes & Stop Details</strong>
+                                                             <strong style="color: #bd232f; text-transform: uppercase; font-size: 0.74rem; letter-spacing: 0.8px; font-weight: 700;">Bus Routes & Stop Details</strong>
                                                          </div>
                                                          <span class="bus-live-badge"><span class="live-dot"></span> Live Route</span>
                                                      </div>
-                                                     <div style="color: #e2e8f0; font-weight: 500; line-height: 1.45; width: 100%; text-align: center;">
-                                                         ${place.busRoutes}
+                                                     <div style="color: #111111; font-weight: 500; line-height: 1.45; width: 100%; text-align: center;">
+                                                         ${formatBusRoutesForTheme(place.busRoutes)}
                                                      </div>
                                                  </div>
                                              </div>
@@ -5059,9 +5059,9 @@ function openMustWatchModal(category, cityId = currentCityId) {
                                             </div>
                                         </div>
                                         ` : place.bestChoice ? `
-                                        <div class="best-food-box" style="margin-bottom: 1.5rem; background: #F0FDF4; border-color: #BBF7D0;">
+                                        <div class="best-food-box" style="margin-bottom: 1.5rem; background: rgba(189, 35, 47, 0.05); border-color: #BBF7D0;">
                                             <div>
-                                                <div class="best-food-title" style="color: #16A34A;">Best Choice</div>
+                                                <div class="best-food-title" style="color: #bd232f;">Best Choice</div>
                                                 <div class="best-food-name">${place.bestChoice}</div>
                                             </div>
                                         </div>
@@ -8108,6 +8108,18 @@ function findPlaceData(destName, cityId) {
 }
 
 // Helper: Render genuine active Google Places Details UI
+
+// Helper: Format bus stop route flow to pure Red and White theme
+function formatBusRoutesForTheme(html) {
+    if (!html) return '';
+    return html
+        .replace(/🟢\s*/g, '<span style="color:#bd232f;font-weight:900;font-size:1.15em;display:inline-block;vertical-align:middle;margin-right:4px;">●</span> ')
+        .replace(/⚪\s*/g, '<span style="color:#bd232f;opacity:0.6;font-weight:bold;font-size:1.15em;display:inline-block;vertical-align:middle;margin-right:4px;">●</span> ')
+        .replace(/🔴\s*/g, '<span style="color:#bd232f;font-weight:900;font-size:1.25em;display:inline-block;vertical-align:middle;margin-right:4px;">●</span> ')
+        .replace(/🛑\s*/g, '<span style="color:#bd232f;font-weight:900;font-size:1.25em;display:inline-block;vertical-align:middle;margin-right:4px;">●</span> ');
+}
+window.formatBusRoutesForTheme = formatBusRoutesForTheme;
+
 function renderRealPlacesDetails(container, data) {
     // 1. Single Photo Gallery HTML
     let photosHTML = '';
@@ -8125,20 +8137,21 @@ function renderRealPlacesDetails(container, data) {
 
     // 2. Bus Routes & Stop Details Card HTML
     let busCardHTML = '';
-    const busRoutesContent = data.busRoutes || (data.name ? (findPlaceData(data.name, data.cityId)?.busRoutes) : '');
+    let busRoutesContent = data.busRoutes || (data.name ? (findPlaceData(data.name, data.cityId)?.busRoutes) : '');
     if (busRoutesContent) {
+        busRoutesContent = formatBusRoutesForTheme(busRoutesContent);
         busCardHTML = `
-            <div class="meta-item bus-route-card dark-bus-card" style="grid-column: 1 / -1; margin-top: 10px; margin-bottom: 1rem; padding: 18px 20px; border-radius: 20px; font-size: 0.88rem; color: #64748B; width: 100%; box-sizing: border-box;">
+            <div class="meta-item bus-route-card dark-bus-card" style="grid-column: 1 / -1; margin-top: 10px; margin-bottom: 1rem; padding: 18px 20px; border-radius: 20px; font-size: 0.88rem; color: #111111; width: 100%; box-sizing: border-box; background: #ffffff; border: 1.5px solid rgba(189, 35, 47, 0.22);">
                 <div class="bus-card-shimmer"></div>
                 <div style="z-index: 2; position: relative; width: 100%;">
                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <span class="meta-icon bus-icon-anim" style="font-size: 1.4rem; line-height: 1; filter: drop-shadow(0 2px 6px rgba(43, 190, 255, 0.4));">${data.routeIcon || '🚌'}</span>
-                            <strong style="color: #0F172A; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 1px; font-weight: 800;">${data.routeTitle || 'Bus Routes & Stop Details'}</strong>
+                            <span class="meta-icon bus-icon-anim" style="font-size: 1.4rem; line-height: 1; filter: drop-shadow(0 2px 6px rgba(189, 35, 47, 0.3));">${data.routeIcon || '🚌'}</span>
+                            <strong style="color: #bd232f; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 1px; font-weight: 800;">${data.routeTitle || 'Bus Routes & Stop Details'}</strong>
                         </div>
                         <span class="bus-live-badge"><span class="live-dot"></span> ${data.routeIcon ? 'Rider Route' : 'Live Route'}</span>
                     </div>
-                    <div style="color: #64748B; font-weight: 500; line-height: 1.5; width: 100%; text-align: center;">
+                    <div style="color: #111111; font-weight: 500; line-height: 1.5; width: 100%; text-align: center;">
                         ${busRoutesContent}
                     </div>
                 </div>
@@ -8240,15 +8253,15 @@ window.showFoodPopup = function(name, img, price) {
     if (allFoods.length > 0) {
         scrollerHTML = `
             <div class="popup-scroller-wrapper" style="margin-top: 1rem; border-top: 1px dashed rgba(0,0,0,0.12); padding-top: 0.75rem;">
-                <div style="font-size: 0.7rem; color: #16A34A; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem; text-align: center;">Other Specialties (Slideshow running)</div>
+                <div style="font-size: 0.7rem; color: #bd232f; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem; text-align: center;">Other Specialties (Slideshow running)</div>
                 <div style="display: flex; align-items: center; gap: 0.4rem; position: relative;">
                     ${hasMultipleFoods ? `<button class="scroller-nav-btn prev" id="scroller-prev-btn" aria-label="Previous specialty">&lsaquo;</button>` : ''}
-                    <div class="popup-scroller" style="overflow: hidden; white-space: nowrap; flex-grow: 1; background: #F0FDF4; border-radius: 8px; padding: 0.25rem 0;">
+                    <div class="popup-scroller" style="overflow: hidden; white-space: nowrap; flex-grow: 1; background: rgba(189, 35, 47, 0.05); border-radius: 8px; padding: 0.25rem 0;">
                         <div class="popup-scroller-inner" style="display: inline-flex; gap: 0.75rem; animation: marquee 12s linear infinite;">
                             ${[...allFoods, ...allFoods].map((food, idx) => {
                                 const actualIdx = idx % allFoods.length;
                                 return `
-                                <div class="popup-food-card popup-card-${actualIdx}" onclick="selectPopupFood(${actualIdx})" style="display: inline-flex; align-items: center; gap: 0.4rem; background: white; padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid rgba(22, 163, 74, 0.15); cursor: pointer; flex-shrink: 0; transition: all 0.2s ease;">
+                                <div class="popup-food-card popup-card-${actualIdx}" onclick="selectPopupFood(${actualIdx})" style="display: inline-flex; align-items: center; gap: 0.4rem; background: white; padding: 0.3rem 0.6rem; border-radius: 6px; border: 1px solid rgba(189, 35, 47, 0.2); cursor: pointer; flex-shrink: 0; transition: all 0.2s ease;">
                                     <img src="${food.img}" alt="${food.name}" loading="lazy" decoding="async" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px;">
                                     <span style="font-size: 0.7rem; font-weight: 600; color: #2D3748;">${food.name}</span>
                                 </div>
@@ -9961,7 +9974,7 @@ function initPlaceImageSliders() {
                         formButtonPrimary: {
                             background: '#bd232f',
                             border: 'none',
-                            color: '#ffffff',
+                            color: '#bd232f',
                             fontWeight: '700',
                             textTransform: 'none',
                             boxShadow: '0 8px 20px rgba(189, 35, 47, 0.35)',

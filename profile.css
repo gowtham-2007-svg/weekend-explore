@@ -171,7 +171,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #8338EC;
+  background: #bd232f;
   border: 2px solid #0f1019;
   width: 22px;
   height: 22px;
@@ -273,7 +273,7 @@
 }
 
 .exp-btn-primary {
-  background: linear-gradient(135deg, #8338EC, #3A86EF);
+  background: linear-gradient(135deg, #bd232f, #3A86EF);
   border: none;
   color: #ffffff;
   padding: 8px 12px;
@@ -331,7 +331,7 @@
 }
 
 .exp-highlight-item:hover .exp-highlight-circle {
-  border-color: #8338EC;
+  border-color: #bd232f;
   transform: scale(1.05);
 }
 
@@ -608,7 +608,7 @@
 }
 
 .exp-input-text:focus {
-  border-color: #8338EC;
+  border-color: #bd232f;
 }
 
 /* Top Navbar Profile Button */
@@ -629,7 +629,7 @@
 }
 
 .profile-nav-btn:hover {
-  background: linear-gradient(135deg, #8338EC, #3A86EF);
+  background: linear-gradient(135deg, #bd232f, #3A86EF);
   box-shadow: 0 4px 15px rgba(131, 56, 236, 0.45);
   transform: translateY(-1px);
 }
@@ -836,7 +836,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8338EC, #FF007F);
+  background: linear-gradient(135deg, #bd232f, #FF007F);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -969,7 +969,7 @@
 .exp-comment-post-btn {
   background: none;
   border: none;
-  color: #8338EC;
+  color: #bd232f;
   font-weight: 700;
   font-size: 0.82rem;
   cursor: pointer;
@@ -1040,7 +1040,7 @@
 }
 
 .exp-toggle-switch.active {
-  background: #8338EC;
+  background: #bd232f;
 }
 
 .exp-toggle-switch.active::after {
@@ -1091,7 +1091,7 @@
 
 /* ExplorerProfile Brand Pill */
 .exp-brand-pill {
-  background: linear-gradient(135deg, #8338EC, #FF007F);
+  background: linear-gradient(135deg, #bd232f, #FF007F);
   color: #ffffff;
   font-size: 0.68rem;
   font-weight: 800;
@@ -1159,7 +1159,7 @@
 }
 
 .exp-privacy-opt input {
-  accent-color: #8338EC;
+  accent-color: #bd232f;
   cursor: pointer;
 }
 
@@ -1232,7 +1232,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8338EC, #38bdf8);
+  background: linear-gradient(135deg, #bd232f, #38bdf8);
   color: #fff;
   font-weight: 800;
   display: flex;
@@ -1357,7 +1357,7 @@
 }
 
 .exp-edit-submit-btn {
-  background: linear-gradient(135deg, #3b82f6, #8338EC);
+  background: linear-gradient(135deg, #3b82f6, #bd232f);
   color: #fff;
   border: none;
   border-radius: 20px;
@@ -1531,7 +1531,7 @@ select.exp-edit-field-input {
 }
 
 .exp-edit-add-highlight-btn {
-  background: linear-gradient(135deg, #8338EC, #3b82f6);
+  background: linear-gradient(135deg, #bd232f, #3b82f6);
   color: #fff;
   border: none;
   border-radius: 14px;

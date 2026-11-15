@@ -412,9 +412,9 @@
                         <svg class="we-truck-svg" viewBox="0 0 170 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <defs>
                                 <linearGradient id="weTruckBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#8338EC"/>
-                                    <stop offset="50%" stop-color="#9333EA"/>
-                                    <stop offset="100%" stop-color="#3A86EF"/>
+                                    <stop offset="0%" stop-color="#bd232f"/>
+                                    <stop offset="50%" stop-color="#bd232f"/>
+                                    <stop offset="100%" stop-color="#bd232f"/>
                                 </linearGradient>
                                 <linearGradient id="weCabinGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#ffffff"/>
