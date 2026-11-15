@@ -4039,6 +4039,7 @@ const app = document.getElementById('app');
 // High-Performance GPU-Accelerated View Transition Runner
 function setAppContent(html, onMounted) {
     if (!app) return;
+    document.body.classList.remove('is-home-view');
     clearBackgroundIntervals();
     app.classList.remove('page-transition-enter');
     // Scroll instantly to top before paint to prevent layout jumping
@@ -4217,6 +4218,170 @@ function initLiveNavListeners() {
 }
 window.initLiveNavListeners = initLiveNavListeners;
 
+const MOBILE_CITIES_DATA = {
+    mangaluru: {
+        id: 'mangaluru',
+        name: 'Mangaluru',
+        rating: '4.8',
+        sub: 'Coastal Beaches & Heritage',
+        image: 'assets/destinations/mangaluru_hd.jpg',
+        categories: [
+            { id: 'beaches', name: 'Beaches', icon: 'beach' },
+            { id: 'temples', name: 'Temples', icon: 'temple' },
+            { id: 'malls', name: 'Malls', icon: 'mall' },
+            { id: 'restaurants', name: 'Food & Pubs', icon: 'food' },
+            { id: 'trekking', name: 'Trekking', icon: 'trek' }
+        ]
+    },
+    bangalore: {
+        id: 'bangalore',
+        name: 'Bengaluru',
+        rating: '4.7',
+        sub: 'Garden City & Nightlife',
+        image: 'assets/destinations/bangalore_hd.jpg',
+        categories: [
+            { id: 'parks', name: 'Parks', icon: 'park' },
+            { id: 'heritage', name: 'Palaces', icon: 'temple' },
+            { id: 'shopping', name: 'Malls', icon: 'mall' },
+            { id: 'restaurants', name: 'Food & Pubs', icon: 'food' },
+            { id: 'trekking', name: 'Trekking', icon: 'trek' }
+        ]
+    },
+    mysuru: {
+        id: 'mysuru',
+        name: 'Mysuru',
+        rating: '4.9',
+        sub: 'Royal Heritage & Palaces',
+        image: 'assets/destinations/mysuru_hd.jpg',
+        categories: [
+            { id: 'heritage_culture', name: 'Palaces', icon: 'temple' },
+            { id: 'temples', name: 'Temples', icon: 'temple' },
+            { id: 'parks_nature', name: 'Gardens', icon: 'park' },
+            { id: 'wildlife_museums', name: 'Zoo', icon: 'zoo' },
+            { id: 'shopping', name: 'Malls', icon: 'mall' }
+        ]
+    },
+    manipal: {
+        id: 'manipal',
+        name: 'Manipal',
+        rating: '4.6',
+        sub: 'Scenic Hills & Student Vibe',
+        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=70&w=600&fm=webp',
+        categories: [
+            { id: 'beaches', name: 'Beaches', icon: 'beach' },
+            { id: 'viewpoints', name: 'Viewpoints', icon: 'park' },
+            { id: 'cafes', name: 'Cafes', icon: 'food' },
+            { id: 'waterfalls', name: 'Waterfalls', icon: 'water' },
+            { id: 'malls', name: 'Malls', icon: 'mall' }
+        ]
+    }
+};
+
+function getMobileCategoryIcon(iconKey) {
+    switch (iconKey) {
+        case 'beach':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10c2.5-2 5-2 7.5 0s5 2 7.5 0 5-2 7.5 0"/><path d="M2 15c2.5-2 5-2 7.5 0s5 2 7.5 0 5-2 7.5 0"/></svg>';
+        case 'temple':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z"/><path d="M9 21v-7a3 3 0 0 1 6 0v7"/></svg>';
+        case 'mall':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="4"/><path d="M3 12h18M12 3v18"/></svg>';
+        case 'food':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M15 2v5a3 3 0 0 0 6 0V2M5 2v6a3 3 0 0 0 6 0V2M8 11v11"/></svg>';
+        case 'trek':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>';
+        case 'park':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7M12 15a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>';
+        case 'water':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0M2 17c2.5-3 5-3 7.5 0s5 3 7.5 0 5-3 7.5 0"/></svg>';
+        case 'zoo':
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg>';
+        default:
+            return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    }
+}
+
+window.currentMobileCityId = 'mangaluru';
+
+window.switchMobileHomeCity = function(cityId) {
+    window.currentMobileCityId = cityId;
+    document.querySelectorAll('.mob-city-nav-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.getAttribute('data-city') === cityId);
+    });
+
+    const city = MOBILE_CITIES_DATA[cityId];
+    if (!city) return;
+
+    const heroImg = document.getElementById('mob-hero-img');
+    const heroTitle = document.getElementById('mob-hero-title');
+    const heroRating = document.getElementById('mob-hero-rating');
+    const heroSub = document.getElementById('mob-hero-sub');
+
+    if (heroImg) heroImg.src = city.image;
+    if (heroTitle) heroTitle.textContent = city.name;
+    if (heroRating) heroRating.textContent = city.rating;
+    if (heroSub) heroSub.textContent = city.sub;
+
+    renderMobileCategories(cityId);
+    renderMobileOtherCities(cityId);
+};
+
+window.renderMobileCategories = function(cityId) {
+    const container = document.getElementById('mob-cats-container');
+    if (!container) return;
+    const city = MOBILE_CITIES_DATA[cityId] || MOBILE_CITIES_DATA.mangaluru;
+
+    container.innerHTML = city.categories.map(cat => `
+        <button type="button" class="mob-cat-item" onclick="renderCategoryPage('${cat.id}', '${city.id}')">
+            <div class="mob-cat-icon-box">
+                ${getMobileCategoryIcon(cat.icon)}
+            </div>
+            <span class="mob-cat-label">${cat.name}</span>
+        </button>
+    `).join('');
+};
+
+window.renderMobileOtherCities = function(activeCityId) {
+    const list = document.getElementById('mob-other-cities-list');
+    if (!list) return;
+
+    const allKeys = Object.keys(MOBILE_CITIES_DATA);
+    const otherKeys = allKeys.filter(k => k !== activeCityId);
+
+    list.innerHTML = otherKeys.map(k => {
+        const c = MOBILE_CITIES_DATA[k];
+        return `
+            <div class="mob-other-card" onclick="renderDestination('${c.id}')">
+                <img src="${c.image}" alt="${c.name}" class="mob-other-card-img" onerror="this.onerror=null;this.src='assets/destinations/mangaluru_hd.jpg';">
+                <div class="mob-other-card-overlay">
+                    <div class="mob-other-title-row">
+                        <span class="mob-other-card-name">${c.name}</span>
+                        <span class="mob-other-card-score">• ${c.rating} <svg width="11" height="11" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1" style="vertical-align: -1px; margin-left: 2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                    </div>
+                    <div class="mob-other-card-sub">${c.sub}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+};
+
+window.filterMobileHomePlaces = function(query) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q) {
+        const hero = document.getElementById('mob-hero-card');
+        const list = document.getElementById('mob-other-cities-list');
+        if (hero) hero.style.display = 'block';
+        if (list) list.style.display = 'grid';
+        return;
+    }
+    const matchedKey = Object.keys(MOBILE_CITIES_DATA).find(k => {
+        const c = MOBILE_CITIES_DATA[k];
+        return c.name.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q);
+    });
+    if (matchedKey) {
+        switchMobileHomeCity(matchedKey);
+    }
+};
+
 function renderHome() {
     window.currentCityId = null;
     setNavbarMode('default');
@@ -4224,40 +4389,152 @@ function renderHome() {
         window.WeekendAI.hide();
     }
     const homeHTML = `
-        <div class="page-content">
-            <section class="hero">
-                <div class="badge">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#8338EC" style="flex-shrink:0;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                    Explore with Weekend Explore
-                </div>
-                <h1>Where do<br><span class="hero-accent">you want to go?</span></h1>
-                <p>Choose your perfect destination and create beautiful memories.</p>
-            </section>
+        <div class="page-content home-page-content">
+            <!-- ═══ DESKTOP VIEW (> 768px) ═══ -->
+            <div class="home-desktop-view">
+                <section class="hero">
+                    <div class="badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#8338EC" style="flex-shrink:0;"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        Explore with Weekend Explore
+                    </div>
+                    <h1>Where do<br><span class="hero-accent">you want to go?</span></h1>
+                    <p>Choose your perfect destination and create beautiful memories.</p>
+                </section>
 
-            <div class="destinations-row">
-                ${destinations.map((dest, index) => `
-                    <div class="dest-card-wrapper" style="--card-index: ${index};">
-                        <div class="dest-card" data-id="${dest.id}">
-                            <img src="${dest.image}" alt="${dest.name}" loading="lazy" decoding="async" width="400" height="400" style="aspect-ratio: 1/1; object-fit: cover;" onerror="this.onerror=null;this.src='assets/destinations/mangaluru_hd.jpg';">
-                            <div class="dest-card-overlay">
-                                <h3>${dest.name}</h3>
-                                ${dest.id === 'bangalore_east_west' ? '<span style="background: rgba(234, 179, 8, 0.95); color: #000; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-top: 4px; font-weight: 700; display: inline-block;">Under Development 🚧</span>' : ''}
-                            </div>
-                            <div class="arrow-btn">
-                                <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                <div class="destinations-row">
+                    ${destinations.map((dest, index) => `
+                        <div class="dest-card-wrapper" style="--card-index: ${index};">
+                            <div class="dest-card" data-id="${dest.id}">
+                                <img src="${dest.image}" alt="${dest.name}" loading="lazy" decoding="async" width="400" height="400" style="aspect-ratio: 1/1; object-fit: cover;" onerror="this.onerror=null;this.src='assets/destinations/mangaluru_hd.jpg';">
+                                <div class="dest-card-overlay">
+                                    <h3>${dest.name}</h3>
+                                    ${dest.id === 'bangalore_east_west' ? '<span style="background: rgba(234, 179, 8, 0.95); color: #000; font-size: 11px; padding: 2px 8px; border-radius: 12px; margin-top: 4px; font-weight: 700; display: inline-block;">Under Development 🚧</span>' : ''}
+                                </div>
+                                <div class="arrow-btn">
+                                    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `).join('')}
+                    `).join('')}
+                </div>
             </div>
+
+            <!-- ═══ MOBILE PHONE VIEW (<= 768px, Matches Native App Mockup) ═══ -->
+            <div class="home-mobile-view">
+                <!-- Red Top Header Section -->
+                <div class="mob-red-header-wrap">
+                    <!-- Mobile Header -->
+                    <header class="mob-header">
+                        <div class="mob-brand" onclick="renderHome()">
+                            <div class="mob-compass-wrap">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#bd232f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                            </div>
+                            <div class="mob-brand-text">
+                                <span class="mob-brand-title">Weekend</span>
+                                <span class="mob-brand-sub">Explorer</span>
+                            </div>
+                        </div>
+                        <div class="mob-header-actions">
+                            <div class="mob-avatar-wrap" onclick="window.ExplorerProfile && window.ExplorerProfile.open()" title="Open Profile">
+                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                                    <circle cx="18" cy="18" r="18" fill="#EEF2FF"/>
+                                    <circle cx="18" cy="13.5" r="5.5" fill="#6366F1"/>
+                                    <path d="M7.5 30c0-5.799 4.701-10.5 10.5-10.5s10.5 4.701 10.5 10.5" fill="#6366F1"/>
+                                </svg>
+                            </div>
+                            <button type="button" class="mob-icon-action-btn mob-bell-btn" onclick="typeof openWebsiteReviewsModal === 'function' ? openWebsiteReviewsModal() : (window.ExplorerReviews && window.ExplorerReviews.open ? window.ExplorerReviews.open() : null)" title="Reviews & Ratings">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                                <span class="mob-bell-pulse"></span>
+                            </button>
+                        </div>
+                    </header>
+
+                    <!-- City Horizontal Navigation Tabs -->
+                    <div class="mob-city-tabs-bar">
+                        <button type="button" class="mob-city-nav-tab active" data-city="mangaluru" onclick="switchMobileHomeCity('mangaluru')">Mangaluru</button>
+                        <button type="button" class="mob-city-nav-tab" data-city="bangalore" onclick="switchMobileHomeCity('bangalore')">Bengaluru</button>
+                        <button type="button" class="mob-city-nav-tab" data-city="mysuru" onclick="switchMobileHomeCity('mysuru')">Mysuru</button>
+                        <button type="button" class="mob-city-nav-tab" data-city="manipal" onclick="switchMobileHomeCity('manipal')">Manipal</button>
+                    </div>
+
+                    <!-- Search Bar (Floating over red header bottom edge) -->
+                    <div class="mob-search-container">
+                        <div class="mob-search-box">
+                            <svg class="mob-search-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" class="mob-search-field" id="mob-search-input" placeholder="Search beaches, temples, parks in Karnataka..." oninput="filterMobileHomePlaces(this.value)">
+                            <button type="button" class="mob-filter-ico-btn" onclick="document.getElementById('mob-search-input').focus()">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Body Content on #f7f3f0 -->
+                <div class="mob-body-content">
+                    <!-- Category Quick Icons -->
+                    <div class="mob-cats-grid" id="mob-cats-container">
+                        <!-- Populated by renderMobileCategories() -->
+                    </div>
+
+                    <!-- Featured Hero City Card -->
+                    <div class="mob-hero-dest-card" id="mob-hero-card" onclick="renderDestination(window.currentMobileCityId || 'mangaluru')">
+                        <img src="assets/destinations/mangaluru_hd.jpg" alt="Featured Destination" id="mob-hero-img" class="mob-hero-dest-img">
+                        <div class="mob-hero-dest-scrim"></div>
+                        <div class="mob-hero-dest-glass">
+                            <div class="mob-hero-glass-top">
+                                <span class="mob-hero-glass-name" id="mob-hero-title">Mangaluru</span>
+                                <span class="mob-hero-glass-dot">•</span>
+                                <span class="mob-hero-glass-rating" id="mob-hero-rating">4.8</span>
+                                <svg class="mob-hero-star" width="13" height="13" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                            </div>
+                            <div class="mob-hero-glass-sub" id="mob-hero-sub">Coastal Beaches & Heritage</div>
+                        </div>
+                    </div>
+
+                    <!-- Other Cities Cards Scroll Row -->
+                    <div class="mob-other-cities-wrap">
+                        <div class="mob-other-cities-list" id="mob-other-cities-list">
+                            <!-- Populated by renderMobileOtherCities() -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Bottom Floating Navigation Bar -->
+            <nav class="mob-bottom-bar">
+                <button type="button" class="mob-bar-tab active" onclick="renderHome()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>Explore</span>
+                </button>
+                <button type="button" class="mob-bar-tab" onclick="renderGlobalFavoritesPage()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg>
+                    <span>Saved</span>
+                </button>
+                <button type="button" class="mob-bar-ai-center" onclick="window.WeekendAI && window.WeekendAI.open ? window.WeekendAI.open() : (window.location.href='itinerary.html')" title="AI Planner">
+                    <div class="mob-ai-bubble">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                    </div>
+                    <span>AI Planner</span>
+                </button>
+                <button type="button" class="mob-bar-tab" onclick="window.ExplorerProfile && window.ExplorerProfile.open()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Profile</span>
+                </button>
+            </nav>
         </div>
     `;
 
     setAppContent(homeHTML, () => {
+        document.body.classList.add('is-home-view');
         // Keep AI widget hidden on the home page
         if (window.WeekendAI && typeof window.WeekendAI.hide === 'function') {
             window.WeekendAI.hide();
         }
+        // Initialize mobile home state
+        window.currentMobileCityId = window.currentMobileCityId || 'mangaluru';
+        renderMobileCategories(window.currentMobileCityId);
+        renderMobileOtherCities(window.currentMobileCityId);
+
         // Add click listeners to cards
         document.querySelectorAll('.dest-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -4322,6 +4599,7 @@ function showUnderDevelopmentModal(cityName = 'Bangalore – East & West') {
 }
 
 function renderDestination(id) {
+    document.body.classList.remove('is-home-view');
     if (id === 'bangalore_east_west') {
         showUnderDevelopmentModal('Bangalore – East & West');
         return;

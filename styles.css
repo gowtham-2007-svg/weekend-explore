@@ -147,9 +147,9 @@ body::before {
     transform: translateZ(0);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     body::before {
-        background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=70&w=640&fm=webp');
+        background-image: none !important;
     }
 }
 @media (min-width: 641px) and (max-width: 1080px) {
@@ -1274,6 +1274,15 @@ main {
     @media (max-width: 768px) {
         body {
             background-attachment: scroll;
+            background-color: #fffaf4 !important;
+        }
+
+        body::before {
+            background:
+                radial-gradient(circle at 12% 16%, #ffe3b8 0%, rgba(255, 227, 184, 0) 45%),
+                radial-gradient(circle at 88% 22%, #cfe6ff 0%, rgba(207, 230, 255, 0) 50%),
+                radial-gradient(circle at 50% 85%, #e8d9ff 0%, rgba(232, 217, 255, 0) 55%),
+                linear-gradient(135deg, #fff6e9 0%, #eaf4ff 50%, #f3ebff 100%) !important;
         }
 
         .nav-actions {
@@ -1292,9 +1301,17 @@ main {
             gap: 0.5rem;
         }
 
-        .brand-text-main,
+        .brand-text-main {
+            color: #1b1f3b !important;
+            font-size: 1.15rem;
+            font-weight: 800;
+            display: inline-block;
+        }
+
         .brand-text-sub {
-            font-size: 1.1rem;
+            color: #7c3aed !important;
+            font-size: 1.15rem;
+            font-weight: 800;
             display: inline-block;
         }
 
@@ -1304,11 +1321,16 @@ main {
         }
 
         .main-header {
-            /* Simpler background on mobile — no expensive backdrop-filter */
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            background: rgba(255, 255, 255, 0.99);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            border-bottom: 1px solid #e3e6f5 !important;
+            padding-top: max(0px, env(safe-area-inset-top));
         }
 
         /* Disable page-in animations on mobile for instant feel */
@@ -1316,16 +1338,77 @@ main {
             animation: none !important;
         }
 
-        .destinations-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            padding: 0 1rem;
+        .hero {
+            padding: calc(64px + 1.25rem) 1.25rem 1rem !important;
+            background: none !important;
+            margin: 0 auto 0.75rem !important;
+            max-width: 100%;
+            text-align: center;
         }
 
-        .hero .badge,
-        .hero h1,
-        .hero p,
+        .hero .badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            background: #f4f2ff !important;
+            color: #7c3aed !important;
+            border: 1px solid #e3e6f5 !important;
+            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.08) !important;
+            padding: 0.45rem 1.1rem !important;
+            border-radius: 9999px !important;
+            font-size: 0.82rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 0.85rem !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            text-shadow: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            animation: none !important;
+        }
+
+        .hero .badge svg path {
+            fill: #7c3aed !important;
+        }
+
+        .hero h1 {
+            font-size: 2.15rem !important;
+            font-weight: 800 !important;
+            line-height: 1.2 !important;
+            color: #1b1f3b !important;
+            letter-spacing: -0.025em !important;
+            margin-bottom: 0.6rem !important;
+            text-shadow: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            animation: none !important;
+        }
+
+        .hero h1 span.hero-accent {
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            color: #7c3aed !important;
+            filter: none !important;
+            text-shadow: none !important;
+        }
+
+        .hero p {
+            color: #5d6486 !important;
+            font-size: 0.95rem !important;
+            font-weight: 500 !important;
+            line-height: 1.5 !important;
+            max-width: 92% !important;
+            margin: 0 auto 1.25rem !important;
+            text-shadow: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+            animation: none !important;
+        }
+
         .dest-card-wrapper {
             opacity: 1 !important;
             transform: none !important;
@@ -1334,13 +1417,67 @@ main {
             animation: none !important;
         }
 
+        .destinations-row {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.9rem !important;
+            padding: 0 1rem 3rem !important;
+        }
+
         .dest-card {
-            height: auto;
-            aspect-ratio: 3 / 4;
+            height: auto !important;
+            aspect-ratio: 3 / 4 !important;
+            border-radius: 20px !important;
+            border: 1px solid #e3e6f5 !important;
+            box-shadow: 0 10px 24px rgba(27, 31, 59, 0.08), 0 2px 6px rgba(27, 31, 59, 0.04) !important;
+            overflow: hidden !important;
+            transform: translateZ(0);
+            background: #ffffff !important;
             opacity: 1;
             animation: none !important;
-            transform: translateZ(0);
             will-change: transform;
+        }
+
+        .dest-card img {
+            border-radius: 20px !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+
+        .dest-card-overlay {
+            background: linear-gradient(to top, rgba(27, 31, 59, 0.88) 0%, rgba(27, 31, 59, 0.3) 50%, transparent 100%) !important;
+            padding: 0.75rem 2.2rem 0.75rem 0.75rem !important;
+            border-radius: 0 0 20px 20px !important;
+        }
+
+        .dest-card h3 {
+            font-family: 'Outfit', -apple-system, sans-serif !important;
+            font-size: 0.95rem !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            line-height: 1.25 !important;
+            word-break: break-word !important;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .dest-card .arrow-btn {
+            width: 30px !important;
+            height: 30px !important;
+            background: #ffffff !important;
+            border-radius: 50% !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+            bottom: 0.75rem !important;
+            right: 0.75rem !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .dest-card .arrow-btn svg {
+            width: 14px !important;
+            height: 14px !important;
+            fill: #7c3aed !important;
         }
 
         .places-grid {
@@ -2251,15 +2388,24 @@ main {
 @media (max-width: 480px) {
     .navbar {
         padding: 0.75rem 1rem;
+        padding-top: max(0.75rem, env(safe-area-inset-top));
     }
 
     .navbar-brand {
         gap: 0;
     }
 
-    .brand-text-main,
-    .brand-text-sub {
+    .brand-text-main {
+        color: #1b1f3b !important;
         font-size: 1.15rem;
+        font-weight: 800;
+        display: inline-block;
+    }
+
+    .brand-text-sub {
+        color: #7c3aed !important;
+        font-size: 1.15rem;
+        font-weight: 800;
         display: inline-block;
     }
 
@@ -2280,27 +2426,37 @@ main {
         font-size: 0.85rem;
     }
 
+    .hero {
+        padding: calc(60px + 1rem) 0.85rem 0.85rem !important;
+    }
+
+    .hero .badge {
+        font-size: 0.76rem !important;
+        padding: 0.38rem 0.95rem !important;
+    }
+
     .hero h1 {
-        font-size: 2rem;
+        font-size: 1.85rem !important;
+        line-height: 1.22 !important;
     }
 
     .hero p {
-        font-size: 1rem;
-        margin-bottom: 2rem;
+        font-size: 0.88rem !important;
+        margin-bottom: 1.25rem !important;
     }
 
     .destinations-row {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 0.75rem !important;
-        padding: 0 0.75rem !important;
+        padding: 0 0.85rem 2.5rem !important;
         overflow-x: visible !important;
     }
 
     .dest-card {
         height: auto !important;
         aspect-ratio: 3 / 4 !important;
-        border-radius: 16px !important;
+        border-radius: 18px !important;
         transform: translate3d(0, 0, 0);
         -webkit-transform: translate3d(0, 0, 0);
         backface-visibility: hidden;
@@ -6239,8 +6395,8 @@ main {
     }
 
     .hero .badge {
-        font-size: 0.8rem;
-        padding: 0.4rem 1rem;
+        font-size: 0.72rem !important;
+        padding: 0.35rem 0.85rem !important;
     }
 
     .destinations-row {
@@ -7105,5 +7261,519 @@ a,
     .live-event-card {
         -webkit-backdrop-filter: blur(4px);
         backdrop-filter: blur(4px);
+    }
+}
+
+/* ==========================================================================
+   MOBILE HOMEPAGE REDESIGN (Matches Native App Mockup Exactly)
+   ========================================================================== */
+.home-mobile-view {
+    display: none;
+}
+.mob-bottom-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .home-desktop-view {
+        display: none !important;
+    }
+
+    body.is-home-view .main-header {
+        display: none !important;
+    }
+
+    body.is-home-view {
+        background: #f7f3f0 !important;
+        background-color: #f7f3f0 !important;
+        background-image: none !important;
+    }
+
+    body.is-home-view::before {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        background: none !important;
+    }
+
+    .home-mobile-view {
+        display: block !important;
+        padding: 0 0 calc(85px + env(safe-area-inset-bottom, 16px)) 0 !important;
+        max-width: 100vw;
+        overflow-x: hidden;
+        background: #f7f3f0 !important;
+        min-height: 100vh;
+    }
+
+    /* Red Curved Top Header Section (Exact #bd232f from user mockup) */
+    .mob-red-header-wrap {
+        background: #bd232f;
+        background: linear-gradient(180deg, #c32431 0%, #bd232f 70%, #b31d28 100%);
+        border-radius: 0 0 36px 36px;
+        padding: max(16px, env(safe-area-inset-top, 16px)) 18px 36px 18px;
+        position: relative;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 28px rgba(189, 35, 47, 0.22);
+    }
+
+    /* Header within Red Section */
+    .mob-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 14px;
+        background: transparent;
+    }
+
+    .mob-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+    }
+
+    .mob-compass-wrap {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #ffffff;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bd232f;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+        flex-shrink: 0;
+    }
+
+    .mob-brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .mob-brand-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+    }
+
+    .mob-brand-sub {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.18rem;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.02em;
+    }
+
+    .mob-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mob-avatar-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #e0e7ff;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .mob-icon-action-btn.mob-bell-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.14);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .mob-bell-pulse {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 8px;
+        height: 8px;
+        background: #fbbf24;
+        border-radius: 50%;
+        border: 1.5px solid #bd232f;
+    }
+
+    /* City Tabs within Red Section */
+    .mob-city-tabs-bar {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding: 4px 0 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+        margin-bottom: 8px;
+    }
+
+    .mob-city-tabs-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mob-city-nav-tab {
+        background: none;
+        border: none;
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.08rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.72);
+        padding: 6px 0;
+        cursor: pointer;
+        white-space: nowrap;
+        position: relative;
+        transition: all 0.2s ease;
+    }
+
+    .mob-city-nav-tab.active {
+        color: #ffffff;
+        font-weight: 800;
+    }
+
+    .mob-city-nav-tab.active::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #ffffff;
+        border-radius: 3px;
+    }
+
+    /* Floating Search Bar */
+    .mob-search-container {
+        position: absolute;
+        bottom: -22px;
+        left: 18px;
+        right: 18px;
+        z-index: 10;
+        margin-bottom: 0;
+    }
+
+    .mob-search-box {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        border-radius: 30px;
+        padding: 11px 18px;
+        gap: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .mob-search-ico {
+        color: #94a3b8;
+        flex-shrink: 0;
+    }
+
+    .mob-search-field {
+        flex: 1;
+        border: none;
+        background: transparent;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.88rem;
+        color: #1e293b;
+        outline: none;
+        min-width: 0;
+    }
+
+    .mob-search-field::placeholder {
+        color: #94a3b8;
+        font-size: 0.84rem;
+    }
+
+    .mob-filter-ico-btn {
+        background: none;
+        border: none;
+        color: #1e293b;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+        flex-shrink: 0;
+    }
+
+    /* Body Content Container */
+    .mob-body-content {
+        padding: 6px 18px 0 18px;
+    }
+
+    /* Categories Grid */
+    .mob-cats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .mob-cat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .mob-cat-icon-box {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1e293b;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
+    }
+
+    .mob-cat-item:active .mob-cat-icon-box {
+        transform: scale(0.93);
+        background: #f1f5f9;
+    }
+
+    .mob-cat-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #1e293b;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    /* Featured Hero Destination Card */
+    .mob-hero-dest-card {
+        position: relative;
+        width: 100%;
+        height: 230px;
+        border-radius: 28px;
+        overflow: hidden;
+        cursor: pointer;
+        margin-bottom: 18px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .mob-hero-dest-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .mob-hero-dest-scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 60%);
+    }
+
+    .mob-hero-dest-glass {
+        position: absolute;
+        bottom: 16px;
+        left: 16px;
+        background: rgba(24, 24, 27, 0.65);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 18px;
+        padding: 9px 16px;
+        color: #ffffff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .mob-hero-glass-top {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .mob-hero-glass-name {
+        font-family: 'Outfit', sans-serif;
+        font-size: 1.08rem;
+        font-weight: 800;
+        color: #ffffff;
+    }
+
+    .mob-hero-glass-dot {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    .mob-hero-glass-rating {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+    }
+
+    .mob-hero-glass-sub {
+        font-size: 0.74rem;
+        opacity: 0.92;
+        font-weight: 500;
+        margin-top: 2px;
+    }
+
+    /* Other Cities Row */
+    .mob-other-cities-wrap {
+        margin-bottom: 24px;
+    }
+
+    .mob-other-cities-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .mob-other-card {
+        position: relative;
+        height: 165px;
+        border-radius: 22px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .mob-other-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .mob-other-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.25) 55%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 8px 8px;
+        color: #ffffff;
+    }
+
+    .mob-other-title-row {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        flex-wrap: wrap;
+    }
+
+    .mob-other-card-name {
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.84rem;
+        font-weight: 800;
+    }
+
+    .mob-other-card-score {
+        font-size: 0.74rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+    }
+
+    .mob-other-card-sub {
+        font-size: 0.62rem;
+        opacity: 0.88;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 2px;
+    }
+
+    /* Bottom Fixed App Navigation Bar */
+    .mob-bottom-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        display: flex !important;
+        align-items: center;
+        justify-content: space-around;
+        padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 8px));
+        z-index: 1000;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .mob-bar-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        color: #64748b;
+        cursor: pointer;
+        padding: 4px 10px;
+    }
+
+    .mob-bar-tab.active {
+        color: #0f172a;
+    }
+
+    .mob-bar-tab span {
+        font-size: 0.68rem;
+        font-weight: 600;
+    }
+
+    .mob-bar-ai-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-top: -16px;
+    }
+
+    .mob-ai-bubble {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.45);
+        border: 3px solid #ffffff;
+        transition: transform 0.2s ease;
+    }
+
+    .mob-bar-ai-center:active .mob-ai-bubble {
+        transform: scale(0.92);
+    }
+
+    .mob-bar-ai-center span {
+        font-size: 0.68rem;
+        font-weight: 700;
+        color: #7c3aed;
     }
 }
