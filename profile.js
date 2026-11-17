@@ -231,6 +231,16 @@
                 <span>Edit Name</span>
               </button>
             </div>
+            <div style="margin-top: 12px; width: 100%; max-width: 440px;">
+              <button type="button" class="exp-official-btn-logout" onclick="window.ExplorerProfile.signOut()">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                <span>Log Out</span>
+              </button>
+            </div>
           ` : `
             <div class="exp-official-actions">
               <button type="button" class="exp-official-btn-edit" style="background:#bd232f;width:100%;max-width:320px;" onclick="window.ExplorerProfile.close()">
@@ -339,6 +349,30 @@
 
     syncUI: function () {
       if (currentViewingProfile) renderProfileModal(currentViewingProfile);
+    },
+
+    signOut: async function () {
+      if (confirm('Are you sure you want to log out of your account?')) {
+        this.close();
+        if (window.WeekendAuth && typeof window.WeekendAuth.signOut === 'function') {
+          await window.WeekendAuth.signOut();
+        } else if (window.Clerk && typeof window.Clerk.signOut === 'function') {
+          try { await window.Clerk.signOut(); } catch (e) {}
+        }
+        localStorage.removeItem(MY_PROFILE_KEY);
+        localStorage.removeItem('we_auth_session');
+        sessionStorage.setItem('we_explicit_logout', 'true');
+
+        const toast = document.createElement('div');
+        toast.textContent = '✓ Successfully logged out';
+        toast.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#111111;border:1.5px solid #ffffff;color:#fff;padding:10px 24px;border-radius:24px;font-size:0.88rem;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,0.35);z-index:99999999;';
+        document.body.appendChild(toast);
+        setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 2500);
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      }
     },
 
     // Compatibility stubs for other modules
