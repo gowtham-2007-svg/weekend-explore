@@ -1,9 +1,7 @@
 /**
- * Official Explorer Profile System - Full Screen & Official Design
- * Exactly meets:
- *  - 100% Full Screen View (no margins, no floating cards)
- *  - Only Profile Image and Name displayed in a prestigious, official format
- *  - Red & White signature branding
+ * Official Explorer Profile System - Dynamic Multi-User Support
+ * Ensures every reviewer, team member, and user has their OWN unique name, photo, and official designation.
+ * Full-screen & Red-White brand aesthetic.
  */
 (function () {
   'use strict';
@@ -21,17 +19,32 @@
     }
   }, true);
 
-  const STORAGE_KEY = 'we_explorer_profile_official_v2';
+  const MY_PROFILE_KEY = 'we_my_profile_v3';
 
-  function getProfileState() {
+  // Helper: Read session from localStorage if authenticated
+  function getStoredSession() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw = localStorage.getItem('we_auth_session');
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && parsed.authenticated === true) return parsed;
+    } catch (e) {}
+    return null;
+  }
+
+  // Get current user's own profile state
+  function getMyProfileState() {
+    try {
+      const raw = localStorage.getItem(MY_PROFILE_KEY);
       if (raw) return JSON.parse(raw);
     } catch (e) {}
 
-    let name = 'Divya Shettar';
-    let handle = 'divya_shettar';
-    let avatar = '<img src="assets/team/divya_badge.png" class="exp-avatar-img" alt="Divya Shettar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
+    const session = getStoredSession();
+    let name = (session && session.name) || 'Gautam N';
+    let handle = (session && session.username) || 'gautam_n';
+    let avatar = (session && session.imageUrl)
+      ? `<img src="${session.imageUrl}" class="exp-avatar-img" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+      : `<img src="assets/team/gowtham_badge.png" class="exp-avatar-img" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
 
     if (window.Clerk && window.Clerk.user) {
       name = window.Clerk.user.fullName || window.Clerk.user.firstName || name;
@@ -44,38 +57,97 @@
     return {
       name: name,
       handle: handle,
-      role: 'Co-Founder • Weekend Explore Official',
+      role: 'Founder & Lead Developer • Weekend Explore Official',
       avatar: avatar,
       region: 'Karnataka, India',
       status: 'Active & Verified',
-      isPrivate: false,
-      posts: [],
-      reachedPlaces: []
+      isSelf: true
     };
   }
 
-  function saveProfileState(s) {
+  function saveMyProfileState(s) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+      localStorage.setItem(MY_PROFILE_KEY, JSON.stringify(s));
     } catch (e) {}
   }
 
-  let state = getProfileState();
+  let myState = getMyProfileState();
+  let currentViewingProfile = myState;
 
   function escapeHtml(str) {
     return String(str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
   }
 
-  function createProfileModalDOM() {
-    if (document.getElementById('exp-profile-overlay')) return;
+  // Generate a distinct avatar image or colorful initial badge for each user
+  function getAvatarForUser(name, customImg) {
+    if (customImg) {
+      return `<img src="${customImg}" class="exp-avatar-img" alt="${escapeHtml(name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    }
+    const clean = (name || '').trim().toLowerCase();
+    if (clean.includes('divya')) {
+      return `<img src="assets/team/divya_badge.png" class="exp-avatar-img" alt="Divya Shettar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    }
+    if (clean.includes('gowtham') || clean.includes('gautam')) {
+      return `<img src="assets/team/gowtham_badge.png" class="exp-avatar-img" alt="Gautam N" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    }
+    if (clean.includes('deekshith') || clean.includes('deekishth')) {
+      return `<img src="assets/team/deekishth_badge.png" class="exp-avatar-img" alt="Deekshith KR" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    }
 
-    const overlay = document.createElement('div');
-    overlay.id = 'exp-profile-overlay';
-    overlay.className = 'exp-profile-overlay';
+    // Deterministic colorful avatar gradients based on name
+    const palettes = [
+      { bg: 'linear-gradient(135deg, #bd232f 0%, #e11d48 100%)', text: '#ffffff' }, // Crimson
+      { bg: 'linear-gradient(135deg, #2563eb 0%, #3b82f6 100%)', text: '#ffffff' }, // Blue
+      { bg: 'linear-gradient(135deg, #059669 0%, #10b981 100%)', text: '#ffffff' }, // Emerald
+      { bg: 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)', text: '#ffffff' }, // Purple
+      { bg: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)', text: '#ffffff' }, // Amber
+      { bg: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)', text: '#ffffff' }, // Cyan
+      { bg: 'linear-gradient(135deg, #db2777 0%, #ec4899 100%)', text: '#ffffff' }, // Pink
+      { bg: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)', text: '#ffffff' }  // Indigo
+    ];
+    let hash = 0;
+    for (let i = 0; i < clean.length; i++) {
+      hash = (hash << 5) - hash + clean.charCodeAt(i);
+      hash |= 0;
+    }
+    const palette = palettes[Math.abs(hash) % palettes.length];
+    const initial = (name || 'E').trim().charAt(0).toUpperCase();
+
+    return `<div style="width:100%;height:100%;border-radius:50%;background:${palette.bg};color:${palette.text};display:flex;align-items:center;justify-content:center;font-size:3.2rem;font-weight:800;font-family:'Outfit',sans-serif;box-shadow:inset 0 2px 4px rgba(255,255,255,0.3);">${initial}</div>`;
+  }
+
+  // Get distinct role for user
+  function getRoleForUser(name, customRole) {
+    if (customRole) return customRole;
+    const clean = (name || '').trim().toLowerCase();
+    if (clean.includes('divya')) return 'Co-Founder • Weekend Explore Official';
+    if (clean.includes('gowtham') || clean.includes('gautam')) return 'Founder & Lead Developer • Weekend Explore Official';
+    if (clean.includes('deekshith') || clean.includes('deekishth')) return 'Co-Founder • Weekend Explore Official';
+    return 'Verified Traveler & Reviewer';
+  }
+
+  // Render the Profile Modal DOM dynamically for the given user profile
+  function renderProfileModal(profile) {
+    let overlay = document.getElementById('exp-profile-overlay');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.id = 'exp-profile-overlay';
+      overlay.className = 'exp-profile-overlay';
+      document.body.appendChild(overlay);
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          window.ExplorerProfile.close();
+        }
+      });
+    }
+
+    const isSelf = !!profile.isSelf;
+    const titleText = isSelf ? 'My Official Profile' : `${escapeHtml(profile.name)}'s Profile`;
 
     overlay.innerHTML = `
       <div class="exp-profile-card exp-profile-fullscreen">
-        <!-- Official Top Bar -->
+        <!-- Top App Bar -->
         <div class="exp-profile-topbar exp-official-topbar">
           <button type="button" class="exp-profile-back-btn" onclick="window.ExplorerProfile.close()" title="Return to Website">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -83,7 +155,7 @@
             </svg>
           </button>
           <div class="exp-official-title-wrap">
-            <span class="exp-official-title">Official Profile</span>
+            <span class="exp-official-title">${titleText}</span>
             <span class="exp-official-badge-tag">Verified</span>
           </div>
           <button type="button" class="exp-profile-close-btn" onclick="window.ExplorerProfile.close()" title="Close Profile">
@@ -98,20 +170,22 @@
         <div class="exp-profile-scroll-body exp-official-body">
           <!-- Official Profile Hero -->
           <div class="exp-official-hero">
-            <div class="exp-official-avatar-ring" onclick="window.ExplorerProfile.promptAvatarChange()" title="Tap to change profile picture">
+            <div class="exp-official-avatar-ring" ${isSelf ? 'onclick="window.ExplorerProfile.promptAvatarChange()" title="Tap to change profile picture"' : ''}>
               <div class="exp-official-avatar-inner" id="exp-render-avatar">
-                ${state.avatar}
+                ${profile.avatar}
               </div>
-              <button type="button" class="exp-official-avatar-edit-badge" title="Upload new photo">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                  <circle cx="12" cy="13" r="4"></circle>
-                </svg>
-              </button>
+              ${isSelf ? `
+                <button type="button" class="exp-official-avatar-edit-badge" title="Upload new photo" onclick="window.ExplorerProfile.promptAvatarChange()">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                </button>
+              ` : ''}
             </div>
 
             <div class="exp-official-name-row">
-              <h1 class="exp-official-name" id="exp-render-fullname">${escapeHtml(state.name)}</h1>
+              <h1 class="exp-official-name" id="exp-render-fullname">${escapeHtml(profile.name)}</h1>
               <span class="exp-verified-badge" title="Verified Official Profile">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="#bd232f">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -119,8 +193,8 @@
               </span>
             </div>
 
-            <div class="exp-official-handle" id="exp-render-handle">@${escapeHtml(state.handle)}</div>
-            <div class="exp-official-role-tag" id="exp-render-role">${escapeHtml(state.role || 'Co-Founder • Weekend Explore Official')}</div>
+            <div class="exp-official-handle" id="exp-render-handle">@${escapeHtml(profile.handle)}</div>
+            <div class="exp-official-role-tag" id="exp-render-role">${escapeHtml(profile.role)}</div>
           </div>
 
           <!-- Official Account Information Card -->
@@ -133,11 +207,11 @@
             </div>
             <div class="exp-official-row">
               <span class="exp-official-label">Designation</span>
-              <span class="exp-official-val" id="exp-render-designation">${escapeHtml(state.role || 'Official Guide')}</span>
+              <span class="exp-official-val" id="exp-render-designation">${escapeHtml(profile.role)}</span>
             </div>
             <div class="exp-official-row">
               <span class="exp-official-label">Region</span>
-              <span class="exp-official-val">Karnataka, India</span>
+              <span class="exp-official-val">${escapeHtml(profile.region || 'Karnataka, India')}</span>
             </div>
             <div class="exp-official-row">
               <span class="exp-official-label">Platform</span>
@@ -145,20 +219,28 @@
             </div>
           </div>
 
-          <!-- Official Action Buttons -->
-          <div class="exp-official-actions">
-            <button type="button" class="exp-official-btn-edit" onclick="window.ExplorerProfile.promptAvatarChange()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-              <span>Change Photo</span>
-            </button>
-            <button type="button" class="exp-official-btn-secondary" onclick="window.ExplorerProfile.promptNameChange()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-              <span>Edit Name</span>
-            </button>
-          </div>
+          <!-- Actions -->
+          ${isSelf ? `
+            <div class="exp-official-actions">
+              <button type="button" class="exp-official-btn-edit" onclick="window.ExplorerProfile.promptAvatarChange()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                <span>Change Photo</span>
+              </button>
+              <button type="button" class="exp-official-btn-secondary" onclick="window.ExplorerProfile.promptNameChange()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                <span>Edit Name</span>
+              </button>
+            </div>
+          ` : `
+            <div class="exp-official-actions">
+              <button type="button" class="exp-official-btn-edit" style="background:#bd232f;width:100%;max-width:320px;" onclick="window.ExplorerProfile.close()">
+                <span>✓ Verified Community Profile</span>
+              </button>
+            </div>
+          `}
 
           <!-- Return Button -->
-          <div style="margin-top: 26px; width: 100%; max-width: 440px;">
+          <div style="margin-top: 24px; width: 100%; max-width: 440px;">
             <button type="button" class="exp-official-return-btn" onclick="window.ExplorerProfile.close()">
               ← Return to Website
             </button>
@@ -167,53 +249,48 @@
       </div>
       <input type="file" id="exp-avatar-file-input" accept="image/*" style="display:none" onchange="window.ExplorerProfile.handleAvatarUpload(event)">
     `;
-
-    document.body.appendChild(overlay);
-
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) {
-        window.ExplorerProfile.close();
-      }
-    });
   }
 
   // Exposed Global ExplorerProfile API
   window.ExplorerProfile = {
     open: function () {
-      createProfileModalDOM();
-      if (window.Clerk && window.Clerk.user) {
-        state.name = window.Clerk.user.fullName || window.Clerk.user.firstName || state.name;
-        state.handle = window.Clerk.user.username || (state.name.toLowerCase().replace(/[^a-z0-9_]/g, '_'));
-        if (window.Clerk.user.imageUrl) {
-          state.avatar = `<img src="${window.Clerk.user.imageUrl}" class="exp-avatar-img" alt="${state.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-        }
-      }
-      this.syncUI();
+      myState = getMyProfileState();
+      myState.isSelf = true;
+      currentViewingProfile = myState;
+      renderProfileModal(currentViewingProfile);
       const overlay = document.getElementById('exp-profile-overlay');
       if (overlay) overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     },
 
-    openForUser: function (userName) {
-      if (userName && userName.trim()) {
-        state.name = userName.trim();
-        state.handle = state.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
-        if (state.name === 'Divya Shettar') {
-          state.avatar = '<img src="assets/team/divya_badge.png" class="exp-avatar-img" alt="Divya Shettar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
-          state.role = 'Co-Founder • Weekend Explore Official';
-        } else if (state.name.toLowerCase().includes('gowtham')) {
-          state.avatar = '<img src="assets/team/gowtham_badge.png" class="exp-avatar-img" alt="Gowtham" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
-          state.role = 'Founder & Lead Developer • Weekend Explore Official';
-        } else if (state.name.toLowerCase().includes('deekshith') || state.name.toLowerCase().includes('deekishth')) {
-          state.avatar = '<img src="assets/team/deekishth_badge.png" class="exp-avatar-img" alt="Deekshith" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">';
-          state.role = 'Co-Founder • Weekend Explore Official';
-        } else {
-          state.avatar = (state.name.charAt(0) || 'U').toUpperCase();
-          state.role = 'Verified Member • Weekend Explore';
-        }
-        saveProfileState(state);
+    openForUser: function (userName, meta) {
+      if (!userName || !userName.trim()) {
+        this.open();
+        return;
       }
-      this.open();
+      const trimmedName = userName.trim();
+      const role = (meta && meta.role) || getRoleForUser(trimmedName, meta && meta.tag);
+      const region = (meta && meta.location) || 'Karnataka, India';
+      const handle = trimmedName.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+      const avatar = (meta && meta.img) ? getAvatarForUser(trimmedName, meta.img) : getAvatarForUser(trimmedName);
+
+      // Check if this user is actually the logged in self
+      const isSelf = myState && myState.name && myState.name.toLowerCase() === trimmedName.toLowerCase();
+
+      currentViewingProfile = {
+        name: trimmedName,
+        handle: handle,
+        role: role,
+        avatar: avatar,
+        region: region,
+        status: 'Active & Verified',
+        isSelf: isSelf
+      };
+
+      renderProfileModal(currentViewingProfile);
+      const overlay = document.getElementById('exp-profile-overlay');
+      if (overlay) overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
     },
 
     close: function () {
@@ -223,6 +300,7 @@
     },
 
     promptAvatarChange: function () {
+      if (!currentViewingProfile || !currentViewingProfile.isSelf) return;
       const fileInp = document.getElementById('exp-avatar-file-input');
       if (fileInp) fileInp.click();
     },
@@ -233,44 +311,34 @@
       const reader = new FileReader();
       reader.onload = (ev) => {
         const dataUrl = ev.target.result;
-        state.avatar = `<img src="${dataUrl}" class="exp-avatar-img" alt="${state.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
-        saveProfileState(state);
-        this.syncUI();
+        myState.avatar = `<img src="${dataUrl}" class="exp-avatar-img" alt="${myState.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        saveMyProfileState(myState);
+        currentViewingProfile = myState;
+        renderProfileModal(currentViewingProfile);
 
         // Update any avatar in navbar
         const navAvatars = document.querySelectorAll('.mob-avatar-wrap, #we-unified-user-avatar');
         navAvatars.forEach(el => {
-          el.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="${state.name}">`;
+          el.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="${myState.name}">`;
         });
       };
       reader.readAsDataURL(file);
     },
 
     promptNameChange: function () {
-      const newName = prompt('Enter official profile name:', state.name);
+      if (!currentViewingProfile || !currentViewingProfile.isSelf) return;
+      const newName = prompt('Enter your official profile name:', myState.name);
       if (newName && newName.trim()) {
-        state.name = newName.trim();
-        state.handle = state.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
-        saveProfileState(state);
-        this.syncUI();
+        myState.name = newName.trim();
+        myState.handle = myState.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+        saveMyProfileState(myState);
+        currentViewingProfile = myState;
+        renderProfileModal(currentViewingProfile);
       }
     },
 
     syncUI: function () {
-      const handleEl = document.getElementById('exp-render-handle');
-      if (handleEl) handleEl.textContent = '@' + state.handle;
-
-      const avatarEl = document.getElementById('exp-render-avatar');
-      if (avatarEl) avatarEl.innerHTML = state.avatar;
-
-      const fullnameEl = document.getElementById('exp-render-fullname');
-      if (fullnameEl) fullnameEl.textContent = state.name;
-
-      const roleEl = document.getElementById('exp-render-role');
-      if (roleEl) roleEl.textContent = state.role || 'Co-Founder • Weekend Explore Official';
-
-      const desEl = document.getElementById('exp-render-designation');
-      if (desEl) desEl.textContent = state.role || 'Official Guide';
+      if (currentViewingProfile) renderProfileModal(currentViewingProfile);
     },
 
     // Compatibility stubs for other modules

@@ -381,8 +381,8 @@
             return `
                             <div class="review-card">
                                 <div class="review-card-header">
-                                    <div class="review-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.openForUser('${escapeHtml(rev.name)}'); event.stopPropagation();" title="View ${escapeHtml(rev.name)}'s Explorer Profile" style="cursor:pointer;">${initial}</div>
-                                    <div class="review-author-meta" onclick="window.ExplorerProfile && window.ExplorerProfile.openForUser('${escapeHtml(rev.name)}'); event.stopPropagation();" title="View ${escapeHtml(rev.name)}'s Explorer Profile" style="cursor:pointer;">
+                                    <div class="review-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.openForUser('${escapeHtml(rev.name)}', { location: '${escapeHtml(rev.location || 'Karnataka, India')}', role: 'Verified Traveler &amp; Reviewer' }); event.stopPropagation();" title="View ${escapeHtml(rev.name)}'s Explorer Profile" style="cursor:pointer;">${initial}</div>
+                                    <div class="review-author-meta" onclick="window.ExplorerProfile && window.ExplorerProfile.openForUser('${escapeHtml(rev.name)}', { location: '${escapeHtml(rev.location || 'Karnataka, India')}', role: 'Verified Traveler &amp; Reviewer' }); event.stopPropagation();" title="View ${escapeHtml(rev.name)}'s Explorer Profile" style="cursor:pointer;">
                                         <div class="review-author-name">
                                             <span style="text-decoration:underline dotted rgba(131,56,236,0.6);text-underline-offset:3px;">${escapeHtml(rev.name)}</span>
                                             <span class="review-verified-badge" title="Verified Traveler">
