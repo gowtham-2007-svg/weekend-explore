@@ -1,7 +1,7 @@
 /**
- * Official Explorer Profile System - Dynamic Multi-User Support
- * Ensures every reviewer, team member, and user has their OWN unique name, photo, and official designation.
- * Full-screen & Red-White brand aesthetic.
+ * Official Explorer Profile System - Dynamic Multi-User & Google Auth Sync Support
+ * Ensures every authenticated Google user has their ACTUAL name, photo, and official designation.
+ * Full-screen & Red-White brand aesthetic preserved.
  */
 (function () {
   'use strict';
@@ -32,41 +32,189 @@
     return null;
   }
 
-  // Get current user's own profile state
-  function getMyProfileState() {
-    try {
-      const raw = localStorage.getItem(MY_PROFILE_KEY);
-      if (raw) return JSON.parse(raw);
-    } catch (e) {}
+  // Robust extraction of user's genuine name from Google / Clerk authentication
+  function getGoogleAuthUserName(user) {
+    if (typeof window.getGoogleAuthUserName === 'function') {
+      const globalResolved = window.getGoogleAuthUserName(user);
+      if (globalResolved) return globalResolved;
+    }
+    if (!user) return '';
 
-    const session = getStoredSession();
-    let name = (session && session.name) || 'Gautam N';
-    let handle = (session && session.username) || 'gautam_n';
-    let avatar = (session && session.imageUrl)
-      ? `<img src="${session.imageUrl}" class="exp-avatar-img" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
-      : `<img src="assets/team/gowtham_badge.png" class="exp-avatar-img" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    // 1. External Accounts: Look specifically for Google OAuth account
+    if (Array.isArray(user.externalAccounts) && user.externalAccounts.length > 0) {
+      const googleAcc = user.externalAccounts.find(acc =>
+        acc && (
+          acc.provider === 'google' ||
+          acc.provider === 'oauth_google' ||
+          (acc.verification && acc.verification.strategy && String(acc.verification.strategy).toLowerCase().includes('google'))
+        )
+      ) || user.externalAccounts[0];
 
-    if (window.Clerk && window.Clerk.user) {
-      name = window.Clerk.user.fullName || window.Clerk.user.firstName || name;
-      handle = window.Clerk.user.username || (name.toLowerCase().replace(/[^a-z0-9_]/g, '_'));
-      if (window.Clerk.user.imageUrl) {
-        avatar = `<img src="${window.Clerk.user.imageUrl}" class="exp-avatar-img" alt="${name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+      if (googleAcc) {
+        const gDisplayName = (googleAcc.displayName || googleAcc.fullName || '').trim();
+        if (gDisplayName && !gDisplayName.includes('@') && gDisplayName.toLowerCase() !== 'null' && gDisplayName.toLowerCase() !== 'undefined') {
+          return gDisplayName;
+        }
+        const gFirst = (googleAcc.firstName || '').trim();
+        const gLast = (googleAcc.lastName || '').trim();
+        const gCombined = `${gFirst} ${gLast}`.trim();
+        if (gCombined && gCombined.toLowerCase() !== 'null' && gCombined.toLowerCase() !== 'undefined') {
+          return gCombined;
+        }
+        if (googleAcc.username && !googleAcc.username.includes('@') && googleAcc.username.toLowerCase() !== 'null') {
+          return googleAcc.username.trim();
+        }
       }
     }
 
-    return {
+    // 2. Direct Clerk fullName (First + Last)
+    if (user.fullName && user.fullName.trim() && user.fullName.trim().toLowerCase() !== 'null' && user.fullName.trim().toLowerCase() !== 'undefined') {
+      return user.fullName.trim();
+    }
+
+    // 3. Combined firstName + lastName
+    const first = (user.firstName || '').trim();
+    const last = (user.lastName || '').trim();
+    const combined = `${first} ${last}`.trim();
+    if (combined && combined.toLowerCase() !== 'null' && combined.toLowerCase() !== 'undefined') {
+      return combined;
+    }
+
+    // 4. Single firstName
+    if (first && first.toLowerCase() !== 'null' && first.toLowerCase() !== 'undefined') {
+      return first;
+    }
+
+    // 5. Username
+    if (user.username && user.username.trim() && user.username.trim().toLowerCase() !== 'null' && user.username.trim().toLowerCase() !== 'undefined') {
+      return user.username.trim();
+    }
+
+    // 6. Clean name from email address (e.g. gowtham.ramesh@gmail.com -> Gowtham Ramesh)
+    const email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress)
+      || (user.emailAddresses && user.emailAddresses[0] ? user.emailAddresses[0].emailAddress : '');
+    if (email && email.includes('@')) {
+      const prefix = email.split('@')[0].replace(/[._+0-9]/g, ' ').trim();
+      if (prefix) {
+        const formatted = prefix.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+        if (formatted) return formatted;
+      }
+    }
+
+    return '';
+  }
+
+  // Database Sync Helper: Persists profile data to backend database (MongoDB Atlas, Supabase, Local DB)
+  async function syncUserProfileToDatabase(profile) {
+    if (!profile || !profile.userId) return;
+    try {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+      const backendHost = isLocal ? 'http://localhost:3000' : '';
+      fetch(backendHost + '/api/user/sync-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: profile.userId,
+          name: profile.name,
+          email: profile.email || '',
+          imageUrl: profile.imageUrl || '',
+          handle: profile.handle || '',
+          role: profile.role || '',
+          region: profile.region || 'Karnataka, India',
+          provider: 'google'
+        })
+      }).then(res => res.json()).then(data => {
+        if (data && data.success) {
+          console.log('[ExplorerProfile] Synced to database:', data.profile && data.profile.name);
+        }
+      }).catch(err => console.warn('[ExplorerProfile DB Sync Warning]', err.message));
+    } catch (e) {
+      console.warn('[ExplorerProfile DB Sync Exception]', e);
+    }
+  }
+
+  // Get current user's own profile state (prioritizes actual Google Auth account info)
+  function getMyProfileState() {
+    const clerkUser = (window.Clerk && window.Clerk.user) ? window.Clerk.user : null;
+    const session = getStoredSession();
+    const userId = (clerkUser && clerkUser.id) || (session && session.userId) || '';
+
+    // 1. Fetch user-specific stored profile if exists
+    let stored = null;
+    if (userId) {
+      try {
+        const raw = localStorage.getItem('we_profile_' + userId);
+        if (raw) stored = JSON.parse(raw);
+      } catch (e) {}
+    }
+    if (!stored) {
+      try {
+        const raw = localStorage.getItem(MY_PROFILE_KEY);
+        if (raw) stored = JSON.parse(raw);
+      } catch (e) {}
+    }
+
+    // Extract actual name & photo from authenticated Google / Clerk account
+    const googleName = clerkUser ? getGoogleAuthUserName(clerkUser) : ((session && session.name) || '');
+    const googleAvatar = (clerkUser && clerkUser.imageUrl) || (session && session.imageUrl) || '';
+    const email = (clerkUser && clerkUser.primaryEmailAddress ? clerkUser.primaryEmailAddress.emailAddress : '') || (session && session.email) || '';
+
+    let name = '';
+    if (stored && stored.name && stored.isCustomName) {
+      // Explicit user manual rename
+      name = stored.name;
+    } else if (googleName && googleName !== 'Explorer') {
+      // Real Google authenticated name
+      name = googleName;
+    } else if (stored && stored.name && stored.name !== 'Gautam N' && stored.name !== 'Divya Shettar') {
+      name = stored.name;
+    } else {
+      name = googleName || (stored && stored.name) || 'Explorer';
+    }
+
+    const handle = name ? name.toLowerCase().replace(/[^a-z0-9_]/g, '_') : 'explorer';
+
+    let avatar = '';
+    if (googleAvatar) {
+      avatar = `<img src="${googleAvatar}" class="exp-avatar-img" alt="${escapeHtml(name)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else if (stored && stored.avatar) {
+      avatar = stored.avatar;
+    } else {
+      avatar = getAvatarForUser(name);
+    }
+
+    const role = (stored && stored.role && !stored.role.includes('Founder & Lead Developer'))
+      ? stored.role
+      : getRoleForUser(name);
+
+    const profile = {
+      userId: userId,
       name: name,
+      email: email,
+      imageUrl: googleAvatar,
       handle: handle,
-      role: 'Founder & Lead Developer • Weekend Explore Official',
+      role: role,
       avatar: avatar,
-      region: 'Karnataka, India',
+      region: (stored && stored.region) || 'Karnataka, India',
       status: 'Active & Verified',
-      isSelf: true
+      isSelf: true,
+      isCustomName: !!(stored && stored.isCustomName)
     };
+
+    // Auto-save and sync to DB if authenticated
+    if (userId && name && name !== 'Explorer') {
+      saveMyProfileState(profile);
+      syncUserProfileToDatabase(profile);
+    }
+
+    return profile;
   }
 
   function saveMyProfileState(s) {
     try {
+      if (s && s.userId) {
+        localStorage.setItem('we_profile_' + s.userId, JSON.stringify(s));
+      }
       localStorage.setItem(MY_PROFILE_KEY, JSON.stringify(s));
     } catch (e) {}
   }
@@ -309,6 +457,61 @@
       document.body.style.overflow = '';
     },
 
+    // Synchronizes authenticated Clerk / Google account data immediately into profile system
+    syncWithClerkUser: function (user) {
+      if (!user) return;
+      const googleName = getGoogleAuthUserName(user);
+      if (!googleName) return;
+
+      const userId = user.id;
+      const email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress) ||
+                    (user.emailAddresses && user.emailAddresses[0] ? user.emailAddresses[0].emailAddress : '');
+      const avatarUrl = user.imageUrl || '';
+      const handle = googleName.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+
+      // Update in-memory state
+      myState.userId = userId;
+      myState.name = googleName;
+      myState.email = email;
+      myState.handle = handle;
+      myState.imageUrl = avatarUrl;
+      if (avatarUrl) {
+        myState.avatar = `<img src="${avatarUrl}" class="exp-avatar-img" alt="${escapeHtml(googleName)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+      } else {
+        myState.avatar = getAvatarForUser(googleName);
+      }
+      myState.role = getRoleForUser(googleName);
+      myState.isSelf = true;
+
+      // Persist locally & sync to server database
+      saveMyProfileState(myState);
+      syncUserProfileToDatabase({
+        userId: userId,
+        name: googleName,
+        email: email,
+        imageUrl: avatarUrl,
+        handle: handle,
+        role: myState.role,
+        region: myState.region || 'Karnataka, India',
+        provider: 'google'
+      });
+
+      // Update any rendered avatar in navbar / drawer
+      const navAvatars = document.querySelectorAll('.mob-avatar-wrap, #we-unified-user-avatar');
+      navAvatars.forEach(el => {
+        if (avatarUrl) {
+          el.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="${escapeHtml(googleName)}">`;
+        }
+      });
+
+      // If profile overlay is open and showing self, immediately refresh the modal UI
+      const overlay = document.getElementById('exp-profile-overlay');
+      if (overlay && overlay.classList.contains('open') && currentViewingProfile && currentViewingProfile.isSelf) {
+        currentViewingProfile = myState;
+        renderProfileModal(currentViewingProfile);
+      }
+    },
+
     promptAvatarChange: function () {
       if (!currentViewingProfile || !currentViewingProfile.isSelf) return;
       const fileInp = document.getElementById('exp-avatar-file-input');
@@ -322,6 +525,7 @@
       reader.onload = (ev) => {
         const dataUrl = ev.target.result;
         myState.avatar = `<img src="${dataUrl}" class="exp-avatar-img" alt="${myState.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+        myState.imageUrl = dataUrl;
         saveMyProfileState(myState);
         currentViewingProfile = myState;
         renderProfileModal(currentViewingProfile);
@@ -331,6 +535,11 @@
         navAvatars.forEach(el => {
           el.innerHTML = `<img src="${dataUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="${myState.name}">`;
         });
+
+        // Sync with backend database
+        if (myState.userId) {
+          syncUserProfileToDatabase(myState);
+        }
       };
       reader.readAsDataURL(file);
     },
@@ -341,9 +550,24 @@
       if (newName && newName.trim()) {
         myState.name = newName.trim();
         myState.handle = myState.name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+        myState.isCustomName = true;
         saveMyProfileState(myState);
         currentViewingProfile = myState;
         renderProfileModal(currentViewingProfile);
+
+        // Sync updated name to database
+        if (myState.userId) {
+          syncUserProfileToDatabase({
+            userId: myState.userId,
+            name: myState.name,
+            email: myState.email || '',
+            imageUrl: myState.imageUrl || '',
+            handle: myState.handle,
+            role: myState.role,
+            region: myState.region || 'Karnataka, India',
+            provider: 'google'
+          });
+        }
       }
     },
 
@@ -360,6 +584,9 @@
           try { await window.Clerk.signOut(); } catch (e) {}
         }
         localStorage.removeItem(MY_PROFILE_KEY);
+        if (myState && myState.userId) {
+          localStorage.removeItem('we_profile_' + myState.userId);
+        }
         localStorage.removeItem('we_auth_session');
         sessionStorage.setItem('we_explicit_logout', 'true');
 
@@ -385,4 +612,30 @@
     closeSubmodal: function () {},
     closePostLightbox: function () {}
   };
+
+  // Event listener for global authentication state changes
+  window.addEventListener('we-auth-state-changed', function (e) {
+    if (e.detail && e.detail.authenticated && e.detail.user) {
+      window.ExplorerProfile.syncWithClerkUser(e.detail.user);
+    }
+  });
+
+  // Watch for Clerk loading and user availability
+  function watchClerkForProfile() {
+    if (window.Clerk) {
+      if (window.Clerk.user) {
+        window.ExplorerProfile.syncWithClerkUser(window.Clerk.user);
+      }
+      if (typeof window.Clerk.addListener === 'function') {
+        window.Clerk.addListener(({ user }) => {
+          if (user) {
+            window.ExplorerProfile.syncWithClerkUser(user);
+          }
+        });
+      }
+    } else {
+      setTimeout(watchClerkForProfile, 250);
+    }
+  }
+  watchClerkForProfile();
 })();

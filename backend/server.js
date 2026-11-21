@@ -914,6 +914,51 @@ const requestListener = async (req, res) => {
         }
     }
 
+    // Local file-based database for authenticated user profiles (Google / Clerk synced)
+    const USER_PROFILES_DB_PATH = path.join(__dirname, 'user_profiles_db.json');
+    const TMP_USER_PROFILES_PATH = path.join('/tmp', 'user_profiles_db.json');
+    let userProfiles = [];
+
+    function loadUserProfilesDB() {
+        let loaded = false;
+        if (fs.existsSync(USER_PROFILES_DB_PATH)) {
+            try {
+                const raw = fs.readFileSync(USER_PROFILES_DB_PATH, 'utf8');
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) {
+                    userProfiles = parsed;
+                    console.log(`[USER PROFILES DB] Loaded ${userProfiles.length} user profiles`);
+                    loaded = true;
+                }
+            } catch (err) {
+                console.error('[USER PROFILES DB] Error loading profiles file:', err.message);
+            }
+        }
+        if (!loaded && fs.existsSync(TMP_USER_PROFILES_PATH)) {
+            try {
+                const raw = fs.readFileSync(TMP_USER_PROFILES_PATH, 'utf8');
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed)) {
+                    userProfiles = parsed;
+                    console.log(`[USER PROFILES DB /tmp] Loaded ${userProfiles.length} user profiles`);
+                }
+            } catch (err) {}
+        }
+    }
+
+    function saveUserProfilesDB() {
+        const payload = JSON.stringify(userProfiles, null, 2);
+        try {
+            fs.writeFileSync(USER_PROFILES_DB_PATH, payload, 'utf8');
+        } catch (err) {
+            try {
+                fs.writeFileSync(TMP_USER_PROFILES_PATH, payload, 'utf8');
+            } catch (tmpErr) {
+                console.error('[USER PROFILES DB] Error saving profiles file:', err.message);
+            }
+        }
+    }
+
     function getReviewsSummary() {
         const total = websiteReviews.length;
         if (total === 0) {
@@ -981,6 +1026,7 @@ const requestListener = async (req, res) => {
     // Load DB on startup
     loadLocalDB();
     loadReviewsDB();
+    loadUserProfilesDB();
 
     function getLocalAnalyticsSummary(range) {
         const now = Date.now();
@@ -1503,6 +1549,118 @@ const requestListener = async (req, res) => {
             console.error('[AI History Fetch Error]', err.message);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: err.message }));
+        }
+        return;
+    }
+
+    // 3.45. User Profile Sync & Retrieval Endpoints (Google Auth / Clerk integration)
+    if (pathname === '/api/user/sync-profile' && req.method === 'POST') {
+        setCorsHeaders(res);
+        try {
+            const body = await getRequestBodySafe(req);
+            const { userId, name, email, imageUrl, handle, role, region, provider } = body;
+
+            if (!userId) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'userId is required' }));
+                return;
+            }
+
+            const nowIso = new Date().toISOString();
+            const profileRecord = {
+                userId,
+                name: (name || '').trim(),
+                email: (email || '').trim().toLowerCase(),
+                imageUrl: imageUrl || '',
+                handle: handle || (name ? name.toLowerCase().replace(/[^a-z0-9_]/g, '_') : ''),
+                role: role || 'Verified Traveler & Reviewer',
+                region: region || 'Karnataka, India',
+                provider: provider || 'google',
+                updatedAt: nowIso
+            };
+
+            // 1. Upsert into local persistent JSON DB
+            const existingIdx = userProfiles.findIndex(p => p.userId === userId || (p.email && p.email === profileRecord.email));
+            if (existingIdx >= 0) {
+                userProfiles[existingIdx] = { ...userProfiles[existingIdx], ...profileRecord };
+            } else {
+                profileRecord.createdAt = nowIso;
+                userProfiles.push(profileRecord);
+            }
+            saveUserProfilesDB();
+
+            // 2. Dual-write to MongoDB Atlas if connected
+            if (mongoDb) {
+                try {
+                    await mongoDb.collection('user_profiles').updateOne(
+                        { userId: userId },
+                        { $set: profileRecord },
+                        { upsert: true }
+                    );
+                    console.log(`[MONGODB] User profile synced for ${profileRecord.name} (${userId})`);
+                } catch (mErr) {
+                    console.warn('[MONGODB PROFILE SYNC ERROR]', mErr.message);
+                }
+            }
+
+            // 3. Upsert into Supabase if configured
+            if (supabase) {
+                try {
+                    await supabase.from('user_profiles').upsert([{
+                        user_id: userId,
+                        name: profileRecord.name,
+                        email: profileRecord.email,
+                        image_url: profileRecord.imageUrl,
+                        handle: profileRecord.handle,
+                        role: profileRecord.role,
+                        updated_at: nowIso
+                    }], { onConflict: 'user_id' });
+                } catch (sErr) {
+                    // Ignored if table does not exist in Supabase schema
+                }
+            }
+
+            // 4. Update analytics session user_name if matching
+            const activeSession = analyticsSessions.find(s => s.user_id === userId);
+            if (activeSession) {
+                activeSession.user_name = profileRecord.name;
+                saveLocalDB();
+            }
+
+            console.log(`[PROFILE SYNC] Profile successfully synced for: ${profileRecord.name} (${profileRecord.email})`);
+
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: true, profile: profileRecord }));
+        } catch (err) {
+            console.error('[PROFILE SYNC ERROR]', err);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: err.message }));
+        }
+        return;
+    }
+
+    if (pathname === '/api/user/profile' && req.method === 'GET') {
+        setCorsHeaders(res);
+        try {
+            const queryUserId = parsedUrl.query.userId;
+            const queryEmail = parsedUrl.query.email ? parsedUrl.query.email.toLowerCase() : '';
+
+            let found = userProfiles.find(p => (queryUserId && p.userId === queryUserId) || (queryEmail && p.email === queryEmail));
+
+            if (!found && mongoDb && queryUserId) {
+                found = await mongoDb.collection('user_profiles').findOne({ userId: queryUserId });
+            }
+
+            if (found) {
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true, profile: found }));
+            } else {
+                res.writeHead(404, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: false, error: 'Profile not found' }));
+            }
+        } catch (err) {
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: err.message }));
         }
         return;
     }

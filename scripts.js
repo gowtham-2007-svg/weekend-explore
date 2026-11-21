@@ -9819,6 +9819,75 @@ function initPlaceImageSliders() {
     const authNavBtn = document.getElementById('nav-auth-btn');
     const userButtonDiv = (document.getElementById('nav-user-profile-anchor') || document.getElementById('user-button'));
 
+    // Robust extraction of user's genuine name from Google / Clerk authentication
+    function getGoogleAuthUserName(user) {
+        if (!user) return '';
+
+        // 1. External Accounts: Look specifically for Google OAuth account
+        if (Array.isArray(user.externalAccounts) && user.externalAccounts.length > 0) {
+            const googleAcc = user.externalAccounts.find(acc =>
+                acc && (
+                    acc.provider === 'google' ||
+                    acc.provider === 'oauth_google' ||
+                    (acc.verification && acc.verification.strategy && String(acc.verification.strategy).toLowerCase().includes('google'))
+                )
+            ) || user.externalAccounts[0];
+
+            if (googleAcc) {
+                const gDisplayName = (googleAcc.displayName || googleAcc.fullName || '').trim();
+                if (gDisplayName && !gDisplayName.includes('@') && gDisplayName.toLowerCase() !== 'null' && gDisplayName.toLowerCase() !== 'undefined') {
+                    return gDisplayName;
+                }
+                const gFirst = (googleAcc.firstName || '').trim();
+                const gLast = (googleAcc.lastName || '').trim();
+                const gCombined = `${gFirst} ${gLast}`.trim();
+                if (gCombined && gCombined.toLowerCase() !== 'null' && gCombined.toLowerCase() !== 'undefined') {
+                    return gCombined;
+                }
+                if (googleAcc.username && !googleAcc.username.includes('@') && googleAcc.username.toLowerCase() !== 'null') {
+                    return googleAcc.username.trim();
+                }
+            }
+        }
+
+        // 2. Direct Clerk fullName (First + Last)
+        if (user.fullName && user.fullName.trim() && user.fullName.trim().toLowerCase() !== 'null' && user.fullName.trim().toLowerCase() !== 'undefined') {
+            return user.fullName.trim();
+        }
+
+        // 3. Combined firstName + lastName
+        const first = (user.firstName || '').trim();
+        const last = (user.lastName || '').trim();
+        const combined = `${first} ${last}`.trim();
+        if (combined && combined.toLowerCase() !== 'null' && combined.toLowerCase() !== 'undefined') {
+            return combined;
+        }
+
+        // 4. Single firstName
+        if (first && first.toLowerCase() !== 'null' && first.toLowerCase() !== 'undefined') {
+            return first;
+        }
+
+        // 5. Username
+        if (user.username && user.username.trim() && user.username.trim().toLowerCase() !== 'null' && user.username.trim().toLowerCase() !== 'undefined') {
+            return user.username.trim();
+        }
+
+        // 6. Clean name from email (e.g. gowtham.ramesh@gmail.com -> Gowtham Ramesh)
+        const email = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress)
+            || (user.emailAddresses && user.emailAddresses[0] ? user.emailAddresses[0].emailAddress : '');
+        if (email && email.includes('@')) {
+            const prefix = email.split('@')[0].replace(/[._+0-9]/g, ' ').trim();
+            if (prefix) {
+                const formatted = prefix.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+                if (formatted) return formatted;
+            }
+        }
+
+        return '';
+    }
+    window.getGoogleAuthUserName = getGoogleAuthUserName;
+
     // Helper: Read validated session from localStorage
     function getStoredSession() {
         try {
@@ -9838,7 +9907,7 @@ function initPlaceImageSliders() {
     function saveStoredSession(user, session) {
         if (!user) return;
         try {
-            const displayName = user.firstName || user.fullName || 'Explorer';
+            const displayName = getGoogleAuthUserName(user) || 'Explorer';
             const userEmail = (user.primaryEmailAddress && user.primaryEmailAddress.emailAddress)
                 ? user.primaryEmailAddress.emailAddress
                 : (user.emailAddresses && user.emailAddresses[0] ? user.emailAddresses[0].emailAddress : '');
@@ -9881,8 +9950,9 @@ function initPlaceImageSliders() {
                 const u = window.Clerk.user;
                 return {
                     id: u.id,
-                    name: u.firstName || u.fullName || 'Explorer',
-                    email: u.primaryEmailAddress ? u.primaryEmailAddress.emailAddress : '',
+                    name: getGoogleAuthUserName(u) || 'Explorer',
+                    email: (u.primaryEmailAddress ? u.primaryEmailAddress.emailAddress : '') ||
+                           (u.emailAddresses && u.emailAddresses[0] ? u.emailAddresses[0].emailAddress : ''),
                     imageUrl: u.imageUrl || ''
                 };
             }
@@ -10038,8 +10108,8 @@ function initPlaceImageSliders() {
             if (userButtonDiv) {
                 userButtonDiv.style.display = 'flex';
                 const user = window.Clerk.user;
-                const name = user.fullName || user.firstName || 'Divya Shettar';
-                const initial = (name.charAt(0) || 'D').toUpperCase();
+                const name = getGoogleAuthUserName(user) || 'Explorer';
+                const initial = (name.charAt(0) || 'E').toUpperCase();
                 const avatarImg = user.imageUrl;
                 userButtonDiv.innerHTML = `
                     <div class="we-user-avatar-btn" id="we-unified-user-avatar" onclick="window.ExplorerProfile && window.ExplorerProfile.open(); event.stopPropagation();" title="${name} - Open Explorer Profile" style="position:relative;width:38px;height:38px;border-radius:50%;background:#bd232f;border:2px solid #ffffff;padding:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;box-shadow:0 2px 10px rgba(189,35,47,0.35);transition:transform 0.2s cubic-bezier(0.16,1,0.3,1);">
@@ -10056,6 +10126,15 @@ function initPlaceImageSliders() {
                 };
             }
 
+            // Sync user profile state immediately with official profile system
+            if (window.ExplorerProfile && typeof window.ExplorerProfile.syncWithClerkUser === 'function') {
+                try {
+                    window.ExplorerProfile.syncWithClerkUser(window.Clerk.user);
+                } catch (e) {
+                    console.warn('[Profile Sync Error]', e);
+                }
+            }
+
             // Dispatch global event for other components (Reviews, AI Agent, Analytics)
             window.dispatchEvent(new CustomEvent('we-auth-state-changed', {
                 detail: { authenticated: true, user: window.Clerk.user }
@@ -10065,7 +10144,7 @@ function initPlaceImageSliders() {
             const userId = window.Clerk.user.id;
             if (!localStorage.getItem('welcome_email_triggered_' + userId)) {
                 localStorage.setItem('welcome_email_triggered_' + userId, 'true');
-                const displayName = window.Clerk.user.firstName || window.Clerk.user.fullName || 'Explorer';
+                const displayName = getGoogleAuthUserName(window.Clerk.user) || 'Explorer';
                 const userEmail = (window.Clerk.user.primaryEmailAddress && window.Clerk.user.primaryEmailAddress.emailAddress)
                     ? window.Clerk.user.primaryEmailAddress.emailAddress
                     : (window.Clerk.user.emailAddresses && window.Clerk.user.emailAddresses[0] ? window.Clerk.user.emailAddresses[0].emailAddress : '');
