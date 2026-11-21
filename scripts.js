@@ -4109,6 +4109,7 @@ function switchMangaluruTab(tab) {
         }
         navOffers?.classList.add('active');
         menuOffers?.classList.add('active');
+        showLaunchingSoonModal('Live Offers');
     } else if (tab === 'events') {
         if (catPanel) { catPanel.style.display = 'none'; catPanel.classList.remove('active-panel'); }
         if (offersPanel) { offersPanel.style.display = 'none'; offersPanel.classList.remove('active-panel'); }
@@ -4118,6 +4119,7 @@ function switchMangaluruTab(tab) {
         }
         navEvents?.classList.add('active');
         menuEvents?.classList.add('active');
+        showLaunchingSoonModal('Live Events');
     } else {
         // Default: categories
         if (offersPanel) { offersPanel.style.display = 'none'; offersPanel.classList.remove('active-panel'); }
@@ -4139,6 +4141,71 @@ function switchMangaluruTab(tab) {
     }
 }
 window.switchMangaluruTab = switchMangaluruTab;
+
+function showLaunchingSoonModal(feature = 'Live Events') {
+    const existing = document.getElementById('launching-soon-modal');
+    if (existing) existing.remove();
+
+    const isEvents = String(feature).toLowerCase().includes('event');
+    const title = isEvents ? 'Live Events in Mangaluru' : 'Live Offers in Mangaluru';
+    const icon = isEvents ? '🎉' : '🎁';
+    const subtitle = isEvents
+        ? 'Real-time beach festivals, live music concerts, Yakshagana nights, and weekend cultural gatherings are on the way. Stay tuned!'
+        : 'Exclusive limited-time dining specials, resort discounts, and coastal activity packages across Mangaluru are arriving soon. Stay tuned!';
+
+    const modalHTML = `
+        <div id="launching-soon-modal" class="launching-soon-overlay" onclick="handleLaunchingSoonBackdrop(event)">
+            <div class="launching-soon-card" onclick="event.stopPropagation()">
+                <button type="button" class="launching-soon-close-btn" onclick="closeLaunchingSoonModal(false)" title="Close">✕</button>
+                <div class="launching-soon-icon-wrap">
+                    <span class="launching-soon-icon">${icon}</span>
+                </div>
+                <div class="launching-soon-badge">
+                    <span class="launching-soon-dot"></span>
+                    <span>Launching Soon</span>
+                </div>
+                <h2 class="launching-soon-title">${title}</h2>
+                <p class="launching-soon-desc">${subtitle}</p>
+                <div class="launching-soon-footer">
+                    <button type="button" class="launching-soon-btn" onclick="closeLaunchingSoonModal(true)">
+                        ← Return to Categories
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLaunchingSoonModal(returnToCategories = false) {
+    const modal = document.getElementById('launching-soon-modal');
+    if (modal) {
+        modal.classList.add('fade-out');
+        setTimeout(() => {
+            modal.remove();
+            document.body.style.overflow = '';
+            if (returnToCategories && typeof switchMangaluruTab === 'function') {
+                switchMangaluruTab('categories');
+            }
+        }, 180);
+    }
+}
+window.showLaunchingSoonModal = showLaunchingSoonModal;
+window.closeLaunchingSoonModal = closeLaunchingSoonModal;
+
+window.handleLaunchingSoonBackdrop = function (e) {
+    if (e.target && e.target.id === 'launching-soon-modal') {
+        closeLaunchingSoonModal(false);
+    }
+};
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+        closeLaunchingSoonModal(false);
+    }
+});
 
 function initLiveNavListeners() {
     const navCat = document.getElementById('nav-categories');
@@ -4747,48 +4814,19 @@ function renderDestination(id) {
                         <h2 class="section-title">Live Offers in Mangaluru</h2>
                         <p class="section-subtitle">Exclusive limited-time deals, dining specials, and seasonal discounts across Mangaluru.</p>
                     </div>
-                    <div class="live-cards-grid live-offers-grid">
-                        <div class="live-card live-offer-card sample-card">
-                            <span class="sample-card-badge">Sample Card 📝</span>
-                            <div class="live-card-media">
-                                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&q=70&w=600&fm=webp" alt="Sample Offer" loading="lazy" decoding="async" width="400" height="250" style="aspect-ratio: 16/10; object-fit: cover;">
-                                <span class="live-card-tag offer-tag">30% OFF</span>
-                                <span class="live-badge-status"><span class="live-nav-dot pulse-red"></span> Active Deal</span>
-                            </div>
-                            <div class="live-card-body">
-                                <div class="live-card-meta">
-                                    <span class="meta-tag">🍽️ Food &amp; Dining</span>
-                                    <span class="meta-expiry">⏳ Limited Period</span>
-                                </div>
-                                <h3 class="live-card-title">Sample Offer: Coastal Dining &amp; Seafood Special</h3>
-                                <p class="live-card-desc">Enjoy up to 30% off on authentic Mangalorean thalis and fresh seafood ghee roast at partner restaurants.</p>
-                                <div class="live-card-footer">
-                                    <span class="live-coupon-code">CODE: <strong>WEEKEND30</strong></span>
-                                    <button class="live-action-btn offer-btn" onclick="alert('Sample offer card. Real data will be linked here soon!')">Claim Offer →</button>
-                                </div>
-                            </div>
+                    <div class="live-launching-soon-box">
+                        <div class="launching-soon-icon-wrap" style="width: 70px; height: 70px; margin-bottom: 14px;">
+                            <span class="launching-soon-icon" style="font-size: 34px;">🎁</span>
                         </div>
-
-                        <div class="live-card live-offer-card sample-card">
-                            <span class="sample-card-badge">Sample Card 📝</span>
-                            <div class="live-card-media">
-                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=70&w=600&fm=webp" alt="Sample Resort Offer" loading="lazy" decoding="async" width="400" height="250" style="aspect-ratio: 16/10; object-fit: cover;">
-                                <span class="live-card-tag offer-tag">FLAT ₹1,000 OFF</span>
-                                <span class="live-badge-status"><span class="live-nav-dot pulse-red"></span> Active Deal</span>
-                            </div>
-                            <div class="live-card-body">
-                                <div class="live-card-meta">
-                                    <span class="meta-tag">🏖️ Beach Stay &amp; Resorts</span>
-                                    <span class="meta-expiry">⏳ Weekend Only</span>
-                                </div>
-                                <h3 class="live-card-title">Sample Offer: Coastal Resort &amp; Water Sports Package</h3>
-                                <p class="live-card-desc">Special discount on beachfront resort staycations, jetski rides, and surf sessions along Mangaluru coast.</p>
-                                <div class="live-card-footer">
-                                    <span class="live-coupon-code">CODE: <strong>BEACHVIBES</strong></span>
-                                    <button class="live-action-btn offer-btn" onclick="alert('Sample offer card. Real data will be linked here soon!')">Claim Offer →</button>
-                                </div>
-                            </div>
+                        <div class="launching-soon-badge" style="margin-bottom: 12px;">
+                            <span class="launching-soon-dot"></span>
+                            <span>Launching Soon</span>
                         </div>
+                        <h3 style="font-size: 1.45rem; font-weight: 800; color: #111111; margin-bottom: 8px;">Exclusive Offers Arriving Soon</h3>
+                        <p style="font-size: 0.94rem; color: #555555; max-width: 500px; margin: 0 auto 20px; line-height: 1.55;">
+                            We are partnering with top coastal restaurants, beachfront resorts, and local water sports organizers to bring you verified live deals.
+                        </p>
+                        <button type="button" class="launching-soon-btn" onclick="switchMangaluruTab('categories')">← Explore Mangaluru Categories</button>
                     </div>
                 </section>
 
@@ -4803,48 +4841,19 @@ function renderDestination(id) {
                         <h2 class="section-title">Live Events in Mangaluru</h2>
                         <p class="section-subtitle">Happening now &amp; upcoming beach festivals, live music, and weekend cultural gatherings.</p>
                     </div>
-                    <div class="live-cards-grid live-events-grid">
-                        <div class="live-card live-event-card sample-card">
-                            <span class="sample-card-badge">Sample Card 📝</span>
-                            <div class="live-card-media">
-                                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=70&w=600&fm=webp" alt="Sample Live Event" loading="lazy" decoding="async" width="400" height="250" style="aspect-ratio: 16/10; object-fit: cover;">
-                                <span class="live-card-tag event-tag">THIS WEEKEND</span>
-                                <span class="live-badge-status live-status-purple"><span class="live-nav-dot pulse-purple"></span> Live Happening</span>
-                            </div>
-                            <div class="live-card-body">
-                                <div class="live-card-meta">
-                                    <span class="meta-tag">📍 Panambur Beach</span>
-                                    <span class="meta-date">🗓️ Saturday • 5:00 PM</span>
-                                </div>
-                                <h3 class="live-card-title">Sample Event: Mangaluru Sunset Music &amp; Beach Fest</h3>
-                                <p class="live-card-desc">Live coastal band performances, kite shows, delicious street food stalls, and sunset acoustic sessions by the shore.</p>
-                                <div class="live-card-footer">
-                                    <span class="live-price-tag">Entry: Free Pass</span>
-                                    <button class="live-action-btn event-btn" onclick="alert('Sample event card. Real data will be linked here soon!')">Event Details →</button>
-                                </div>
-                            </div>
+                    <div class="live-launching-soon-box">
+                        <div class="launching-soon-icon-wrap" style="width: 70px; height: 70px; margin-bottom: 14px;">
+                            <span class="launching-soon-icon" style="font-size: 34px;">🎉</span>
                         </div>
-
-                        <div class="live-card live-event-card sample-card">
-                            <span class="sample-card-badge">Sample Card 📝</span>
-                            <div class="live-card-media">
-                                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=70&w=600&fm=webp" alt="Sample Night Event" loading="lazy" decoding="async" width="400" height="250" style="aspect-ratio: 16/10; object-fit: cover;">
-                                <span class="live-card-tag event-tag">UPCOMING</span>
-                                <span class="live-badge-status live-status-purple"><span class="live-nav-dot pulse-purple"></span> Open Entry</span>
-                            </div>
-                            <div class="live-card-body">
-                                <div class="live-card-meta">
-                                    <span class="meta-tag">📍 Kadri Park Amphitheatre</span>
-                                    <span class="meta-date">🗓️ Sunday • 6:30 PM</span>
-                                </div>
-                                <h3 class="live-card-title">Sample Event: Yakshagana &amp; Coastal Folk Night</h3>
-                                <p class="live-card-desc">An immersive evening celebrating traditional Tulunadu art forms, vibrant costumes, live percussions, and cultural heritage.</p>
-                                <div class="live-card-footer">
-                                    <span class="live-price-tag">Open for All</span>
-                                    <button class="live-action-btn event-btn" onclick="alert('Sample event card. Real data will be linked here soon!')">Event Details →</button>
-                                </div>
-                            </div>
+                        <div class="launching-soon-badge" style="margin-bottom: 12px;">
+                            <span class="launching-soon-dot"></span>
+                            <span>Launching Soon</span>
                         </div>
+                        <h3 style="font-size: 1.45rem; font-weight: 800; color: #111111; margin-bottom: 8px;">Live Coastal Events Arriving Soon</h3>
+                        <p style="font-size: 0.94rem; color: #555555; max-width: 500px; margin: 0 auto 20px; line-height: 1.55;">
+                            Real-time beach festivals, live music concerts, Yakshagana nights, and weekend cultural gatherings are on the way. Stay tuned!
+                        </p>
+                        <button type="button" class="launching-soon-btn" onclick="switchMangaluruTab('categories')">← Explore Mangaluru Categories</button>
                     </div>
                 </section>
             ` : ''}
