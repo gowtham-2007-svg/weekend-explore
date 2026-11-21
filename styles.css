@@ -153,7 +153,7 @@ body::before {
 
 @media (max-width: 768px) {
     body::before {
-        background-image: none !important;
+        background-image: url('assets/mobile_bg.jpg') !important;
     }
 }
 @media (min-width: 641px) and (max-width: 1080px) {
@@ -7312,7 +7312,7 @@ a,
     body,
     html {
         background: transparent !important;
-        background-color: #fff5f5 !important;
+        background-color: transparent !important;
         color: #111111 !important;
     }
 
@@ -7913,8 +7913,8 @@ a,
 
     /* ── TABS & FILTER SWITCHERS (Mangaluru Tab Switcher) ── */
     .mangaluru-tab-switcher-wrap {
-        background: #ffffff !important;
-        border-bottom: 1px solid rgba(189, 35, 47, 0.15) !important;
+        background: transparent !important;
+        border-bottom: none !important;
     }
 
     .mangaluru-tab-switcher {
